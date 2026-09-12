@@ -29,7 +29,7 @@ ORG_NAME = "tmax"
 # regardless of which one a task's language maps to. None of the catalog's
 # language.yaml files set `base_image` today (see artifacts/languages/), so
 # this is the deterministic fallback; a populated `base_image` always wins.
-_DEFAULT_BASE_IMAGES: dict[str, str] = {
+DEFAULT_BASE_IMAGES: dict[str, str] = {
     "python": "python:3.13-slim",
     "bash": "ubuntu:22.04",
     "c": "ubuntu:22.04",
@@ -64,15 +64,21 @@ def _escape_toml(text: str) -> str:
     return text.replace("\\", "\\\\").replace('"', '\\"').replace("\n", "\\n")
 
 
-def _base_image(language_id: str, base_image: str | None) -> str:
+def resolve_base_image(language_id: str, base_image: str | None) -> str:
+    """Resolves the public container image for a language.
+
+    Also used by `data_gen.rollout` to pick the image a W&B Sandbox starts
+    from, since Sandboxes pull a public image rather than building from the
+    Dockerfile this module generates.
+    """
     if base_image:
         return base_image
-    if language_id not in _DEFAULT_BASE_IMAGES:
+    if language_id not in DEFAULT_BASE_IMAGES:
         raise ValueError(
             f"No default base image for language {language_id!r} and none set in its catalog "
-            f"entry; add one to _DEFAULT_BASE_IMAGES or artifacts/languages/{language_id}.yaml"
+            f"entry; add one to DEFAULT_BASE_IMAGES or artifacts/languages/{language_id}.yaml"
         )
-    return _DEFAULT_BASE_IMAGES[language_id]
+    return DEFAULT_BASE_IMAGES[language_id]
 
 
 def _generate_dockerfile(language_id: str, base_image: str | None) -> str:
@@ -80,7 +86,7 @@ def _generate_dockerfile(language_id: str, base_image: str | None) -> str:
     the task's own language, so python3/pip/pytest are installed unconditionally
     on top of the language's base image."""
     return textwrap.dedent(f"""\
-        FROM {_base_image(language_id, base_image)}
+        FROM {resolve_base_image(language_id, base_image)}
 
         ENV DEBIAN_FRONTEND=noninteractive
 
