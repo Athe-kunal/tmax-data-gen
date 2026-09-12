@@ -26,3 +26,9 @@ personas:
   role: data engineer building ETL pipelines
   description: 'Terminal task framed around this Tmax scenario: data engineer building
     ETL pipelines.'
+- id: applied-scientist-evaluating-experiments
+  role: applied scientist evaluating experiments
+  description: Authored terminal task framed around an applied scientist evaluating experiments.
+- id: ml-platform-engineer-maintaining-training-infrastructure
+  role: ML platform engineer maintaining training infrastructure
+  description: Authored terminal task framed around an ML platform engineer maintaining training infrastructure.

@@ -489,3 +489,35 @@ skill_types:
       - Keep changes within the supplied task environment.
       - Preserve required interfaces, files, and services unless the task explicitly
         requires changing them.
+- id: authored-extensions
+  name: Authored extensions
+  primitives:
+  - id: kubernetes-workload-troubleshooting
+    description: Diagnose and repair a Kubernetes workload that is not meeting its declared state.
+    guidance:
+      origin: authored
+      goal: Restore a Kubernetes workload to its expected healthy behavior using supplied cluster evidence.
+      expected_operations:
+      - Inspect workload status, events, pod logs, and relevant manifests.
+      - Identify the configuration or runtime cause and apply the smallest safe correction.
+      - Verify readiness, service behavior, and the requested rollout state.
+      constraints:
+      - Scope changes to the provided namespace and workload.
+      - Do not delete persistent data or unrelated workloads.
+      likely_tools:
+      - kubectl
+  - id: infrastructure-as-code-validation
+    description: Validate infrastructure-as-code configuration before deployment.
+    guidance:
+      origin: authored
+      goal: Detect and correct invalid or unsafe infrastructure configuration in a declarative project.
+      expected_operations:
+      - Inspect the infrastructure configuration, variables, and deployment constraints.
+      - Run formatting, validation, and plan-like checks available in the task environment.
+      - Repair the declared issue and verify the resulting configuration.
+      constraints:
+      - Do not apply infrastructure changes to live cloud accounts.
+      - Keep credentials and environment-specific secrets out of versioned files.
+      likely_tools:
+      - terraform
+      - YAML

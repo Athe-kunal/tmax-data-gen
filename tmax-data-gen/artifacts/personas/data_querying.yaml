@@ -26,3 +26,9 @@ personas:
   role: compliance officer auditing systems
   description: 'Terminal task framed around this Tmax scenario: compliance officer
     auditing systems.'
+- id: business-intelligence-developer-publishing-dashboards
+  role: business-intelligence developer publishing dashboards
+  description: Authored terminal task framed around a business-intelligence developer publishing dashboards.
+- id: database-platform-engineer-maintaining-shared-datasets
+  role: database platform engineer maintaining shared datasets
+  description: Authored terminal task framed around a database platform engineer maintaining shared datasets.

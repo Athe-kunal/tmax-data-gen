@@ -30,3 +30,9 @@ personas:
   role: artifact manager curating binary repositories
   description: 'Terminal task framed around this Tmax scenario: artifact manager curating
     binary repositories.'
+- id: release-archivist-packaging-deliverables
+  role: release archivist packaging deliverables
+  description: Authored terminal task framed around a release archivist packaging deliverables.
+- id: data-steward-managing-shared-research-files
+  role: data steward managing shared research files
+  description: Authored terminal task framed around a data steward managing shared research files.

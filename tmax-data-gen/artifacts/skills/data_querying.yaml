@@ -298,3 +298,36 @@ skill_types:
       - Keep changes within the supplied task environment.
       - Preserve required interfaces, files, and services unless the task explicitly
         requires changing them.
+- id: authored-extensions
+  name: Authored extensions
+  primitives:
+  - id: sql-migration-safety
+    description: Implement and validate safe SQL schema and data migrations.
+    guidance:
+      origin: authored
+      goal: Make a database migration that preserves data integrity and supports the required rollout plan.
+      expected_operations:
+      - Inspect the existing schema, migration conventions, and compatibility requirements.
+      - Write the migration and any rollback or backfill logic requested by the task.
+      - Apply it to a test database and verify schema and data invariants.
+      constraints:
+      - Avoid destructive changes unless the task explicitly authorizes them.
+      - Keep the migration deterministic and ordered.
+      likely_tools:
+      - SQL
+      - SQLite
+  - id: warehouse-query-cost-optimization
+    description: Reduce warehouse query cost while preserving query results.
+    guidance:
+      origin: authored
+      goal: Improve a warehouse query plan without changing its required result set.
+      expected_operations:
+      - Inspect the query, schema, and available execution-plan or cost information.
+      - Rewrite the query or supporting data layout to reduce unnecessary work.
+      - Verify result equivalence and the requested cost or plan improvement.
+      constraints:
+      - Preserve query semantics, including null handling and ordering requirements.
+      - Document any index, partition, or materialization assumptions.
+      likely_tools:
+      - SQL
+      - EXPLAIN

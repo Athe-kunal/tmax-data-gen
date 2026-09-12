@@ -477,3 +477,36 @@ skill_types:
       - Keep changes within the supplied task environment.
       - Preserve required interfaces, files, and services unless the task explicitly
         requires changing them.
+- id: authored-extensions
+  name: Authored extensions
+  primitives:
+  - id: parameter-sweep-orchestration
+    description: Run and collect reproducible parameter sweeps for scientific experiments.
+    guidance:
+      origin: authored
+      goal: Execute a declared parameter grid and produce complete, traceable results.
+      expected_operations:
+      - Inspect parameter ranges, resource limits, and output naming conventions.
+      - Launch or schedule each experiment configuration reproducibly.
+      - Aggregate results and verify that every expected configuration completed.
+      constraints:
+      - Record parameter values, random seeds, and software versions.
+      - Avoid duplicating expensive runs when valid outputs already exist.
+      likely_tools:
+      - Python
+      - Make
+  - id: accelerator-gpu-environment-diagnostics
+    description: Diagnose accelerator or GPU runtime availability and configuration.
+    guidance:
+      origin: authored
+      goal: Determine why an accelerator-backed scientific workload cannot run as expected.
+      expected_operations:
+      - Inspect device visibility, driver/runtime versions, and workload requirements.
+      - Reproduce the failure with a minimal diagnostic command.
+      - Apply or document the required environment correction and verify the workload path.
+      constraints:
+      - Do not modify host drivers or privileged system settings unless explicitly authorized.
+      - Report unavailable hardware as an environment limitation rather than fabricating a result.
+      likely_tools:
+      - nvidia-smi
+      - Python

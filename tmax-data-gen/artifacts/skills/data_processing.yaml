@@ -515,3 +515,36 @@ skill_types:
       - Keep changes within the supplied task environment.
       - Preserve required interfaces, files, and services unless the task explicitly
         requires changing them.
+- id: authored-extensions
+  name: Authored extensions
+  primitives:
+  - id: parquet-arrow-transformation
+    description: Transform tabular data between Parquet and Arrow representations.
+    guidance:
+      origin: authored
+      goal: Convert, filter, or reshape Parquet and Arrow data while preserving its schema and values.
+      expected_operations:
+      - Inspect the input schema, partitioning, and data-quality requirements.
+      - Implement the requested Parquet or Arrow transformation with a reproducible command or script.
+      - Verify the output schema, record counts, and representative values.
+      constraints:
+      - Preserve required columns, types, and partition layout unless the task states otherwise.
+      - Avoid loading data unnecessarily when the task includes large files.
+      likely_tools:
+      - Python
+      - PyArrow
+  - id: data-lineage-tracking
+    description: Record data lineage across transformations and outputs.
+    guidance:
+      origin: authored
+      goal: Produce accurate lineage metadata showing how a dataset was derived.
+      expected_operations:
+      - Identify the source datasets, transformation steps, and produced artifacts.
+      - Create or update the required lineage manifest in the requested format.
+      - Run the verifier to confirm every output traces to its declared inputs.
+      constraints:
+      - Keep lineage identifiers stable and machine-readable.
+      - Do not invent source datasets or transformation steps.
+      likely_tools:
+      - Python
+      - YAML

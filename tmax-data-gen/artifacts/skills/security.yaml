@@ -397,3 +397,36 @@ skill_types:
       - Keep changes within the supplied task environment.
       - Preserve required interfaces, files, and services unless the task explicitly
         requires changing them.
+- id: authored-extensions
+  name: Authored extensions
+  primitives:
+  - id: secret-scanning-and-remediation
+    description: Detect exposed secrets and remediate them from a repository or configuration.
+    guidance:
+      origin: authored
+      goal: Remove or replace exposed credentials while preserving required application configuration.
+      expected_operations:
+      - Scan the supplied repository or files for the requested secret patterns.
+      - Replace secrets with safe configuration references or test-safe values.
+      - Verify the secret is absent from the intended scope and the application still validates.
+      constraints:
+      - Do not print, transmit, or commit real credentials.
+      - Preserve non-secret configuration values required by tests.
+      likely_tools:
+      - git
+      - rg
+  - id: sbom-and-dependency-auditing
+    description: Audit a software bill of materials and dependencies for known risk.
+    guidance:
+      origin: authored
+      goal: Produce or validate dependency inventory and address the requested vulnerable dependency finding.
+      expected_operations:
+      - Inspect manifests, lockfiles, and existing dependency inventory.
+      - Generate or update the requested SBOM or audit report.
+      - Apply a safe version or configuration remediation and run the verifier.
+      constraints:
+      - Do not upgrade dependencies beyond declared compatibility constraints without evidence.
+      - Keep findings tied to supplied package and version data.
+      likely_tools:
+      - pip
+      - npm
