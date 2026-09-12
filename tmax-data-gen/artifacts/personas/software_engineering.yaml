@@ -1,0 +1,64 @@
+---
+schema_version: 1
+domain_id: software_engineering
+personas:
+- id: developer-organizing-project-files
+  role: developer organizing project files
+  description: 'Terminal task framed around this Tmax scenario: developer organizing
+    project files.'
+- id: build-engineer-managing-artifacts
+  role: build engineer managing artifacts
+  description: 'Terminal task framed around this Tmax scenario: build engineer managing
+    artifacts.'
+- id: release-manager-preparing-deployments
+  role: release manager preparing deployments
+  description: 'Terminal task framed around this Tmax scenario: release manager preparing
+    deployments.'
+- id: qa-engineer-setting-up-test-environments
+  role: QA engineer setting up test environments
+  description: 'Terminal task framed around this Tmax scenario: QA engineer setting
+    up test environments.'
+- id: platform-engineer-maintaining-ci-cd-pipelines
+  role: platform engineer maintaining CI/CD pipelines
+  description: 'Terminal task framed around this Tmax scenario: platform engineer
+    maintaining CI/CD pipelines.'
+- id: integration-developer-testing-apis
+  role: integration developer testing APIs
+  description: 'Terminal task framed around this Tmax scenario: integration developer
+    testing APIs.'
+- id: web-developer-building-a-feature
+  role: web developer building a feature
+  description: 'Terminal task framed around this Tmax scenario: web developer building
+    a feature.'
+- id: script-developer-creating-utilities
+  role: script developer creating utilities
+  description: 'Terminal task framed around this Tmax scenario: script developer creating
+    utilities.'
+- id: mobile-build-engineer-maintaining-pipelines
+  role: mobile build engineer maintaining pipelines
+  description: 'Terminal task framed around this Tmax scenario: mobile build engineer
+    maintaining pipelines.'
+- id: open-source-maintainer-reviewing-a-broken-pr
+  role: open-source maintainer reviewing a broken PR
+  description: 'Terminal task framed around this Tmax scenario: open-source maintainer
+    reviewing a broken PR.'
+- id: developer-migrating-from-python-2-to-python-3
+  role: developer migrating from Python 2 to Python 3
+  description: 'Terminal task framed around this Tmax scenario: developer migrating
+    from Python 2 to Python 3.'
+- id: engineer-porting-a-linux-tool-to-work-in-a-minimal-container
+  role: engineer porting a Linux tool to work in a minimal container
+  description: 'Terminal task framed around this Tmax scenario: engineer porting a
+    Linux tool to work in a minimal container.'
+- id: developer-fixing-a-multi-file-rust-project-that-fails-to-compile
+  role: developer fixing a multi-file Rust project that fails to compile
+  description: 'Terminal task framed around this Tmax scenario: developer fixing a
+    multi-file Rust project that fails to compile.'
+- id: systems-programmer-debugging-a-c-library-linking-issue
+  role: systems programmer debugging a C library linking issue
+  description: 'Terminal task framed around this Tmax scenario: systems programmer
+    debugging a C library linking issue.'
+- id: engineer-setting-up-a-polyglot-build-system-from-scratch
+  role: engineer setting up a polyglot build system from scratch
+  description: 'Terminal task framed around this Tmax scenario: engineer setting up
+    a polyglot build system from scratch.'

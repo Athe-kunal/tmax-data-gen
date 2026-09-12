@@ -1,0 +1,10 @@
+---
+schema_version: 1
+id: model-choice
+name: any (model's choice)
+sampling_weight: 0.05
+runtime: Selected by the task-generation model
+runtime_guidance_origin: authored
+package_manager: task-defined
+build_command: task-defined
+test_command: task-defined

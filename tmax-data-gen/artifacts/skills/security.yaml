@@ -1,0 +1,399 @@
+---
+schema_version: 1
+domain_id: security
+skill_types:
+- id: systems
+  name: Systems
+  primitives:
+  - id: firewall-and-network-policy-configuration
+    description: Firewall and network policy configuration
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: Firewall and network policy configuration.'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: Firewall and network policy configuration.'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+  - id: ssh-hardening-and-key-management
+    description: SSH hardening and key management
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: SSH hardening and key management.'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: SSH hardening and key management.'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+  - id: file-permission-and-access-control
+    description: File permission and access control
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: File permission and access control.'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: File permission and access control.'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+  - id: service-auditing-and-port-scanning
+    description: Service auditing and port scanning
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: Service auditing and port scanning.'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: Service auditing and port scanning.'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+  - id: process-isolation-and-sandboxing
+    description: Process isolation and sandboxing
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: Process isolation and sandboxing.'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: Process isolation and sandboxing.'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+- id: data-processing
+  name: Data Processing
+  primitives:
+  - id: security-log-parsing-and-correlation
+    description: Security log parsing and correlation
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: Security log parsing and correlation.'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: Security log parsing and correlation.'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+  - id: payload-encoding-and-decoding
+    description: Payload encoding and decoding
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: Payload encoding and decoding.'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: Payload encoding and decoding.'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+  - id: certificate-chain-validation
+    description: Certificate chain validation
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: Certificate chain validation.'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: Certificate chain validation.'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+  - id: sensitive-data-redaction
+    description: Sensitive data redaction
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: Sensitive data redaction.'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: Sensitive data redaction.'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+  - id: binary-format-and-elf-analysis
+    description: Binary format and ELF analysis
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: Binary format and ELF analysis.'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: Binary format and ELF analysis.'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+- id: web-security
+  name: Web Security
+  primitives:
+  - id: exploit-crafting-and-payload-delivery
+    description: Exploit crafting and payload delivery
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: Exploit crafting and payload delivery.'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: Exploit crafting and payload delivery.'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+  - id: injection-and-xss-vulnerability-analysis
+    description: Injection and XSS vulnerability analysis
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: Injection and XSS vulnerability analysis.'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: Injection and XSS vulnerability analysis.'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+  - id: http-header-and-cookie-inspection
+    description: HTTP header and cookie inspection
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: HTTP header and cookie inspection.'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: HTTP header and cookie inspection.'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+  - id: tls-ssl-certificate-management
+    description: TLS/SSL certificate management
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: TLS/SSL certificate management.'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: TLS/SSL certificate management.'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+  - id: content-security-policy-enforcement
+    description: Content security policy enforcement
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: Content security policy enforcement.'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: Content security policy enforcement.'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+- id: algorithmic
+  name: Algorithmic
+  primitives:
+  - id: cryptographic-hashing-and-checksum-verification
+    description: Cryptographic hashing and checksum verification
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: Cryptographic hashing and checksum
+        verification.'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: Cryptographic hashing and checksum verification.'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+  - id: password-cracking-and-brute-force-search
+    description: Password cracking and brute-force search
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: Password cracking and brute-force
+        search.'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: Password cracking and brute-force search.'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+  - id: encryption-and-decryption
+    description: Encryption and decryption
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: Encryption and decryption.'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: Encryption and decryption.'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+  - id: token-generation-and-validation
+    description: Token generation and validation
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: Token generation and validation.'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: Token generation and validation.'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+  - id: pattern-matching-for-intrusion-detection
+    description: Pattern matching for intrusion detection
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: Pattern matching for intrusion detection.'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: Pattern matching for intrusion detection.'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+  - id: reverse-engineering-and-disassembly
+    description: Reverse engineering and disassembly
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: Reverse engineering and disassembly.'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: Reverse engineering and disassembly.'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+  - id: cryptanalysis-differential-linear
+    description: Cryptanalysis (differential, linear)
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: Cryptanalysis (differential, linear).'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: Cryptanalysis (differential, linear).'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+- id: testing
+  name: Testing
+  primitives:
+  - id: automated-vulnerability-scanning
+    description: Automated vulnerability scanning
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: Automated vulnerability scanning.'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: Automated vulnerability scanning.'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+  - id: authentication-flow-testing
+    description: Authentication flow testing
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: Authentication flow testing.'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: Authentication flow testing.'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+  - id: file-integrity-verification
+    description: File integrity verification
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: File integrity verification.'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: File integrity verification.'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+  - id: privilege-escalation-auditing
+    description: Privilege escalation auditing
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: Privilege escalation auditing.'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: Privilege escalation auditing.'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+  - id: cwe-identification-and-code-auditing
+    description: CWE identification and code auditing
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: CWE identification and code auditing.'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: CWE identification and code auditing.'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.

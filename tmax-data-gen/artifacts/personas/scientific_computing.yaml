@@ -1,0 +1,24 @@
+---
+schema_version: 1
+domain_id: scientific_computing
+personas:
+- id: researcher-running-simulations
+  role: researcher running simulations
+  description: 'Terminal task framed around this Tmax scenario: researcher running
+    simulations.'
+- id: data-scientist-fitting-models
+  role: data scientist fitting models
+  description: 'Terminal task framed around this Tmax scenario: data scientist fitting
+    models.'
+- id: machine-learning-engineer-preparing-training-data
+  role: machine learning engineer preparing training data
+  description: 'Terminal task framed around this Tmax scenario: machine learning engineer
+    preparing training data.'
+- id: performance-engineer-profiling-applications
+  role: performance engineer profiling applications
+  description: 'Terminal task framed around this Tmax scenario: performance engineer
+    profiling applications.'
+- id: bioinformatics-analyst-processing-sequences
+  role: bioinformatics analyst processing sequences
+  description: 'Terminal task framed around this Tmax scenario: bioinformatics analyst
+    processing sequences.'

@@ -1,0 +1,429 @@
+---
+schema_version: 1
+domain_id: data_science
+skill_types:
+- id: systems
+  name: Systems
+  primitives:
+  - id: analysis-environment-setup
+    description: Analysis environment setup
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: Analysis environment setup.'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: Analysis environment setup.'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+  - id: numerical-library-configuration
+    description: Numerical library configuration
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: Numerical library configuration.'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: Numerical library configuration.'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+  - id: large-scale-data-storage-management
+    description: Large-scale data storage management
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: Large-scale data storage management.'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: Large-scale data storage management.'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+  - id: experiment-tracking
+    description: Experiment tracking
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: Experiment tracking.'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: Experiment tracking.'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+  - id: reproducible-pipeline-construction
+    description: Reproducible pipeline construction
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: Reproducible pipeline construction.'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: Reproducible pipeline construction.'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+  - id: package-and-dependency-installation
+    description: Package and dependency installation
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: Package and dependency installation.'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: Package and dependency installation.'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+- id: data-processing
+  name: Data Processing
+  primitives:
+  - id: tabular-data-transformation-and-aggregation
+    description: Tabular data transformation and aggregation
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: Tabular data transformation and aggregation.'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: Tabular data transformation and aggregation.'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+  - id: missing-value-and-outlier-handling
+    description: Missing value and outlier handling
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: Missing value and outlier handling.'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: Missing value and outlier handling.'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+  - id: multi-source-data-joining
+    description: Multi-source data joining
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: Multi-source data joining.'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: Multi-source data joining.'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+  - id: feature-engineering-and-selection
+    description: Feature engineering and selection
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: Feature engineering and selection.'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: Feature engineering and selection.'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+  - id: etl-pipeline-construction
+    description: ETL pipeline construction
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: ETL pipeline construction.'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: ETL pipeline construction.'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+  - id: tokenization-and-dataset-preparation
+    description: Tokenization and dataset preparation
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: Tokenization and dataset preparation.'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: Tokenization and dataset preparation.'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+- id: algorithmic
+  name: Algorithmic
+  primitives:
+  - id: classification-and-regression
+    description: Classification and regression
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: Classification and regression.'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: Classification and regression.'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+  - id: cross-validation-and-hyperparameter-tuning
+    description: Cross-validation and hyperparameter tuning
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: Cross-validation and hyperparameter
+        tuning.'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: Cross-validation and hyperparameter tuning.'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+  - id: similarity-search-and-recommendation
+    description: Similarity search and recommendation
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: Similarity search and recommendation.'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: Similarity search and recommendation.'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+  - id: dimensionality-reduction
+    description: Dimensionality reduction
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: Dimensionality reduction.'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: Dimensionality reduction.'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+  - id: model-training-and-evaluation
+    description: Model training and evaluation
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: Model training and evaluation.'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: Model training and evaluation.'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+  - id: model-architecture-reconstruction-and-inference
+    description: Model architecture reconstruction and inference
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: Model architecture reconstruction
+        and inference.'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: Model architecture reconstruction and inference.'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+  - id: embedding-computation-and-retrieval
+    description: Embedding computation and retrieval
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: Embedding computation and retrieval.'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: Embedding computation and retrieval.'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+- id: mathematical
+  name: Mathematical
+  primitives:
+  - id: hypothesis-testing-and-confidence-intervals
+    description: Hypothesis testing and confidence intervals
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: Hypothesis testing and confidence
+        intervals.'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: Hypothesis testing and confidence intervals.'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+  - id: bayesian-inference-and-probabilistic-modeling
+    description: Bayesian inference and probabilistic modeling
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: Bayesian inference and probabilistic
+        modeling.'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: Bayesian inference and probabilistic modeling.'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+  - id: correlation-and-covariance-analysis
+    description: Correlation and covariance analysis
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: Correlation and covariance analysis.'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: Correlation and covariance analysis.'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+  - id: sampling-and-bootstrap-methods
+    description: Sampling and bootstrap methods
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: Sampling and bootstrap methods.'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: Sampling and bootstrap methods.'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+  - id: linear-algebra-for-data-analysis
+    description: Linear algebra for data analysis
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: Linear algebra for data analysis.'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: Linear algebra for data analysis.'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+- id: testing
+  name: Testing
+  primitives:
+  - id: model-output-validation
+    description: Model output validation
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: Model output validation.'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: Model output validation.'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+  - id: pipeline-reproducibility-testing
+    description: Pipeline reproducibility testing
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: Pipeline reproducibility testing.'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: Pipeline reproducibility testing.'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+  - id: data-schema-enforcement
+    description: Data schema enforcement
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: Data schema enforcement.'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: Data schema enforcement.'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+  - id: numerical-accuracy-testing
+    description: Numerical accuracy testing
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: Numerical accuracy testing.'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: Numerical accuracy testing.'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+  - id: inference-performance-benchmarking
+    description: Inference performance benchmarking
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: Inference performance benchmarking.'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: Inference performance benchmarking.'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.

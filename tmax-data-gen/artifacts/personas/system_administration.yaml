@@ -1,0 +1,76 @@
+---
+schema_version: 1
+domain_id: system_administration
+personas:
+- id: system-administrator-maintaining-servers
+  role: system administrator maintaining servers
+  description: 'Terminal task framed around this Tmax scenario: system administrator
+    maintaining servers.'
+- id: linux-systems-engineer-hardening-configurations
+  role: linux systems engineer hardening configurations
+  description: 'Terminal task framed around this Tmax scenario: linux systems engineer
+    hardening configurations.'
+- id: kubernetes-operator-managing-manifests
+  role: kubernetes operator managing manifests
+  description: 'Terminal task framed around this Tmax scenario: kubernetes operator
+    managing manifests.'
+- id: cloud-architect-migrating-services
+  role: cloud architect migrating services
+  description: 'Terminal task framed around this Tmax scenario: cloud architect migrating
+    services.'
+- id: infrastructure-engineer-automating-provisioning
+  role: infrastructure engineer automating provisioning
+  description: 'Terminal task framed around this Tmax scenario: infrastructure engineer
+    automating provisioning.'
+- id: site-reliability-engineer-monitoring-uptime
+  role: site reliability engineer monitoring uptime
+  description: 'Terminal task framed around this Tmax scenario: site reliability engineer
+    monitoring uptime.'
+- id: monitoring-specialist-setting-up-alerts
+  role: monitoring specialist setting up alerts
+  description: 'Terminal task framed around this Tmax scenario: monitoring specialist
+    setting up alerts.'
+- id: deployment-engineer-rolling-out-updates
+  role: deployment engineer rolling out updates
+  description: 'Terminal task framed around this Tmax scenario: deployment engineer
+    rolling out updates.'
+- id: capacity-planner-analyzing-resource-usage
+  role: capacity planner analyzing resource usage
+  description: 'Terminal task framed around this Tmax scenario: capacity planner analyzing
+    resource usage.'
+- id: backup-operator-testing-restores
+  role: backup operator testing restores
+  description: 'Terminal task framed around this Tmax scenario: backup operator testing
+    restores.'
+- id: finops-analyst-optimizing-cloud-costs
+  role: FinOps analyst optimizing cloud costs
+  description: 'Terminal task framed around this Tmax scenario: FinOps analyst optimizing
+    cloud costs.'
+- id: container-specialist-managing-microservices
+  role: container specialist managing microservices
+  description: 'Terminal task framed around this Tmax scenario: container specialist
+    managing microservices.'
+- id: network-engineer-troubleshooting-connectivity
+  role: network engineer troubleshooting connectivity
+  description: 'Terminal task framed around this Tmax scenario: network engineer troubleshooting
+    connectivity.'
+- id: edge-computing-engineer-deploying-to-iot-devices
+  role: edge computing engineer deploying to IoT devices
+  description: 'Terminal task framed around this Tmax scenario: edge computing engineer
+    deploying to IoT devices.'
+- id: observability-engineer-tuning-dashboards
+  role: observability engineer tuning dashboards
+  description: 'Terminal task framed around this Tmax scenario: observability engineer
+    tuning dashboards.'
+- id: site-administrator-managing-user-accounts
+  role: site administrator managing user accounts
+  description: 'Terminal task framed around this Tmax scenario: site administrator
+    managing user accounts.'
+- id: engineer-diagnosing-why-a-systemd-service-fails-to-start
+  role: engineer diagnosing why a systemd service fails to start
+  description: 'Terminal task framed around this Tmax scenario: engineer diagnosing
+    why a systemd service fails to start.'
+- id: admin-fixing-an-nginx-config-that-returns-502-bad-gateway
+  role: admin fixing an nginx config that returns 502 bad gateway
+  description: 'Terminal task framed around this Tmax scenario: admin fixing an nginx
+    config that returns 502 bad gateway.'

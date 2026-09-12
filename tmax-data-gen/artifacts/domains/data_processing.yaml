@@ -1,0 +1,6 @@
+---
+schema_version: 1
+id: data_processing
+name: Data Processing
+description: Terminal tasks involving data ingestion, transformation, ETL pipelines,
+  stream processing, data validation, and large-scale processing workflows.

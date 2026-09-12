@@ -1,0 +1,28 @@
+---
+schema_version: 1
+domain_id: data_science
+personas:
+- id: data-scientist-cleaning-datasets
+  role: data scientist cleaning datasets
+  description: 'Terminal task framed around this Tmax scenario: data scientist cleaning
+    datasets.'
+- id: machine-learning-engineer-preparing-training-data
+  role: machine learning engineer preparing training data
+  description: 'Terminal task framed around this Tmax scenario: machine learning engineer
+    preparing training data.'
+- id: data-analyst-processing-csv-files
+  role: data analyst processing CSV files
+  description: 'Terminal task framed around this Tmax scenario: data analyst processing
+    CSV files.'
+- id: researcher-organizing-datasets
+  role: researcher organizing datasets
+  description: 'Terminal task framed around this Tmax scenario: researcher organizing
+    datasets.'
+- id: mlops-engineer-tracking-experiment-artifacts
+  role: MLOps engineer tracking experiment artifacts
+  description: 'Terminal task framed around this Tmax scenario: MLOps engineer tracking
+    experiment artifacts.'
+- id: data-engineer-building-etl-pipelines
+  role: data engineer building ETL pipelines
+  description: 'Terminal task framed around this Tmax scenario: data engineer building
+    ETL pipelines.'

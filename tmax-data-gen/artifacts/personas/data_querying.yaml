@@ -1,0 +1,28 @@
+---
+schema_version: 1
+domain_id: data_querying
+personas:
+- id: database-administrator-optimizing-queries
+  role: database administrator optimizing queries
+  description: 'Terminal task framed around this Tmax scenario: database administrator
+    optimizing queries.'
+- id: data-analyst-processing-csv-files
+  role: data analyst processing CSV files
+  description: 'Terminal task framed around this Tmax scenario: data analyst processing
+    CSV files.'
+- id: data-engineer-building-etl-pipelines
+  role: data engineer building ETL pipelines
+  description: 'Terminal task framed around this Tmax scenario: data engineer building
+    ETL pipelines.'
+- id: researcher-organizing-datasets
+  role: researcher organizing datasets
+  description: 'Terminal task framed around this Tmax scenario: researcher organizing
+    datasets.'
+- id: database-reliability-engineer-managing-backups
+  role: database reliability engineer managing backups
+  description: 'Terminal task framed around this Tmax scenario: database reliability
+    engineer managing backups.'
+- id: compliance-officer-auditing-systems
+  role: compliance officer auditing systems
+  description: 'Terminal task framed around this Tmax scenario: compliance officer
+    auditing systems.'

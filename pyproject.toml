@@ -11,7 +11,7 @@ dependencies = [
     "mini-swe-agent>=2.4.6",
     "networkx>=3.6.1",
     "nvitop>=1.7.1",
-    "vllm>=0.29.0",
+    "pyyaml>=6.0",
     "wandb>=0.30.0",
     "weave>=0.53.9",
 ]

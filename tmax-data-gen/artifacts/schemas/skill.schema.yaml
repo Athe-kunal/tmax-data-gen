@@ -1,0 +1,81 @@
+$schema: https://json-schema.org/draft/2020-12/schema
+$id: skill.schema.yaml
+title: Tmax replicator domain skill-taxonomy artifact
+type: object
+additionalProperties: false
+required:
+  - schema_version
+  - domain_id
+  - skill_types
+properties:
+  schema_version:
+    const: 1
+  domain_id:
+    type: string
+    pattern: ^[a-z][a-z0-9_]*$
+    description: ID of the owning domain artifact.
+  skill_types:
+    type: array
+    minItems: 1
+    items:
+      type: object
+      additionalProperties: false
+      required:
+        - id
+        - name
+        - primitives
+      properties:
+        id:
+          type: string
+          pattern: ^[a-z][a-z0-9_-]*$
+        name:
+          type: string
+          minLength: 1
+        primitives:
+          type: array
+          minItems: 1
+          items:
+            type: object
+            additionalProperties: false
+            required:
+              - id
+              - description
+            properties:
+              id:
+                type: string
+                pattern: ^[a-z][a-z0-9_-]*$
+              description:
+                type: string
+                minLength: 1
+              guidance:
+                type: object
+                additionalProperties: false
+                required:
+                  - origin
+                  - goal
+                  - expected_operations
+                properties:
+                  origin:
+                    const: authored
+                    description: Marks guidance as our enrichment, not Tmax source data.
+                  goal:
+                    type: string
+                    minLength: 1
+                  expected_operations:
+                    type: array
+                    minItems: 1
+                    items:
+                      type: string
+                      minLength: 1
+                  constraints:
+                    type: array
+                    uniqueItems: true
+                    items:
+                      type: string
+                      minLength: 1
+                  likely_tools:
+                    type: array
+                    uniqueItems: true
+                    items:
+                      type: string
+                      minLength: 1
