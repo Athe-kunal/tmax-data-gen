@@ -1,0 +1,6 @@
+[
+  "short task (a few shell commands focused on the core task)",
+  "moderate task (several commands across setup, implementation, and verification)",
+  "complex task (many commands spanning multiple phases: dependency installation, code writing, configuration, building, and testing)",
+  "intricate task (multi-stage workflow combining (a) environment setup or package configuration, (b) primary implementation across multiple files or languages, (c) iterative refinement against a quantitative or adversarial verifier, and (d) a final integration step. Expect 30-60 commands.)"
+]

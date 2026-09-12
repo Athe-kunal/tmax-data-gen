@@ -1,0 +1,407 @@
+{
+  "security": {
+    "Systems": [
+      "Firewall and network policy configuration",
+      "SSH hardening and key management",
+      "File permission and access control",
+      "Service auditing and port scanning",
+      "Process isolation and sandboxing"
+    ],
+    "Data Processing": [
+      "Security log parsing and correlation",
+      "Payload encoding and decoding",
+      "Certificate chain validation",
+      "Sensitive data redaction",
+      "Binary format and ELF analysis"
+    ],
+    "Web Security": [
+      "Exploit crafting and payload delivery",
+      "Injection and XSS vulnerability analysis",
+      "HTTP header and cookie inspection",
+      "TLS/SSL certificate management",
+      "Content security policy enforcement"
+    ],
+    "Algorithmic": [
+      "Cryptographic hashing and checksum verification",
+      "Password cracking and brute-force search",
+      "Encryption and decryption",
+      "Token generation and validation",
+      "Pattern matching for intrusion detection",
+      "Reverse engineering and disassembly",
+      "Cryptanalysis (differential, linear)"
+    ],
+    "Testing": [
+      "Automated vulnerability scanning",
+      "Authentication flow testing",
+      "File integrity verification",
+      "Privilege escalation auditing",
+      "CWE identification and code auditing"
+    ]
+  },
+  "software_engineering": {
+    "Algorithmic": [
+      "Graph traversal and dependency resolution",
+      "Custom data structure design",
+      "Sorting, merging, and diffing",
+      "State machine and parser construction",
+      "Constraint satisfaction",
+      "Interpreter and emulator implementation"
+    ],
+    "Systems": [
+      "Build system configuration and linking",
+      "Shared library and ABI management",
+      "Cross-compilation and conditional builds",
+      "CI/CD pipeline setup",
+      "Memory debugging and profiling",
+      "Package and dependency management"
+    ],
+    "Data Processing": [
+      "Structured data parsing and transformation",
+      "Serialization and deserialization",
+      "Schema migration",
+      "Diff and patch processing",
+      "Code translation between languages"
+    ],
+    "Web Security": [
+      "REST/GraphQL API construction",
+      "Request validation and rate limiting",
+      "Reverse proxy configuration",
+      "WebSocket communication",
+      "URL routing and parameter parsing",
+      "gRPC and protobuf service design"
+    ],
+    "Testing": [
+      "Unit and integration testing",
+      "Test fixture and mock setup",
+      "Property-based testing",
+      "Performance benchmarking",
+      "End-to-end test orchestration"
+    ],
+    "Mathematical": [
+      "Numerical algorithm implementation",
+      "Expression parsing and evaluation",
+      "Semantic version comparison",
+      "Checksum and error-correcting codes",
+      "Character and data encoding"
+    ],
+    "Multi-Language": [
+      "C program compilation, debugging, and Makefile repair",
+      "Rust ownership and borrow checker debugging",
+      "Go concurrency patterns (goroutines, channels)",
+      "C/C++ memory safety and undefined behaviour repair",
+      "Polyglot build orchestration (multiple compiled languages)",
+      "FFI and cross-language interop (C bindings, ctypes, cgo)",
+      "Assembly-level analysis and minimal program construction"
+    ]
+  },
+  "file_operations": {
+    "File I/O": [
+      "Text and binary file reading/writing",
+      "File locking and concurrent access",
+      "Streaming and memory-mapped I/O",
+      "Atomic writes and temp file management",
+      "Standard stream redirection and piping"
+    ],
+    "Navigation": [
+      "Recursive directory traversal",
+      "Symbolic and hard link management",
+      "File watching and change detection",
+      "Filesystem mount and path manipulation",
+      "Metadata-based file search"
+    ],
+    "Data Parsing": [
+      "Structured format parsing (JSON, XML, CSV)",
+      "Binary format and header extraction",
+      "Multi-line log record parsing",
+      "Character encoding conversion",
+      "Configuration file interpretation",
+      "Domain-specific format parsing (GCode, ELF, WAL)"
+    ],
+    "Transformation": [
+      "Bulk file renaming",
+      "Format conversion between file types",
+      "Text transformation with sed/awk/vim",
+      "File splitting, merging, and chunking",
+      "Manifest and checksum generation",
+      "Large-scale text editing and macro application"
+    ],
+    "Archives": [
+      "Archive creation and extraction",
+      "Nested and multi-part archive handling",
+      "Incremental and differential backups",
+      "Archive integrity verification",
+      "Compressed stream processing",
+      "Custom compression and decompression"
+    ]
+  },
+  "data_querying": {
+    "Query Construction": [
+      "Complex joins and subqueries",
+      "Window functions and analytical aggregation",
+      "Parameterized query construction",
+      "Graph query languages (SPARQL, Cypher)",
+      "NoSQL aggregation pipelines"
+    ],
+    "Data Comprehension": [
+      "Schema analysis and relationship mapping",
+      "Query plan interpretation and optimization",
+      "Index strategy design",
+      "Data model reverse engineering",
+      "Cross-representation mapping (relational, document, graph)"
+    ],
+    "Graph Processing": [
+      "Graph traversal and shortest path computation",
+      "Recursive and hierarchical queries",
+      "Knowledge graph pattern matching",
+      "Graph analytics (centrality, clustering)",
+      "Graph projection and materialization"
+    ],
+    "Result Processing": [
+      "Result sorting, pagination, and filtering",
+      "Query result export and format conversion",
+      "Cross-query aggregation and summarization",
+      "Output schema validation",
+      "Query-to-pipeline chaining"
+    ]
+  },
+  "data_science": {
+    "Systems": [
+      "Analysis environment setup",
+      "Numerical library configuration",
+      "Large-scale data storage management",
+      "Experiment tracking",
+      "Reproducible pipeline construction",
+      "Package and dependency installation"
+    ],
+    "Data Processing": [
+      "Tabular data transformation and aggregation",
+      "Missing value and outlier handling",
+      "Multi-source data joining",
+      "Feature engineering and selection",
+      "ETL pipeline construction",
+      "Tokenization and dataset preparation"
+    ],
+    "Algorithmic": [
+      "Classification and regression",
+      "Cross-validation and hyperparameter tuning",
+      "Similarity search and recommendation",
+      "Dimensionality reduction",
+      "Model training and evaluation",
+      "Model architecture reconstruction and inference",
+      "Embedding computation and retrieval"
+    ],
+    "Mathematical": [
+      "Hypothesis testing and confidence intervals",
+      "Bayesian inference and probabilistic modeling",
+      "Correlation and covariance analysis",
+      "Sampling and bootstrap methods",
+      "Linear algebra for data analysis"
+    ],
+    "Testing": [
+      "Model output validation",
+      "Pipeline reproducibility testing",
+      "Data schema enforcement",
+      "Numerical accuracy testing",
+      "Inference performance benchmarking"
+    ]
+  },
+  "debugging": {
+    "Systems": [
+      "Build failure diagnosis",
+      "System call tracing",
+      "Container debugging and log inspection",
+      "Dependency conflict resolution",
+      "Environment misconfiguration repair",
+      "Compiler and linker error interpretation"
+    ],
+    "Debugging": [
+      "Interactive debugger usage (breakpoints, memory inspection)",
+      "Core dump and stack trace analysis",
+      "Logging and traceback analysis",
+      "Git bisection for regression finding",
+      "Delta debugging and test minimization",
+      "Existing codebase comprehension and reading"
+    ],
+    "Testing": [
+      "Regression test construction",
+      "Intermittent failure reproduction",
+      "Fuzz testing",
+      "Minimal reproducible example creation",
+      "Assertion-based intermediate validation"
+    ],
+    "Algorithmic": [
+      "Boundary condition and off-by-one repair",
+      "Race condition and concurrency debugging",
+      "Intermediate state tracing",
+      "Floating-point precision repair",
+      "Loop termination and recursion fixing"
+    ],
+    "Data Processing": [
+      "Corrupted input handling and recovery",
+      "Encoding and serialization troubleshooting",
+      "Data transformation diff analysis",
+      "Query result debugging",
+      "Format parsing edge-case repair"
+    ],
+    "Mathematical": [
+      "Numerical instability diagnosis",
+      "Convergence failure repair",
+      "Formula implementation correction",
+      "Statistical anomaly investigation",
+      "Precision loss tracking"
+    ],
+    "Forensics": [
+      "Database recovery from corrupted files (WAL, journal)",
+      "Deleted file recovery and filesystem inspection",
+      "Binary reverse engineering and decompilation",
+      "Network packet capture analysis (pcap)",
+      "Git history forensics and secret recovery",
+      "Memory dump analysis and string extraction",
+      "Log timeline reconstruction across services"
+    ]
+  },
+  "scientific_computing": {
+    "Data Processing": [
+      "Scientific data format I/O (NetCDF, HDF5, FITS)",
+      "Experimental data visualization",
+      "Multi-dimensional array manipulation",
+      "Bioinformatics format parsing (FASTA, PDB)",
+      "Observational data reshaping",
+      "Spectroscopy and signal data processing"
+    ],
+    "Algorithmic": [
+      "ODE/PDE numerical solving",
+      "Monte Carlo simulation",
+      "Optimization (gradient descent, simplex, genetic)",
+      "Mesh refinement and domain decomposition",
+      "Graph algorithms for molecular/network models",
+      "Primer design and sequence alignment"
+    ],
+    "Mathematical": [
+      "Probability distribution distance metrics",
+      "Matrix decomposition (SVD, LU, QR, Cholesky)",
+      "Numerical integration and differentiation",
+      "Linear and nonlinear equation solving",
+      "Fourier transforms and spectral analysis"
+    ],
+    "Systems": [
+      "Scientific software compilation from source",
+      "Parallel computing setup (MPI, OpenMP)",
+      "Scientific environment management",
+      "Notebook-based workflow orchestration",
+      "Reproducible computation pipelines"
+    ],
+    "Testing": [
+      "Analytical solution validation",
+      "Convergence testing",
+      "Reference dataset comparison",
+      "Scientific code regression testing",
+      "Numerical stability testing"
+    ],
+    "Statistical": [
+      "MCMC sampling and posterior estimation",
+      "Curve fitting and regression",
+      "Statistical hypothesis comparison",
+      "Bootstrap confidence intervals",
+      "Density estimation and distribution fitting"
+    ]
+  },
+  "data_processing": {
+    "Data I/O": [
+      "Multi-format file reading and writing",
+      "Large-file streaming",
+      "Character encoding handling",
+      "Database bulk import/export",
+      "Local-remote data transfer"
+    ],
+    "Manipulation": [
+      "Cleaning, normalization, and deduplication",
+      "Joins, merges, and unions",
+      "Wide-long format reshaping",
+      "Windowed and rolling aggregation",
+      "Data masking and anonymization"
+    ],
+    "String/Text": [
+      "Structured information extraction from text",
+      "Regex pattern construction",
+      "Tokenization and normalization",
+      "Unicode and multi-language text processing",
+      "Template-based text generation"
+    ],
+    "Algorithmic": [
+      "Large-scale sorting and grouping",
+      "Constraint-based data validation",
+      "Hash-based deduplication",
+      "Data sampling and stratification",
+      "Pipeline DAG orchestration"
+    ],
+    "Mathematical": [
+      "Summary statistics and aggregation",
+      "Interpolation and imputation",
+      "Normalization and standardization",
+      "Feature extraction transforms",
+      "Distance and similarity computation"
+    ],
+    "Time Series": [
+      "Timestamp alignment and parsing",
+      "Resampling and gap-filling",
+      "Rolling statistics computation",
+      "Anomaly and changepoint detection",
+      "Time-based bucketing and aggregation"
+    ],
+    "Systems": [
+      "Multi-stage pipeline orchestration",
+      "Parallel data processing",
+      "Pipeline scheduling and cron management",
+      "Validation checkpoints and quality gates",
+      "Pipeline logging and monitoring"
+    ]
+  },
+  "system_administration": {
+    "Filesystem": [
+      "Permission and ACL management",
+      "Disk quota and storage monitoring",
+      "Mount and fstab configuration",
+      "Backup and restore strategies",
+      "Link and directory structure management"
+    ],
+    "Process/Service": [
+      "Service lifecycle management (systemd, init)",
+      "Process monitoring and control",
+      "Scheduled task configuration (cron, timers)",
+      "Process supervision and restart policies",
+      "Container lifecycle management"
+    ],
+    "Network": [
+      "Network interface and routing configuration",
+      "Firewall rules and port forwarding",
+      "Connectivity diagnostics",
+      "SSH tunneling and port forwarding",
+      "Web server setup and TLS configuration",
+      "Email and mailing list server configuration"
+    ],
+    "Configuration": [
+      "System config file management",
+      "Environment variable and shell profile setup",
+      "Locale and timezone configuration",
+      "User account and group administration",
+      "Log configuration and rotation"
+    ],
+    "Deployment": [
+      "CI/CD pipeline construction",
+      "Reverse proxy and load balancer setup",
+      "Rolling and staged deployments",
+      "Health check and monitoring setup",
+      "Virtualization and VM management (QEMU, VNC)",
+      "Git server and hook configuration"
+    ],
+    "Shell Scripting": [
+      "Robust script writing with error handling",
+      "Text processing pipelines (awk, sed, grep)",
+      "Task automation scripting",
+      "Interactive script construction",
+      "Idempotent configuration scripting",
+      "Expect scripting for interactive automation"
+    ]
+  }
+}

@@ -1,0 +1,5 @@
+[
+  "bash-only (shell built-ins, coreutils, and standard CLI tools)",
+  "bash and code (shell commands and writing/running scripts in Python, Perl, Ruby, etc.)",
+  "bash, code, and system services (shell commands, scripts, package installation, service configuration, networking, and containers)"
+]

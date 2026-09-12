@@ -1,0 +1,72 @@
+{
+  "security": [
+    "Algorithmic",
+    "Data Processing",
+    "Systems",
+    "Testing",
+    "Web Security"
+  ],
+  "software_engineering": [
+    "Algorithmic",
+    "Data Processing",
+    "Mathematical",
+    "Multi-Language",
+    "Systems",
+    "Testing",
+    "Web Security"
+  ],
+  "file_operations": [
+    "Archives",
+    "Data Parsing",
+    "File I/O",
+    "Navigation",
+    "Transformation"
+  ],
+  "data_querying": [
+    "Data Comprehension",
+    "Graph Processing",
+    "Query Construction",
+    "Result Processing"
+  ],
+  "data_science": [
+    "Algorithmic",
+    "Data Processing",
+    "Mathematical",
+    "Systems",
+    "Testing"
+  ],
+  "debugging": [
+    "Algorithmic",
+    "Data Processing",
+    "Debugging",
+    "Forensics",
+    "Mathematical",
+    "Systems",
+    "Testing"
+  ],
+  "scientific_computing": [
+    "Algorithmic",
+    "Data Processing",
+    "Mathematical",
+    "Statistical",
+    "Systems",
+    "Testing"
+  ],
+  "data_processing": [
+    "Algorithmic",
+    "Data I/O",
+    "Manipulation",
+    "Mathematical",
+    "String/Text",
+    "Systems",
+    "Time Series"
+  ],
+  "system_administration": [
+    "Configuration",
+    "Deployment",
+    "Filesystem",
+    "Network",
+    "Process/Service",
+    "Shell Scripting"
+  ]
+}

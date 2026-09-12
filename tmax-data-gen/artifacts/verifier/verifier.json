@@ -1,0 +1,15 @@
+{
+  "kinds": [
+    "metric_threshold",
+    "adversarial_corpus",
+    "fuzz_equivalence",
+    "multi_protocol",
+    "exact_text"
+  ],
+  "prompt_fragments": {
+    "metric_threshold": "## Verifier kind: metric_threshold\nThe agent's output will be graded by a NUMERICAL metric against a reference,\nnot by exact text equality. Examples: image SSIM, audio MSE, model accuracy\non a held-out test set, runtime speedup vs a reference implementation, output\nfile size, etc.\nThe <truth> block MUST declare:\n  * The *exact* metric (formula, tool, or short Python snippet that computes it).\n  * A reference / target value (a number) and a tolerance / threshold the agent\n    must meet (e.g. \"SSIM >= 0.95\", \"speedup >= 1.3x\", \"accuracy >= 0.62\").\n  * The exact path of the file or program the verifier should evaluate.",
+    "adversarial_corpus": "## Verifier kind: adversarial_corpus\nThe agent must produce a filter / sanitiser / detector / classifier that is\ngraded against TWO corpora shipped with the task: an \"evil\" corpus that the\nsolution MUST reject (or sanitise / flag), and a \"clean\" corpus that the\nsolution MUST preserve unchanged (or accept). Pass requires both directions.\nThe <truth> block MUST declare:\n  * The exact paths of the evil/ and clean/ corpora the verifier will load.\n  * The pass criterion (\"100% of evil rejected AND 100% of clean preserved\",\n    or a specific pass-rate threshold per corpus).\n  * The agent's expected entry point (function signature / CLI invocation).",
+    "fuzz_equivalence": "## Verifier kind: fuzz_equivalence\nThe agent must produce a program whose behaviour is BIT-EXACT equivalent to a\nreference oracle that the verifier already has access to (e.g. a stripped\nbinary or a reference implementation). The verifier random-fuzzes both with\nN inputs and asserts identical outputs.\nThe <truth> block MUST declare:\n  * The path of the oracle program the verifier compares against.\n  * The fuzz-input distribution (input length range, character set, etc.) and N.\n  * The agent's expected entry point (executable path + invocation).",
+    "multi_protocol": "## Verifier kind: multi_protocol\nThe agent must bring up one or more network services; the verifier issues\nreal protocol-level requests (HTTP / TCP / gRPC / SMTP / SSH / etc.) and\nchecks the responses.\nThe <truth> block MUST declare:\n  * The exact host:port the agent's service should listen on.\n  * The protocol and the request/response patterns the verifier will exercise.\n  * Any auth tokens / credentials the agent must accept."
+  }
+}
