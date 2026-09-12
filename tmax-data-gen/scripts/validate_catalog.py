@@ -129,6 +129,7 @@ def validate_language(path: Path, expected_id: str) -> float:
             "package_manager",
             "build_command",
             "test_command",
+            "compatible_domain_ids",
         },
         str(path),
     )
@@ -136,6 +137,11 @@ def validate_language(path: Path, expected_id: str) -> float:
         fail(f"{path.relative_to(ROOT)}: language ID or schema version mismatch")
     if data["runtime_guidance_origin"] != "authored":
         fail(f"{path.relative_to(ROOT)}: runtime guidance origin must be 'authored'")
+    compatible_domain_ids = data["compatible_domain_ids"]
+    if not isinstance(compatible_domain_ids, list) or set(compatible_domain_ids) != EXPECTED_DOMAIN_IDS:
+        fail(f"{path.relative_to(ROOT)}: compatible_domain_ids must list every Tmax domain exactly once")
+    if len(compatible_domain_ids) != len(EXPECTED_DOMAIN_IDS):
+        fail(f"{path.relative_to(ROOT)}: compatible_domain_ids must not contain duplicates")
     weight = data["sampling_weight"]
     if not isinstance(weight, (int, float)) or weight <= 0:
         fail(f"{path.relative_to(ROOT)}: sampling_weight must be positive")

@@ -8,3 +8,13 @@ runtime_guidance_origin: authored
 package_manager: task-defined
 build_command: task-defined
 test_command: task-defined
+compatible_domain_ids:
+  - security
+  - software_engineering
+  - file_operations
+  - data_querying
+  - data_science
+  - debugging
+  - scientific_computing
+  - data_processing
+  - system_administration
