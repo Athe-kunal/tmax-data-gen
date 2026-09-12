@@ -578,3 +578,36 @@ skill_types:
       - Keep changes within the supplied task environment.
       - Preserve required interfaces, files, and services unless the task explicitly
         requires changing them.
+- id: authored-extensions
+  name: Authored extensions
+  primitives:
+  - id: distributed-trace-analysis
+    description: Diagnose a cross-service failure using distributed trace data.
+    guidance:
+      origin: authored
+      goal: Identify the failing request path and root cause from trace spans and service context.
+      expected_operations:
+      - Inspect trace identifiers, span timing, errors, and correlated logs.
+      - Reconstruct the request path and isolate the failing service or dependency.
+      - Produce the requested fix, diagnosis, or reproducible evidence and run the verifier.
+      constraints:
+      - Preserve timestamps and trace identifiers in any diagnostic output.
+      - Do not infer a root cause without supporting trace evidence.
+      likely_tools:
+      - OpenTelemetry
+      - jq
+  - id: flaky-test-diagnosis
+    description: Reproduce and eliminate intermittent test failures.
+    guidance:
+      origin: authored
+      goal: Make a flaky test deterministic by identifying and repairing its cause.
+      expected_operations:
+      - Run the test repeatedly or under controlled variation to reproduce the failure.
+      - Isolate the nondeterministic dependency, timing issue, or shared state.
+      - Apply a focused repair and verify repeated successful runs.
+      constraints:
+      - Do not disable, weaken, or delete the failing test to claim success.
+      - Preserve the behavior that the test is intended to cover.
+      likely_tools:
+      - pytest
+      - git

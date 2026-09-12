@@ -8,3 +8,13 @@ runtime_guidance_origin: authored
 package_manager: go modules
 build_command: go build ./...
 test_command: go test ./...
+compatible_domain_ids:
+  - security
+  - software_engineering
+  - file_operations
+  - data_querying
+  - data_science
+  - debugging
+  - scientific_computing
+  - data_processing
+  - system_administration

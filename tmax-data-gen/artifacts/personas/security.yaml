@@ -38,3 +38,9 @@ personas:
   role: red-team operator crafting an evasion payload
   description: 'Terminal task framed around this Tmax scenario: red-team operator
     crafting an evasion payload.'
+- id: application-security-engineer-reviewing-services
+  role: application security engineer reviewing services
+  description: Authored terminal task framed around an application security engineer reviewing services.
+- id: cloud-security-engineer-enforcing-infrastructure-baselines
+  role: cloud security engineer enforcing infrastructure baselines
+  description: Authored terminal task framed around a cloud security engineer enforcing infrastructure baselines.

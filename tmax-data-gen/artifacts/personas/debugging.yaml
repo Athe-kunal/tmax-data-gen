@@ -50,3 +50,9 @@ personas:
   role: developer bisecting a regression across 200 commits
   description: 'Terminal task framed around this Tmax scenario: developer bisecting
     a regression across 200 commits.'
+- id: incident-commander-coordinating-production-recovery
+  role: incident commander coordinating production recovery
+  description: Authored terminal task framed around an incident commander coordinating production recovery.
+- id: production-support-engineer-investigating-customer-failures
+  role: production support engineer investigating customer failures
+  description: Authored terminal task framed around a production support engineer investigating customer failures.

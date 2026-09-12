@@ -62,3 +62,9 @@ personas:
   role: engineer setting up a polyglot build system from scratch
   description: 'Terminal task framed around this Tmax scenario: engineer setting up
     a polyglot build system from scratch.'
+- id: backend-engineer-shipping-a-service-change
+  role: backend engineer shipping a service change
+  description: Authored terminal task framed around a backend engineer shipping a service change.
+- id: developer-experience-engineer-maintaining-tooling
+  role: developer-experience engineer maintaining tooling
+  description: Authored terminal task framed around a developer-experience engineer maintaining tooling.

@@ -79,7 +79,7 @@ def validate_domain(path: Path, expected_id: str) -> None:
         fail(f"{path.relative_to(ROOT)}: domain ID or schema version mismatch")
 
 
-def validate_skills(path: Path, expected_domain_id: str) -> None:
+def validate_skills(path: Path, expected_domain_id: str) -> int:
     data = load_yaml(path)
     require_fields(data, {"schema_version", "domain_id", "skill_types"}, str(path))
     if data["schema_version"] != 1 or data["domain_id"] != expected_domain_id:
@@ -87,6 +87,7 @@ def validate_skills(path: Path, expected_domain_id: str) -> None:
     skill_types = data["skill_types"]
     if not isinstance(skill_types, list) or not skill_types:
         fail(f"{path.relative_to(ROOT)}: skill_types must be a non-empty list")
+    primitive_count = 0
     for skill_type in skill_types:
         if not isinstance(skill_type, dict):
             fail(f"{path.relative_to(ROOT)}: skill type must be an object")
@@ -99,9 +100,11 @@ def validate_skills(path: Path, expected_domain_id: str) -> None:
                 fail(f"{path.relative_to(ROOT)}: primitive must be an object")
             require_fields(primitive, {"id", "description", "guidance"}, str(path))
             validate_guidance(primitive["guidance"], f"{path.relative_to(ROOT)}:{primitive['id']}")
+            primitive_count += 1
+    return primitive_count
 
 
-def validate_personas(path: Path, expected_domain_id: str) -> None:
+def validate_personas(path: Path, expected_domain_id: str) -> int:
     data = load_yaml(path)
     require_fields(data, {"schema_version", "domain_id", "personas"}, str(path))
     if data["schema_version"] != 1 or data["domain_id"] != expected_domain_id:
@@ -113,6 +116,7 @@ def validate_personas(path: Path, expected_domain_id: str) -> None:
         if not isinstance(persona, dict):
             fail(f"{path.relative_to(ROOT)}: persona must be an object")
         require_fields(persona, {"id", "role", "description"}, str(path))
+    return len(personas)
 
 
 def validate_language(path: Path, expected_id: str) -> float:
@@ -129,6 +133,7 @@ def validate_language(path: Path, expected_id: str) -> float:
             "package_manager",
             "build_command",
             "test_command",
+            "compatible_domain_ids",
         },
         str(path),
     )
@@ -136,6 +141,11 @@ def validate_language(path: Path, expected_id: str) -> float:
         fail(f"{path.relative_to(ROOT)}: language ID or schema version mismatch")
     if data["runtime_guidance_origin"] != "authored":
         fail(f"{path.relative_to(ROOT)}: runtime guidance origin must be 'authored'")
+    compatible_domain_ids = data["compatible_domain_ids"]
+    if not isinstance(compatible_domain_ids, list) or set(compatible_domain_ids) != EXPECTED_DOMAIN_IDS:
+        fail(f"{path.relative_to(ROOT)}: compatible_domain_ids must list every Tmax domain exactly once")
+    if len(compatible_domain_ids) != len(EXPECTED_DOMAIN_IDS):
+        fail(f"{path.relative_to(ROOT)}: compatible_domain_ids must not contain duplicates")
     weight = data["sampling_weight"]
     if not isinstance(weight, (int, float)) or weight <= 0:
         fail(f"{path.relative_to(ROOT)}: sampling_weight must be positive")
@@ -154,12 +164,14 @@ def main() -> int:
     domain_ids = {entry.get("id") for entry in domains if isinstance(entry, dict)}
     if domain_ids != EXPECTED_DOMAIN_IDS or len(domains) != len(EXPECTED_DOMAIN_IDS):
         fail("artifacts/index.yaml: must register the nine Tmax domains exactly once")
+    skill_count = 0
+    persona_count = 0
     for entry in domains:
         require_fields(entry, {"id", "domain_file", "skill_file", "persona_file"}, "domain index entry")
         domain_id = entry["id"]
         validate_domain(ARTIFACTS / entry["domain_file"], domain_id)
-        validate_skills(ARTIFACTS / entry["skill_file"], domain_id)
-        validate_personas(ARTIFACTS / entry["persona_file"], domain_id)
+        skill_count += validate_skills(ARTIFACTS / entry["skill_file"], domain_id)
+        persona_count += validate_personas(ARTIFACTS / entry["persona_file"], domain_id)
 
     languages = index["languages"]
     if not isinstance(languages, list):
@@ -174,7 +186,10 @@ def main() -> int:
     if not math.isclose(weight_total, 1.0, abs_tol=1e-9):
         fail(f"language sampling weights must total 1.0, found {weight_total}")
 
-    print("catalog validation passed: 9 domains, 283 skills, 85 personas, 8 languages")
+    print(
+        "catalog validation passed: "
+        f"{len(domains)} domains, {skill_count} skills, {persona_count} personas, {len(languages)} languages"
+    )
     return 0
 
 

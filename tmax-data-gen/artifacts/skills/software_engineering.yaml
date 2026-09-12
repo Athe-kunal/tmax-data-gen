@@ -596,3 +596,35 @@ skill_types:
       - Keep changes within the supplied task environment.
       - Preserve required interfaces, files, and services unless the task explicitly
         requires changing them.
+- id: authored-extensions
+  name: Authored extensions
+  primitives:
+  - id: git-workflow-and-history-repair
+    description: Repair a Git workflow or history while preserving intended changes.
+    guidance:
+      origin: authored
+      goal: Restore a coherent Git state with the requested commits, branches, and conflict resolution.
+      expected_operations:
+      - Inspect branches, commits, working-tree state, and the requested target history.
+      - Apply the minimal rebase, revert, cherry-pick, or conflict resolution needed.
+      - Verify history, working-tree cleanliness, and project tests.
+      constraints:
+      - Do not rewrite shared history unless the task explicitly authorizes it.
+      - Preserve unrelated user changes.
+      likely_tools:
+      - git
+  - id: code-review-and-targeted-refactoring
+    description: Review code and apply a focused refactor without changing intended behavior.
+    guidance:
+      origin: authored
+      goal: Improve a specific maintainability, correctness, or clarity concern with a minimal verified change.
+      expected_operations:
+      - Inspect the relevant implementation, tests, and caller expectations.
+      - Make a narrow refactor that addresses the identified issue.
+      - Run behavior-focused tests and review the diff for unintended changes.
+      constraints:
+      - Do not introduce unrelated abstractions or broad formatting churn.
+      - Preserve public interfaces unless the task explicitly requests a migration.
+      likely_tools:
+      - git
+      - pytest

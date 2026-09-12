@@ -413,3 +413,36 @@ skill_types:
       - Keep changes within the supplied task environment.
       - Preserve required interfaces, files, and services unless the task explicitly
         requires changing them.
+- id: authored-extensions
+  name: Authored extensions
+  primitives:
+  - id: safe-directory-synchronization
+    description: Synchronize directory trees without unintended deletion or corruption.
+    guidance:
+      origin: authored
+      goal: Reconcile source and destination directories according to an explicit synchronization policy.
+      expected_operations:
+      - Inspect source, destination, exclusion rules, and conflict policy.
+      - Perform a dry run or generate a manifest before applying changes.
+      - Synchronize files and verify checksums, permissions, and expected file counts.
+      constraints:
+      - Do not delete destination files unless the task explicitly permits it.
+      - Preserve symlink and permission semantics when required.
+      likely_tools:
+      - rsync
+      - sha256sum
+  - id: ignore-rule-and-repository-cleanup-management
+    description: Maintain ignore rules and remove generated repository clutter safely.
+    guidance:
+      origin: authored
+      goal: Add precise ignore rules and clean generated files without hiding required source artifacts.
+      expected_operations:
+      - Inspect repository status, tracked files, and existing ignore patterns.
+      - Update ignore rules for the requested generated artifacts.
+      - Verify ignored files are excluded while required files remain tracked.
+      constraints:
+      - Do not add broad patterns that hide source, configuration, or test files.
+      - Do not remove tracked files unless the task explicitly requires it.
+      likely_tools:
+      - git
+      - find

@@ -427,3 +427,36 @@ skill_types:
       - Keep changes within the supplied task environment.
       - Preserve required interfaces, files, and services unless the task explicitly
         requires changing them.
+- id: authored-extensions
+  name: Authored extensions
+  primitives:
+  - id: dataset-versioning-and-provenance
+    description: Version datasets and record their provenance for reproducible analysis.
+    guidance:
+      origin: authored
+      goal: Create a reproducible dataset version with traceable source and transformation metadata.
+      expected_operations:
+      - Inspect input data, existing version metadata, and required dataset contract.
+      - Create the requested version manifest, checksums, and provenance records.
+      - Verify the version can be reproduced from its declared inputs.
+      constraints:
+      - Do not mutate immutable source datasets.
+      - Keep identifiers and checksums deterministic.
+      likely_tools:
+      - Python
+      - YAML
+  - id: model-serving-validation
+    description: Validate model-serving inputs, outputs, and runtime behavior.
+    guidance:
+      origin: authored
+      goal: Confirm a model-serving interface produces valid, stable responses for its contract.
+      expected_operations:
+      - Inspect the serving API, model inputs, and expected output schema.
+      - Exercise representative and edge-case requests against the local service or harness.
+      - Verify output validity, error handling, and required performance bounds.
+      constraints:
+      - Keep test data non-sensitive and deterministic.
+      - Do not change model weights unless the task explicitly requires it.
+      likely_tools:
+      - Python
+      - pytest

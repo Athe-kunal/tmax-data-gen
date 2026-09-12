@@ -30,3 +30,9 @@ personas:
   role: configuration manager tracking changes
   description: 'Terminal task framed around this Tmax scenario: configuration manager
     tracking changes.'
+- id: analytics-engineer-maintaining-warehouse-models
+  role: analytics engineer maintaining warehouse models
+  description: Authored terminal task framed around an analytics engineer maintaining warehouse models.
+- id: data-platform-engineer-operating-ingestion-pipelines
+  role: data platform engineer operating ingestion pipelines
+  description: Authored terminal task framed around a data platform engineer operating ingestion pipelines.

@@ -22,3 +22,9 @@ personas:
   role: bioinformatics analyst processing sequences
   description: 'Terminal task framed around this Tmax scenario: bioinformatics analyst
     processing sequences.'
+- id: research-software-engineer-maintaining-simulation-tooling
+  role: research software engineer maintaining simulation tooling
+  description: Authored terminal task framed around a research software engineer maintaining simulation tooling.
+- id: computational-scientist-running-batch-experiments
+  role: computational scientist running batch experiments
+  description: Authored terminal task framed around a computational scientist running batch experiments.

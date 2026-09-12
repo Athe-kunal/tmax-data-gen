@@ -74,3 +74,9 @@ personas:
   role: admin fixing an nginx config that returns 502 bad gateway
   description: 'Terminal task framed around this Tmax scenario: admin fixing an nginx
     config that returns 502 bad gateway.'
+- id: cloud-operations-engineer-operating-production-infrastructure
+  role: cloud operations engineer operating production infrastructure
+  description: Authored terminal task framed around a cloud operations engineer operating production infrastructure.
+- id: observability-engineer-maintaining-metrics-and-alerts
+  role: observability engineer maintaining metrics and alerts
+  description: Authored terminal task framed around an observability engineer maintaining metrics and alerts.
