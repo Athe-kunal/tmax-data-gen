@@ -46,7 +46,7 @@ def init_weave(project_name: str | None = None) -> None:
     with _init_lock:
         if _initialized:
             return
-        project = project_name or os.environ.get("WEAVE_PROJECT", _DEFAULT_PROJECT)
+        project = project_name or os.environ.get("WEAVE_PROJECT") or _DEFAULT_PROJECT
         weave.init(project)
         _initialized = True
 

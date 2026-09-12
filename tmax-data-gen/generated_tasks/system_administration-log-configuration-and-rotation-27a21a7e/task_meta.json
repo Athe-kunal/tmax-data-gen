@@ -1,0 +1,56 @@
+{
+  "task_name": "system_administration-log-configuration-and-rotation-27a21a7e",
+  "domain": "system_administration",
+  "skill_type": "configuration",
+  "primitive_skill": "log-configuration-and-rotation",
+  "persona": "cloud-architect-migrating-services",
+  "language": "go",
+  "generation_model": "openai/meta-llama/Llama-3.1-8B-Instruct",
+  "task_description": "Migrate the logging configuration from a centralized server to a cloud-based logging service. I have been tasked with migrating our organization's logging infrastructure from a centralized server to a cloud-based logging service. As a cloud architect, my main responsibility is to ensure a seamless transition while minimizing downtime and maintaining data integrity.\n\nOur current logging infrastructure uses the `rsyslog` configuration to send log messages to a centralized server, where they are stored in a file-based system. However, this setup has become inefficient and difficult to manage as our organization grows. To resolve this issue, I need to configure our systems to send log messages to a cloud-based logging service, such as AWS CloudWatch or Google Cloud Logging.\n\nHere are the specific requirements for this task:\n\n1.  Install and configure the `aws cloudwatch agent` on all hosts in the environment using the `go` package manager. This will enable the agents to send log messages to AWS CloudWatch.\n2.  Update the `rsyslog` configuration on all hosts to use the `aws cloudwatch agent` as the log transport. This will ensure that all log messages are sent to AWS CloudWatch instead of the centralized server.\n3.  Create a new log group in AWS CloudWatch to store the logs from our organization. This log group should be named `dev-logs`.\n4.  Configure the `aws cloudwatch agent` to send log messages to the `dev-logs` log group. This can be achieved by creating a new file called `/etc/awslogs.conf` that specifies the log group and the log stream settings.\n5.  Restart the `rsyslog` service on all hosts to apply the new configuration and ensure that log messages are being sent to AWS CloudWatch.\n6.  Verify that log messages are being sent to AWS CloudWatch by checking the log group in the AWS Management Console.\n\nThe goal is to have the logging infrastructure migrated to a cloud-based logging service while ensuring minimal downtime and maintaining data integrity. The `dev-logs` log group should be configured to store the logs from our organization, and the `rsyslog` service should be restarted to apply the new configuration.\n\nI will verify that this task is complete by checking the log group in the AWS Management Console to ensure that log messages are being sent to AWS CloudWatch.\n\n**Files and directories:**\n\n*   `/etc/awslogs.conf`: The configuration file for the `aws cloudwatch agent`.\n*   `/var/log/awslogs.log`: The log file for the `aws cloudwatch agent`.\n*   `/etc/rsyslog.conf`: The configuration file for `rsyslog`.\n*   `/var/log/rsyslog.log`: The log file for `rsyslog`.\n*   `/dev-logs`: The log group in AWS CloudWatch.\n\n**Log group structure:**\n\n*   `/dev-logs`: The log group name.\n*   `/dev-logs/aws-cloudwatch`: The log stream name.\n\n**Required permissions:**\n\n*   The `aws cloudwatch agent` should have write permission to the log file `/var/log/awslogs.log`.\n*   The `rsyslog` service should have read permission to the log file `/var/log/rsyslog.log`.",
+  "truth": "**Required tools and packages:**\n\n*   `aws cloudwatch agent`\n*   `go` package manager\n*   `rsyslog` package\n*   `awscli` package\n\n**Expected log messages:**\n\n*   The log messages should be sent to the `dev-logs` log group in AWS CloudWatch.\n*   The log messages should contain the following information:\n    *   Timestamp\n    *   Log level (e.g. INFO, WARNING, ERROR)\n    *   Log message\n\n**AWS CloudWatch configuration:**\n\n*   The log group `dev-logs` should be created in AWS CloudWatch.\n*   The log stream `aws-cloudwatch` should be created in the log group `dev-logs`.\n\n**Permissions:**\n\n*   The `aws cloudwatch agent` should have the following permissions:\n    *   `logs:CreateLogGroup`\n    *   `logs:CreateLogStream`\n    *   `logs:PutLogEvents`\n*   The `rsyslog` service should have the following permissions:\n    *   `read` permission to the log file `/var/log/rsyslog.log`\n\n**Test user:**\n\n*   Create a test user `testuser` with the following credentials:\n    *   Email: `testuser@example.com`\n    *   Password: `password`\n\n**Test environment:**\n\n*   The test environment should have the following configuration:\n    *   AWS region: `us-west-2`\n    *   AWS account ID: `123456789012`\n    *   AWS access key ID: `AKIAIOSFODNN7EXAMPLE`\n    *   AWS secret access key: `wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY`",
+  "retrieval": {
+    "query": "how do I set up log rotation for a web server",
+    "matches": [
+      {
+        "node_type": "Primitive",
+        "node_id": "Primitive::system_administration::log-configuration-and-rotation",
+        "similarity": 0.6972162166554885,
+        "triplets": [
+          "(SkillType 'Configuration') -[HAS_PRIMITIVE]-> (Primitive 'Log configuration and rotation')"
+        ]
+      },
+      {
+        "node_type": "Primitive",
+        "node_id": "Primitive::debugging::logging-and-traceback-analysis",
+        "similarity": 0.3193869302421859,
+        "triplets": [
+          "(SkillType 'Debugging') -[HAS_PRIMITIVE]-> (Primitive 'Logging and traceback analysis')"
+        ]
+      },
+      {
+        "node_type": "Primitive",
+        "node_id": "Primitive::debugging::log-timeline-reconstruction-across-services",
+        "similarity": 0.3138648814610449,
+        "triplets": [
+          "(SkillType 'Forensics') -[HAS_PRIMITIVE]-> (Primitive 'Log timeline reconstruction across services')"
+        ]
+      },
+      {
+        "node_type": "Primitive",
+        "node_id": "Primitive::system_administration::web-server-setup-and-tls-configuration",
+        "similarity": 0.30289560796954385,
+        "triplets": [
+          "(SkillType 'Network') -[HAS_PRIMITIVE]-> (Primitive 'Web server setup and TLS configuration')"
+        ]
+      },
+      {
+        "node_type": "Primitive",
+        "node_id": "Primitive::data_processing::pipeline-logging-and-monitoring",
+        "similarity": 0.28600363305456855,
+        "triplets": [
+          "(SkillType 'Systems') -[HAS_PRIMITIVE]-> (Primitive 'Pipeline logging and monitoring')"
+        ]
+      }
+    ]
+  }
+}
