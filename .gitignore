@@ -220,6 +220,6 @@ __marimo__/
 # Streamlit
 .streamlit/secrets.toml
 
-tmax
+tmax/evaluation_assets
 
 tmax-data-gen/data_gen/kg.db
