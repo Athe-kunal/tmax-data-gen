@@ -1,0 +1,6 @@
+---
+schema_version: 1
+id: security
+name: Security
+description: Terminal tasks involving cryptography, vulnerability analysis, authentication,
+  network security, and secure system configuration.

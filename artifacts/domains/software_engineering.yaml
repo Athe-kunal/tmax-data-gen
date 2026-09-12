@@ -1,0 +1,6 @@
+---
+schema_version: 1
+id: software_engineering
+name: Software Engineering
+description: Terminal tasks involving code quality, build systems, version control,
+  API design, software architecture, and implementation workflows.

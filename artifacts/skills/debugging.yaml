@@ -1,0 +1,580 @@
+---
+schema_version: 1
+domain_id: debugging
+skill_types:
+- id: systems
+  name: Systems
+  primitives:
+  - id: build-failure-diagnosis
+    description: Build failure diagnosis
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: Build failure diagnosis.'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: Build failure diagnosis.'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+  - id: system-call-tracing
+    description: System call tracing
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: System call tracing.'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: System call tracing.'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+  - id: container-debugging-and-log-inspection
+    description: Container debugging and log inspection
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: Container debugging and log inspection.'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: Container debugging and log inspection.'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+  - id: dependency-conflict-resolution
+    description: Dependency conflict resolution
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: Dependency conflict resolution.'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: Dependency conflict resolution.'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+  - id: environment-misconfiguration-repair
+    description: Environment misconfiguration repair
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: Environment misconfiguration repair.'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: Environment misconfiguration repair.'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+  - id: compiler-and-linker-error-interpretation
+    description: Compiler and linker error interpretation
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: Compiler and linker error interpretation.'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: Compiler and linker error interpretation.'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+- id: debugging
+  name: Debugging
+  primitives:
+  - id: interactive-debugger-usage-breakpoints-memory-inspection
+    description: Interactive debugger usage (breakpoints, memory inspection)
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: Interactive debugger usage (breakpoints,
+        memory inspection).'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: Interactive debugger usage (breakpoints, memory
+        inspection).'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+  - id: core-dump-and-stack-trace-analysis
+    description: Core dump and stack trace analysis
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: Core dump and stack trace analysis.'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: Core dump and stack trace analysis.'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+  - id: logging-and-traceback-analysis
+    description: Logging and traceback analysis
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: Logging and traceback analysis.'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: Logging and traceback analysis.'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+  - id: git-bisection-for-regression-finding
+    description: Git bisection for regression finding
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: Git bisection for regression finding.'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: Git bisection for regression finding.'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+  - id: delta-debugging-and-test-minimization
+    description: Delta debugging and test minimization
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: Delta debugging and test minimization.'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: Delta debugging and test minimization.'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+  - id: existing-codebase-comprehension-and-reading
+    description: Existing codebase comprehension and reading
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: Existing codebase comprehension and
+        reading.'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: Existing codebase comprehension and reading.'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+- id: testing
+  name: Testing
+  primitives:
+  - id: regression-test-construction
+    description: Regression test construction
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: Regression test construction.'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: Regression test construction.'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+  - id: intermittent-failure-reproduction
+    description: Intermittent failure reproduction
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: Intermittent failure reproduction.'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: Intermittent failure reproduction.'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+  - id: fuzz-testing
+    description: Fuzz testing
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: Fuzz testing.'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: Fuzz testing.'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+  - id: minimal-reproducible-example-creation
+    description: Minimal reproducible example creation
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: Minimal reproducible example creation.'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: Minimal reproducible example creation.'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+  - id: assertion-based-intermediate-validation
+    description: Assertion-based intermediate validation
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: Assertion-based intermediate validation.'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: Assertion-based intermediate validation.'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+- id: algorithmic
+  name: Algorithmic
+  primitives:
+  - id: boundary-condition-and-off-by-one-repair
+    description: Boundary condition and off-by-one repair
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: Boundary condition and off-by-one
+        repair.'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: Boundary condition and off-by-one repair.'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+  - id: race-condition-and-concurrency-debugging
+    description: Race condition and concurrency debugging
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: Race condition and concurrency debugging.'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: Race condition and concurrency debugging.'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+  - id: intermediate-state-tracing
+    description: Intermediate state tracing
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: Intermediate state tracing.'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: Intermediate state tracing.'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+  - id: floating-point-precision-repair
+    description: Floating-point precision repair
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: Floating-point precision repair.'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: Floating-point precision repair.'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+  - id: loop-termination-and-recursion-fixing
+    description: Loop termination and recursion fixing
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: Loop termination and recursion fixing.'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: Loop termination and recursion fixing.'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+- id: data-processing
+  name: Data Processing
+  primitives:
+  - id: corrupted-input-handling-and-recovery
+    description: Corrupted input handling and recovery
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: Corrupted input handling and recovery.'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: Corrupted input handling and recovery.'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+  - id: encoding-and-serialization-troubleshooting
+    description: Encoding and serialization troubleshooting
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: Encoding and serialization troubleshooting.'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: Encoding and serialization troubleshooting.'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+  - id: data-transformation-diff-analysis
+    description: Data transformation diff analysis
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: Data transformation diff analysis.'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: Data transformation diff analysis.'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+  - id: query-result-debugging
+    description: Query result debugging
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: Query result debugging.'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: Query result debugging.'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+  - id: format-parsing-edge-case-repair
+    description: Format parsing edge-case repair
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: Format parsing edge-case repair.'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: Format parsing edge-case repair.'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+- id: mathematical
+  name: Mathematical
+  primitives:
+  - id: numerical-instability-diagnosis
+    description: Numerical instability diagnosis
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: Numerical instability diagnosis.'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: Numerical instability diagnosis.'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+  - id: convergence-failure-repair
+    description: Convergence failure repair
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: Convergence failure repair.'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: Convergence failure repair.'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+  - id: formula-implementation-correction
+    description: Formula implementation correction
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: Formula implementation correction.'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: Formula implementation correction.'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+  - id: statistical-anomaly-investigation
+    description: Statistical anomaly investigation
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: Statistical anomaly investigation.'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: Statistical anomaly investigation.'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+  - id: precision-loss-tracking
+    description: Precision loss tracking
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: Precision loss tracking.'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: Precision loss tracking.'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+- id: forensics
+  name: Forensics
+  primitives:
+  - id: database-recovery-from-corrupted-files-wal-journal
+    description: Database recovery from corrupted files (WAL, journal)
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: Database recovery from corrupted
+        files (WAL, journal).'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: Database recovery from corrupted files (WAL,
+        journal).'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+  - id: deleted-file-recovery-and-filesystem-inspection
+    description: Deleted file recovery and filesystem inspection
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: Deleted file recovery and filesystem
+        inspection.'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: Deleted file recovery and filesystem inspection.'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+  - id: binary-reverse-engineering-and-decompilation
+    description: Binary reverse engineering and decompilation
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: Binary reverse engineering and decompilation.'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: Binary reverse engineering and decompilation.'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+  - id: network-packet-capture-analysis-pcap
+    description: Network packet capture analysis (pcap)
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: Network packet capture analysis (pcap).'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: Network packet capture analysis (pcap).'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+  - id: git-history-forensics-and-secret-recovery
+    description: Git history forensics and secret recovery
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: Git history forensics and secret
+        recovery.'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: Git history forensics and secret recovery.'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+  - id: memory-dump-analysis-and-string-extraction
+    description: Memory dump analysis and string extraction
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: Memory dump analysis and string extraction.'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: Memory dump analysis and string extraction.'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+  - id: log-timeline-reconstruction-across-services
+    description: Log timeline reconstruction across services
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: Log timeline reconstruction across
+        services.'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: Log timeline reconstruction across services.'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.

@@ -1,0 +1,10 @@
+---
+schema_version: 1
+id: python
+name: Python
+sampling_weight: 0.35
+runtime: Python 3 interpreter
+runtime_guidance_origin: authored
+package_manager: pip
+build_command: python -m compileall .
+test_command: python -m pytest

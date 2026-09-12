@@ -1,0 +1,6 @@
+---
+schema_version: 1
+id: data_science
+name: Data Science
+description: Terminal tasks involving data preparation, feature engineering, statistical
+  modeling, machine-learning workflows, experiments, and data validation.

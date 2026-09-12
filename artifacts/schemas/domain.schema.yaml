@@ -1,0 +1,31 @@
+$schema: https://json-schema.org/draft/2020-12/schema
+$id: domain.schema.yaml
+title: Tmax replicator domain artifact
+type: object
+additionalProperties: false
+required:
+  - schema_version
+  - id
+  - name
+  - description
+properties:
+  schema_version:
+    const: 1
+  id:
+    type: string
+    pattern: ^[a-z][a-z0-9_]*$
+    description: Stable snake_case domain identifier.
+  name:
+    type: string
+    minLength: 1
+    description: Human-readable domain name.
+  description:
+    type: string
+    minLength: 1
+    description: Scope of the domain and the work it covers.
+  tags:
+    type: array
+    uniqueItems: true
+    items:
+      type: string
+      minLength: 1

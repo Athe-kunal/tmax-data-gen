@@ -1,0 +1,6 @@
+---
+schema_version: 1
+id: system_administration
+name: System Administration
+description: Terminal tasks involving systems, services, networking, storage, configuration,
+  deployment, monitoring, and shell automation.

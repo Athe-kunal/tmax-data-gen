@@ -1,0 +1,6 @@
+---
+schema_version: 1
+id: data_querying
+name: Data Querying
+description: Terminal tasks involving SQL and NoSQL queries, schema analysis, query
+  optimization, graph queries, and query-result processing.

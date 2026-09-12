@@ -1,0 +1,55 @@
+schema_version: 1
+domains:
+  - id: security
+    domain_file: domains/security.yaml
+    skill_file: skills/security.yaml
+    persona_file: personas/security.yaml
+  - id: software_engineering
+    domain_file: domains/software_engineering.yaml
+    skill_file: skills/software_engineering.yaml
+    persona_file: personas/software_engineering.yaml
+  - id: file_operations
+    domain_file: domains/file_operations.yaml
+    skill_file: skills/file_operations.yaml
+    persona_file: personas/file_operations.yaml
+  - id: data_querying
+    domain_file: domains/data_querying.yaml
+    skill_file: skills/data_querying.yaml
+    persona_file: personas/data_querying.yaml
+  - id: data_science
+    domain_file: domains/data_science.yaml
+    skill_file: skills/data_science.yaml
+    persona_file: personas/data_science.yaml
+  - id: debugging
+    domain_file: domains/debugging.yaml
+    skill_file: skills/debugging.yaml
+    persona_file: personas/debugging.yaml
+  - id: scientific_computing
+    domain_file: domains/scientific_computing.yaml
+    skill_file: skills/scientific_computing.yaml
+    persona_file: personas/scientific_computing.yaml
+  - id: data_processing
+    domain_file: domains/data_processing.yaml
+    skill_file: skills/data_processing.yaml
+    persona_file: personas/data_processing.yaml
+  - id: system_administration
+    domain_file: domains/system_administration.yaml
+    skill_file: skills/system_administration.yaml
+    persona_file: personas/system_administration.yaml
+languages:
+  - id: python
+    file: languages/python.yaml
+  - id: c
+    file: languages/c.yaml
+  - id: bash
+    file: languages/bash.yaml
+  - id: cpp
+    file: languages/cpp.yaml
+  - id: rust
+    file: languages/rust.yaml
+  - id: go
+    file: languages/go.yaml
+  - id: multi-language
+    file: languages/multi-language.yaml
+  - id: model-choice
+    file: languages/model-choice.yaml

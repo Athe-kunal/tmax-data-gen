@@ -1,0 +1,6 @@
+---
+schema_version: 1
+id: debugging
+name: Debugging
+description: Terminal tasks involving error diagnosis, root-cause analysis, performance
+  debugging, memory issues, concurrency faults, and forensic investigation.

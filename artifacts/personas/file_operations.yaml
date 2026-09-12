@@ -1,0 +1,32 @@
+---
+schema_version: 1
+domain_id: file_operations
+personas:
+- id: developer-organizing-project-files
+  role: developer organizing project files
+  description: 'Terminal task framed around this Tmax scenario: developer organizing
+    project files.'
+- id: backup-administrator-archiving-data
+  role: backup administrator archiving data
+  description: 'Terminal task framed around this Tmax scenario: backup administrator
+    archiving data.'
+- id: researcher-organizing-datasets
+  role: researcher organizing datasets
+  description: 'Terminal task framed around this Tmax scenario: researcher organizing
+    datasets.'
+- id: storage-administrator-managing-disk-space
+  role: storage administrator managing disk space
+  description: 'Terminal task framed around this Tmax scenario: storage administrator
+    managing disk space.'
+- id: technical-writer-organizing-documentation
+  role: technical writer organizing documentation
+  description: 'Terminal task framed around this Tmax scenario: technical writer organizing
+    documentation.'
+- id: configuration-manager-tracking-changes
+  role: configuration manager tracking changes
+  description: 'Terminal task framed around this Tmax scenario: configuration manager
+    tracking changes.'
+- id: artifact-manager-curating-binary-repositories
+  role: artifact manager curating binary repositories
+  description: 'Terminal task framed around this Tmax scenario: artifact manager curating
+    binary repositories.'

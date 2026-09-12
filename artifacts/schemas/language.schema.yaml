@@ -1,0 +1,59 @@
+$schema: https://json-schema.org/draft/2020-12/schema
+$id: language.schema.yaml
+title: Tmax replicator language runtime artifact
+type: object
+additionalProperties: false
+required:
+  - schema_version
+  - id
+  - name
+  - sampling_weight
+  - runtime
+  - runtime_guidance_origin
+  - package_manager
+  - build_command
+  - test_command
+properties:
+  schema_version:
+    const: 1
+  id:
+    type: string
+    pattern: ^[a-z][a-z0-9_-]*$
+    description: Stable runtime profile identifier.
+  name:
+    type: string
+    minLength: 1
+    description: Human-readable programming language or runtime name.
+  sampling_weight:
+    type: number
+    exclusiveMinimum: 0
+    description: Tmax language-axis sampling weight.
+  runtime:
+    type: string
+    minLength: 1
+    description: Runtime, compiler, or interpreter requirement.
+  runtime_guidance_origin:
+    const: authored
+    description: Marks runtime and command defaults as our enrichment, not Tmax source data.
+  package_manager:
+    type: string
+    minLength: 1
+    description: Package-management command or tool.
+  build_command:
+    type: string
+    minLength: 1
+    description: Default command that builds or prepares a task solution.
+  test_command:
+    type: string
+    minLength: 1
+    description: Default command that runs the task's tests or verifier.
+  compatible_domain_ids:
+    type: array
+    uniqueItems: true
+    items:
+      type: string
+      pattern: ^[a-z][a-z0-9_]*$
+  base_image:
+    type: string
+    minLength: 1
+    description: Optional container base image or environment profile.

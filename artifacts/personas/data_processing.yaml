@@ -1,0 +1,32 @@
+---
+schema_version: 1
+domain_id: data_processing
+personas:
+- id: data-engineer-building-etl-pipelines
+  role: data engineer building ETL pipelines
+  description: 'Terminal task framed around this Tmax scenario: data engineer building
+    ETL pipelines.'
+- id: data-analyst-processing-csv-files
+  role: data analyst processing CSV files
+  description: 'Terminal task framed around this Tmax scenario: data analyst processing
+    CSV files.'
+- id: log-analyst-investigating-patterns
+  role: log analyst investigating patterns
+  description: 'Terminal task framed around this Tmax scenario: log analyst investigating
+    patterns.'
+- id: automation-specialist-creating-workflows
+  role: automation specialist creating workflows
+  description: 'Terminal task framed around this Tmax scenario: automation specialist
+    creating workflows.'
+- id: localization-engineer-updating-translations
+  role: localization engineer updating translations
+  description: 'Terminal task framed around this Tmax scenario: localization engineer
+    updating translations.'
+- id: data-scientist-cleaning-datasets
+  role: data scientist cleaning datasets
+  description: 'Terminal task framed around this Tmax scenario: data scientist cleaning
+    datasets.'
+- id: configuration-manager-tracking-changes
+  role: configuration manager tracking changes
+  description: 'Terminal task framed around this Tmax scenario: configuration manager
+    tracking changes.'

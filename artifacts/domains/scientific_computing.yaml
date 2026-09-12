@@ -1,0 +1,6 @@
+---
+schema_version: 1
+id: scientific_computing
+name: Scientific Computing
+description: Terminal tasks involving numerical simulation, signal processing, scientific
+  data, statistical analysis, visualization, and reproducible computation.
