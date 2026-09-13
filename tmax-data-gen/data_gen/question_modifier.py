@@ -4,6 +4,16 @@ evaluating how an agent handles underspecified requests instead of the
 exhaustively detailed synthetic prompts `question_gen.generate_question`
 produces.
 
+The underspecification is meant to be load-bearing, not just terser prose:
+detail a competent agent could recover itself by exploring the environment
+and reasoning about the domain should be *cut*, so the question actually
+tests whether the agent can figure that out - that's what makes it a good
+eval question. Detail that's an arbitrary convention nothing in the
+environment or domain knowledge could ever point to (an exact permission
+mode, an exact output string, a byte-exact encoding choice) has to stay,
+or the task just becomes an unfair guessing game against the generator's
+arbitrary choices instead of a test of reasoning.
+
 Deliberately touches nothing else: `truth`, `test_code`, and `setup_script`
 stay exactly as collected, so the noisy question is graded by the exact same
 verifier as the original - the noise is only in how the request is *phrased*,
@@ -45,19 +55,45 @@ time pressure - not a cleaned-up paraphrase of the ticket.
 Two invariants govern every rewrite. Everything else is judgment calls in
 service of these, not a checklist:
 
-1. VERIFIER-EQUIVALENCE. <noisy_task> must be graded correctly by the exact \
-same, unchanged verifier that grades <original_task>. Before cutting or \
-softening anything, ask: "does this piece of information participate in \
-determining what the verifier will check?" (an exact path/filename/\
-identifier, a literal fixture the verifier compares byte-for-byte, a \
-formula/threshold/parameter that determines the one correct output, an \
-output schema). If yes, it survives verbatim - no rewording, no rounding, no \
-"roughly". If no - it's redundant restatement, procedural hand-holding, an \
-explicit "here's how I'll verify this" aside, a format spelled out a second \
-time when a concrete example already pins it down - cut it freely, and cut \
-it hard. This is the one test to apply to every sentence; don't reason about \
-"is this a path" vs. "is this a formula" as separate cases, reason about \
-whether the verifier's grading would change without it.
+1. DISCOVERABILITY. The point of a noisy question isn't just brevity - it's \
+that a capable agent should be expected to figure out missing detail by \
+*exploring the environment and reasoning about the domain*, the way a real \
+engineer would, rather than being handed a spec. So for every piece of \
+information in <original_task>, ask: "could a competent agent recover this \
+exact value by inspecting the files/state <truth> says already exist, plus \
+ordinary domain reasoning - or is it an arbitrary choice nothing in the \
+environment or domain knowledge could ever point to?"
+   - Recoverable-by-exploration (DROP from the question, let the agent find \
+it): the nature of a vulnerability in a file the agent can read; which named \
+config parameters are missing, once the agent inspects the config; the \
+general shape of a fix, once the agent understands the flaw. This is the \
+good kind of vagueness - it's what makes the question worth asking.
+   - Truly arbitrary (KEEP verbatim, no rewording/rounding/"roughly"): a \
+numeric threshold, permission mode, byte-exact fixture, exact output \
+string/schema, or encoding convention that the synthetic generator simply \
+picked - nothing in the environment or in domain expertise would lead an \
+agent to that specific value instead of an equally reasonable alternative. \
+Stripping these doesn't test reasoning, it turns the task into an unfair \
+guessing game against the generator's arbitrary choices. When genuinely \
+unsure which bucket something is in, keep it - an unresolvable detail is a \
+worse failure than an under-compressed sentence.
+
+Two shapes of "truly arbitrary" are easy to miss because attention tends to \
+go to the task's main deliverable and skip past supporting detail - watch \
+for both explicitly:
+   - Secondary/auxiliary artifacts. A task's *primary* output is only one \
+of possibly several things graded - a log file, manifest, report, index, or \
+generated cert alongside it is exactly as arbitrary and exactly as checked. \
+Compressing the paragraph that describes the primary deliverable and \
+silently dropping the sentence that names a secondary one (its exact \
+filename, its exact required content) is the single most common mistake to \
+avoid.
+   - Structured-output field/key names. When the deliverable is JSON, CSV, \
+or another structured format, every field/column/key name in it is an \
+arbitrary choice the generator made - there is no way to derive that the \
+key should be called `top_author_id` rather than `topAuthorId` or \
+`author_id` from domain reasoning alone. Keep every such name exactly as \
+given, even while shortening the sentence around it.
 
 2. NO LEAKAGE. This is the same rule that already governs the <task>/<truth> \
 split when this pipeline first generates a question: the request must never \
@@ -161,6 +197,14 @@ def generate_noisy_question(
     return _retry(_call, max_retries, "noisy question generation")
 
 
+def _iter_gold_task_dirs(root: Path) -> list[Path]:
+    """A `root` that itself has a task_meta.json is treated as one task;
+    otherwise every immediate child with a task_meta.json is used."""
+    if (root / "task_meta.json").exists():
+        return [root]
+    return sorted(p for p in root.iterdir() if p.is_dir() and (p / "task_meta.json").exists())
+
+
 if __name__ == "__main__":
     import argparse
     import json
@@ -169,12 +213,22 @@ if __name__ == "__main__":
     from data_gen.inference_config import OpenAICompatibleConfig
 
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("gold_task_dir", type=Path, help="A gold_tasks/<task> directory (has task_meta.json).")
+    parser.add_argument(
+        "gold_task_dir",
+        type=Path,
+        help="A gold_tasks/<task> directory (has task_meta.json), or a gold_tasks/ "
+        "directory itself to run every task in it.",
+    )
     parser.add_argument("--model", type=str, default=None)
     parser.add_argument("--raw-model", type=str, default=None)
+    parser.add_argument(
+        "--out-file",
+        type=Path,
+        default=None,
+        help="Write {task_name: {original, noisy}} JSON here for review, instead of printing. "
+        "Required in batch mode (a directory of many tasks).",
+    )
     args = parser.parse_args()
-
-    meta = json.loads((args.gold_task_dir / "task_meta.json").read_text())
 
     if args.raw_model:
         litellm_model, model_kwargs = args.raw_model, {}
@@ -182,9 +236,31 @@ if __name__ == "__main__":
         inference_config = OpenAICompatibleConfig.from_env(model=args.model)
         litellm_model, model_kwargs = inference_config.litellm_model(), inference_config.litellm_kwargs()
 
-    noisy = generate_noisy_question(meta["task_description"], meta["truth"], litellm_model, extra_kwargs=model_kwargs)
+    task_dirs = _iter_gold_task_dirs(args.gold_task_dir)
+    if not task_dirs:
+        raise SystemExit(f"No task_meta.json found under {args.gold_task_dir}")
+    if len(task_dirs) > 1 and args.out_file is None:
+        raise SystemExit(f"{len(task_dirs)} tasks found under {args.gold_task_dir} - pass --out-file for batch mode.")
 
-    print("=== ORIGINAL task_description ===")
-    print(meta["task_description"])
-    print("\n=== NOISY task_description ===")
-    print(noisy)
+    results: dict[str, dict[str, str]] = {}
+    for i, task_dir in enumerate(task_dirs):
+        print(f"[{i + 1}/{len(task_dirs)}] {task_dir.name}")
+        meta = json.loads((task_dir / "task_meta.json").read_text())
+        try:
+            noisy = generate_noisy_question(meta["task_description"], meta["truth"], litellm_model, extra_kwargs=model_kwargs)
+        except ValueError as e:
+            print(f"  FAILED: {e}")
+            results[task_dir.name] = {"original": meta["task_description"], "noisy": None, "error": str(e)}
+            continue
+        results[task_dir.name] = {"original": meta["task_description"], "noisy": noisy}
+
+    if args.out_file:
+        args.out_file.parent.mkdir(parents=True, exist_ok=True)
+        args.out_file.write_text(json.dumps(results, indent=2))
+        print(f"\nWrote {len(results)} results to {args.out_file}")
+    else:
+        task_name, pair = next(iter(results.items()))
+        print("=== ORIGINAL task_description ===")
+        print(pair["original"])
+        print("\n=== NOISY task_description ===")
+        print(pair["noisy"])
