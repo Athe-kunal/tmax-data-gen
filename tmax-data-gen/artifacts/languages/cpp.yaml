@@ -1,0 +1,20 @@
+---
+schema_version: 1
+id: cpp
+name: C++
+sampling_weight: 0.1
+runtime: C++ compiler such as g++ or clang++
+runtime_guidance_origin: authored
+package_manager: apt
+build_command: make
+test_command: make test
+compatible_domain_ids:
+  - security
+  - software_engineering
+  - file_operations
+  - data_querying
+  - data_science
+  - debugging
+  - scientific_computing
+  - data_processing
+  - system_administration

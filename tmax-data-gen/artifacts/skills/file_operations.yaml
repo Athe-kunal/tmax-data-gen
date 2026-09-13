@@ -1,0 +1,448 @@
+---
+schema_version: 1
+domain_id: file_operations
+skill_types:
+- id: file-i-o
+  name: File I/O
+  primitives:
+  - id: text-and-binary-file-reading-writing
+    description: Text and binary file reading/writing
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: Text and binary file reading/writing.'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: Text and binary file reading/writing.'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+  - id: file-locking-and-concurrent-access
+    description: File locking and concurrent access
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: File locking and concurrent access.'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: File locking and concurrent access.'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+  - id: streaming-and-memory-mapped-i-o
+    description: Streaming and memory-mapped I/O
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: Streaming and memory-mapped I/O.'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: Streaming and memory-mapped I/O.'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+  - id: atomic-writes-and-temp-file-management
+    description: Atomic writes and temp file management
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: Atomic writes and temp file management.'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: Atomic writes and temp file management.'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+  - id: standard-stream-redirection-and-piping
+    description: Standard stream redirection and piping
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: Standard stream redirection and piping.'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: Standard stream redirection and piping.'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+- id: navigation
+  name: Navigation
+  primitives:
+  - id: recursive-directory-traversal
+    description: Recursive directory traversal
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: Recursive directory traversal.'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: Recursive directory traversal.'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+  - id: symbolic-and-hard-link-management
+    description: Symbolic and hard link management
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: Symbolic and hard link management.'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: Symbolic and hard link management.'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+  - id: file-watching-and-change-detection
+    description: File watching and change detection
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: File watching and change detection.'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: File watching and change detection.'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+  - id: filesystem-mount-and-path-manipulation
+    description: Filesystem mount and path manipulation
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: Filesystem mount and path manipulation.'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: Filesystem mount and path manipulation.'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+  - id: metadata-based-file-search
+    description: Metadata-based file search
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: Metadata-based file search.'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: Metadata-based file search.'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+- id: data-parsing
+  name: Data Parsing
+  primitives:
+  - id: structured-format-parsing-json-xml-csv
+    description: Structured format parsing (JSON, XML, CSV)
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: Structured format parsing (JSON,
+        XML, CSV).'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: Structured format parsing (JSON, XML, CSV).'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+  - id: binary-format-and-header-extraction
+    description: Binary format and header extraction
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: Binary format and header extraction.'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: Binary format and header extraction.'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+  - id: multi-line-log-record-parsing
+    description: Multi-line log record parsing
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: Multi-line log record parsing.'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: Multi-line log record parsing.'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+  - id: character-encoding-conversion
+    description: Character encoding conversion
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: Character encoding conversion.'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: Character encoding conversion.'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+  - id: configuration-file-interpretation
+    description: Configuration file interpretation
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: Configuration file interpretation.'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: Configuration file interpretation.'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+  - id: domain-specific-format-parsing-gcode-elf-wal
+    description: Domain-specific format parsing (GCode, ELF, WAL)
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: Domain-specific format parsing (GCode,
+        ELF, WAL).'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: Domain-specific format parsing (GCode, ELF,
+        WAL).'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+- id: transformation
+  name: Transformation
+  primitives:
+  - id: bulk-file-renaming
+    description: Bulk file renaming
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: Bulk file renaming.'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: Bulk file renaming.'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+  - id: format-conversion-between-file-types
+    description: Format conversion between file types
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: Format conversion between file types.'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: Format conversion between file types.'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+  - id: text-transformation-with-sed-awk-vim
+    description: Text transformation with sed/awk/vim
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: Text transformation with sed/awk/vim.'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: Text transformation with sed/awk/vim.'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+  - id: file-splitting-merging-and-chunking
+    description: File splitting, merging, and chunking
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: File splitting, merging, and chunking.'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: File splitting, merging, and chunking.'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+  - id: manifest-and-checksum-generation
+    description: Manifest and checksum generation
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: Manifest and checksum generation.'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: Manifest and checksum generation.'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+  - id: large-scale-text-editing-and-macro-application
+    description: Large-scale text editing and macro application
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: Large-scale text editing and macro
+        application.'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: Large-scale text editing and macro application.'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+- id: archives
+  name: Archives
+  primitives:
+  - id: archive-creation-and-extraction
+    description: Archive creation and extraction
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: Archive creation and extraction.'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: Archive creation and extraction.'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+  - id: nested-and-multi-part-archive-handling
+    description: Nested and multi-part archive handling
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: Nested and multi-part archive handling.'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: Nested and multi-part archive handling.'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+  - id: incremental-and-differential-backups
+    description: Incremental and differential backups
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: Incremental and differential backups.'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: Incremental and differential backups.'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+  - id: archive-integrity-verification
+    description: Archive integrity verification
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: Archive integrity verification.'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: Archive integrity verification.'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+  - id: compressed-stream-processing
+    description: Compressed stream processing
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: Compressed stream processing.'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: Compressed stream processing.'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+  - id: custom-compression-and-decompression
+    description: Custom compression and decompression
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: Custom compression and decompression.'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: Custom compression and decompression.'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+- id: authored-extensions
+  name: Authored extensions
+  primitives:
+  - id: safe-directory-synchronization
+    description: Synchronize directory trees without unintended deletion or corruption.
+    guidance:
+      origin: authored
+      goal: Reconcile source and destination directories according to an explicit synchronization policy.
+      expected_operations:
+      - Inspect source, destination, exclusion rules, and conflict policy.
+      - Perform a dry run or generate a manifest before applying changes.
+      - Synchronize files and verify checksums, permissions, and expected file counts.
+      constraints:
+      - Do not delete destination files unless the task explicitly permits it.
+      - Preserve symlink and permission semantics when required.
+      likely_tools:
+      - rsync
+      - sha256sum
+  - id: ignore-rule-and-repository-cleanup-management
+    description: Maintain ignore rules and remove generated repository clutter safely.
+    guidance:
+      origin: authored
+      goal: Add precise ignore rules and clean generated files without hiding required source artifacts.
+      expected_operations:
+      - Inspect repository status, tracked files, and existing ignore patterns.
+      - Update ignore rules for the requested generated artifacts.
+      - Verify ignored files are excluded while required files remain tracked.
+      constraints:
+      - Do not add broad patterns that hide source, configuration, or test files.
+      - Do not remove tracked files unless the task explicitly requires it.
+      likely_tools:
+      - git
+      - find

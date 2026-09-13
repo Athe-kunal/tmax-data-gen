@@ -1,0 +1,333 @@
+---
+schema_version: 1
+domain_id: data_querying
+skill_types:
+- id: query-construction
+  name: Query Construction
+  primitives:
+  - id: complex-joins-and-subqueries
+    description: Complex joins and subqueries
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: Complex joins and subqueries.'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: Complex joins and subqueries.'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+  - id: window-functions-and-analytical-aggregation
+    description: Window functions and analytical aggregation
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: Window functions and analytical aggregation.'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: Window functions and analytical aggregation.'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+  - id: parameterized-query-construction
+    description: Parameterized query construction
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: Parameterized query construction.'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: Parameterized query construction.'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+  - id: graph-query-languages-sparql-cypher
+    description: Graph query languages (SPARQL, Cypher)
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: Graph query languages (SPARQL, Cypher).'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: Graph query languages (SPARQL, Cypher).'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+  - id: nosql-aggregation-pipelines
+    description: NoSQL aggregation pipelines
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: NoSQL aggregation pipelines.'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: NoSQL aggregation pipelines.'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+- id: data-comprehension
+  name: Data Comprehension
+  primitives:
+  - id: schema-analysis-and-relationship-mapping
+    description: Schema analysis and relationship mapping
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: Schema analysis and relationship
+        mapping.'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: Schema analysis and relationship mapping.'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+  - id: query-plan-interpretation-and-optimization
+    description: Query plan interpretation and optimization
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: Query plan interpretation and optimization.'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: Query plan interpretation and optimization.'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+  - id: index-strategy-design
+    description: Index strategy design
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: Index strategy design.'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: Index strategy design.'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+  - id: data-model-reverse-engineering
+    description: Data model reverse engineering
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: Data model reverse engineering.'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: Data model reverse engineering.'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+  - id: cross-representation-mapping-relational-document-graph
+    description: Cross-representation mapping (relational, document, graph)
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: Cross-representation mapping (relational,
+        document, graph).'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: Cross-representation mapping (relational,
+        document, graph).'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+- id: graph-processing
+  name: Graph Processing
+  primitives:
+  - id: graph-traversal-and-shortest-path-computation
+    description: Graph traversal and shortest path computation
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: Graph traversal and shortest path
+        computation.'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: Graph traversal and shortest path computation.'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+  - id: recursive-and-hierarchical-queries
+    description: Recursive and hierarchical queries
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: Recursive and hierarchical queries.'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: Recursive and hierarchical queries.'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+  - id: knowledge-graph-pattern-matching
+    description: Knowledge graph pattern matching
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: Knowledge graph pattern matching.'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: Knowledge graph pattern matching.'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+  - id: graph-analytics-centrality-clustering
+    description: Graph analytics (centrality, clustering)
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: Graph analytics (centrality, clustering).'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: Graph analytics (centrality, clustering).'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+  - id: graph-projection-and-materialization
+    description: Graph projection and materialization
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: Graph projection and materialization.'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: Graph projection and materialization.'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+- id: result-processing
+  name: Result Processing
+  primitives:
+  - id: result-sorting-pagination-and-filtering
+    description: Result sorting, pagination, and filtering
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: Result sorting, pagination, and filtering.'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: Result sorting, pagination, and filtering.'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+  - id: query-result-export-and-format-conversion
+    description: Query result export and format conversion
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: Query result export and format conversion.'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: Query result export and format conversion.'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+  - id: cross-query-aggregation-and-summarization
+    description: Cross-query aggregation and summarization
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: Cross-query aggregation and summarization.'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: Cross-query aggregation and summarization.'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+  - id: output-schema-validation
+    description: Output schema validation
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: Output schema validation.'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: Output schema validation.'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+  - id: query-to-pipeline-chaining
+    description: Query-to-pipeline chaining
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: Query-to-pipeline chaining.'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: Query-to-pipeline chaining.'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+- id: authored-extensions
+  name: Authored extensions
+  primitives:
+  - id: sql-migration-safety
+    description: Implement and validate safe SQL schema and data migrations.
+    guidance:
+      origin: authored
+      goal: Make a database migration that preserves data integrity and supports the required rollout plan.
+      expected_operations:
+      - Inspect the existing schema, migration conventions, and compatibility requirements.
+      - Write the migration and any rollback or backfill logic requested by the task.
+      - Apply it to a test database and verify schema and data invariants.
+      constraints:
+      - Avoid destructive changes unless the task explicitly authorizes them.
+      - Keep the migration deterministic and ordered.
+      likely_tools:
+      - SQL
+      - SQLite
+  - id: warehouse-query-cost-optimization
+    description: Reduce warehouse query cost while preserving query results.
+    guidance:
+      origin: authored
+      goal: Improve a warehouse query plan without changing its required result set.
+      expected_operations:
+      - Inspect the query, schema, and available execution-plan or cost information.
+      - Rewrite the query or supporting data layout to reduce unnecessary work.
+      - Verify result equivalence and the requested cost or plan improvement.
+      constraints:
+      - Preserve query semantics, including null handling and ordering requirements.
+      - Document any index, partition, or materialization assumptions.
+      likely_tools:
+      - SQL
+      - EXPLAIN

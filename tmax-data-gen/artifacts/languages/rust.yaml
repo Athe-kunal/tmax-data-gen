@@ -1,0 +1,20 @@
+---
+schema_version: 1
+id: rust
+name: Rust
+sampling_weight: 0.07
+runtime: Rust toolchain
+runtime_guidance_origin: authored
+package_manager: cargo
+build_command: cargo build
+test_command: cargo test
+compatible_domain_ids:
+  - security
+  - software_engineering
+  - file_operations
+  - data_querying
+  - data_science
+  - debugging
+  - scientific_computing
+  - data_processing
+  - system_administration

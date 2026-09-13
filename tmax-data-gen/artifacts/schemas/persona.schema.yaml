@@ -1,0 +1,35 @@
+$schema: https://json-schema.org/draft/2020-12/schema
+$id: persona.schema.yaml
+title: Tmax replicator domain persona-catalog artifact
+type: object
+additionalProperties: false
+required:
+  - schema_version
+  - domain_id
+  - personas
+properties:
+  schema_version:
+    const: 1
+  domain_id:
+    type: string
+    pattern: ^[a-z][a-z0-9_]*$
+  personas:
+    type: array
+    minItems: 1
+    items:
+      type: object
+      additionalProperties: false
+      required:
+        - id
+        - role
+        - description
+      properties:
+        id:
+          type: string
+          pattern: ^[a-z][a-z0-9_-]*$
+        role:
+          type: string
+          minLength: 1
+        description:
+          type: string
+          minLength: 1

@@ -1,0 +1,54 @@
+$schema: https://json-schema.org/draft/2020-12/schema
+$id: index.schema.yaml
+title: Tmax replicator artifact catalog index
+type: object
+additionalProperties: false
+required:
+  - schema_version
+  - domains
+  - languages
+properties:
+  schema_version:
+    const: 1
+  domains:
+    type: array
+    minItems: 1
+    uniqueItems: true
+    items:
+      type: object
+      additionalProperties: false
+      required:
+        - id
+        - domain_file
+        - skill_file
+        - persona_file
+      properties:
+        id:
+          type: string
+          pattern: ^[a-z][a-z0-9_]*$
+        domain_file:
+          type: string
+          pattern: ^domains/[a-z][a-z0-9_]*\.yaml$
+        skill_file:
+          type: string
+          pattern: ^skills/[a-z][a-z0-9_]*\.yaml$
+        persona_file:
+          type: string
+          pattern: ^personas/[a-z][a-z0-9_]*\.yaml$
+  languages:
+    type: array
+    minItems: 1
+    uniqueItems: true
+    items:
+      type: object
+      additionalProperties: false
+      required:
+        - id
+        - file
+      properties:
+        id:
+          type: string
+          pattern: ^[a-z][a-z0-9_-]*$
+        file:
+          type: string
+          pattern: ^languages/[a-z][a-z0-9_-]*\.yaml$

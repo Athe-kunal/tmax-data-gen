@@ -1,0 +1,523 @@
+---
+schema_version: 1
+domain_id: system_administration
+skill_types:
+- id: filesystem
+  name: Filesystem
+  primitives:
+  - id: permission-and-acl-management
+    description: Permission and ACL management
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: Permission and ACL management.'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: Permission and ACL management.'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+  - id: disk-quota-and-storage-monitoring
+    description: Disk quota and storage monitoring
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: Disk quota and storage monitoring.'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: Disk quota and storage monitoring.'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+  - id: mount-and-fstab-configuration
+    description: Mount and fstab configuration
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: Mount and fstab configuration.'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: Mount and fstab configuration.'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+  - id: backup-and-restore-strategies
+    description: Backup and restore strategies
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: Backup and restore strategies.'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: Backup and restore strategies.'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+  - id: link-and-directory-structure-management
+    description: Link and directory structure management
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: Link and directory structure management.'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: Link and directory structure management.'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+- id: process-service
+  name: Process/Service
+  primitives:
+  - id: service-lifecycle-management-systemd-init
+    description: Service lifecycle management (systemd, init)
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: Service lifecycle management (systemd,
+        init).'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: Service lifecycle management (systemd, init).'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+  - id: process-monitoring-and-control
+    description: Process monitoring and control
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: Process monitoring and control.'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: Process monitoring and control.'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+  - id: scheduled-task-configuration-cron-timers
+    description: Scheduled task configuration (cron, timers)
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: Scheduled task configuration (cron,
+        timers).'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: Scheduled task configuration (cron, timers).'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+  - id: process-supervision-and-restart-policies
+    description: Process supervision and restart policies
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: Process supervision and restart policies.'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: Process supervision and restart policies.'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+  - id: container-lifecycle-management
+    description: Container lifecycle management
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: Container lifecycle management.'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: Container lifecycle management.'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+- id: network
+  name: Network
+  primitives:
+  - id: network-interface-and-routing-configuration
+    description: Network interface and routing configuration
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: Network interface and routing configuration.'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: Network interface and routing configuration.'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+  - id: firewall-rules-and-port-forwarding
+    description: Firewall rules and port forwarding
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: Firewall rules and port forwarding.'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: Firewall rules and port forwarding.'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+  - id: connectivity-diagnostics
+    description: Connectivity diagnostics
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: Connectivity diagnostics.'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: Connectivity diagnostics.'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+  - id: ssh-tunneling-and-port-forwarding
+    description: SSH tunneling and port forwarding
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: SSH tunneling and port forwarding.'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: SSH tunneling and port forwarding.'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+  - id: web-server-setup-and-tls-configuration
+    description: Web server setup and TLS configuration
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: Web server setup and TLS configuration.'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: Web server setup and TLS configuration.'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+  - id: email-and-mailing-list-server-configuration
+    description: Email and mailing list server configuration
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: Email and mailing list server configuration.'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: Email and mailing list server configuration.'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+- id: configuration
+  name: Configuration
+  primitives:
+  - id: system-config-file-management
+    description: System config file management
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: System config file management.'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: System config file management.'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+  - id: environment-variable-and-shell-profile-setup
+    description: Environment variable and shell profile setup
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: Environment variable and shell profile
+        setup.'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: Environment variable and shell profile setup.'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+  - id: locale-and-timezone-configuration
+    description: Locale and timezone configuration
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: Locale and timezone configuration.'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: Locale and timezone configuration.'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+  - id: user-account-and-group-administration
+    description: User account and group administration
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: User account and group administration.'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: User account and group administration.'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+  - id: log-configuration-and-rotation
+    description: Log configuration and rotation
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: Log configuration and rotation.'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: Log configuration and rotation.'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+- id: deployment
+  name: Deployment
+  primitives:
+  - id: ci-cd-pipeline-construction
+    description: CI/CD pipeline construction
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: CI/CD pipeline construction.'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: CI/CD pipeline construction.'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+  - id: reverse-proxy-and-load-balancer-setup
+    description: Reverse proxy and load balancer setup
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: Reverse proxy and load balancer setup.'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: Reverse proxy and load balancer setup.'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+  - id: rolling-and-staged-deployments
+    description: Rolling and staged deployments
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: Rolling and staged deployments.'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: Rolling and staged deployments.'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+  - id: health-check-and-monitoring-setup
+    description: Health check and monitoring setup
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: Health check and monitoring setup.'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: Health check and monitoring setup.'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+  - id: virtualization-and-vm-management-qemu-vnc
+    description: Virtualization and VM management (QEMU, VNC)
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: Virtualization and VM management
+        (QEMU, VNC).'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: Virtualization and VM management (QEMU, VNC).'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+  - id: git-server-and-hook-configuration
+    description: Git server and hook configuration
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: Git server and hook configuration.'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: Git server and hook configuration.'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+- id: shell-scripting
+  name: Shell Scripting
+  primitives:
+  - id: robust-script-writing-with-error-handling
+    description: Robust script writing with error handling
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: Robust script writing with error
+        handling.'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: Robust script writing with error handling.'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+  - id: text-processing-pipelines-awk-sed-grep
+    description: Text processing pipelines (awk, sed, grep)
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: Text processing pipelines (awk, sed,
+        grep).'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: Text processing pipelines (awk, sed, grep).'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+  - id: task-automation-scripting
+    description: Task automation scripting
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: Task automation scripting.'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: Task automation scripting.'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+  - id: interactive-script-construction
+    description: Interactive script construction
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: Interactive script construction.'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: Interactive script construction.'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+  - id: idempotent-configuration-scripting
+    description: Idempotent configuration scripting
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: Idempotent configuration scripting.'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: Idempotent configuration scripting.'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+  - id: expect-scripting-for-interactive-automation
+    description: Expect scripting for interactive automation
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: Expect scripting for interactive
+        automation.'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: Expect scripting for interactive automation.'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+- id: authored-extensions
+  name: Authored extensions
+  primitives:
+  - id: kubernetes-workload-troubleshooting
+    description: Diagnose and repair a Kubernetes workload that is not meeting its declared state.
+    guidance:
+      origin: authored
+      goal: Restore a Kubernetes workload to its expected healthy behavior using supplied cluster evidence.
+      expected_operations:
+      - Inspect workload status, events, pod logs, and relevant manifests.
+      - Identify the configuration or runtime cause and apply the smallest safe correction.
+      - Verify readiness, service behavior, and the requested rollout state.
+      constraints:
+      - Scope changes to the provided namespace and workload.
+      - Do not delete persistent data or unrelated workloads.
+      likely_tools:
+      - kubectl
+  - id: infrastructure-as-code-validation
+    description: Validate infrastructure-as-code configuration before deployment.
+    guidance:
+      origin: authored
+      goal: Detect and correct invalid or unsafe infrastructure configuration in a declarative project.
+      expected_operations:
+      - Inspect the infrastructure configuration, variables, and deployment constraints.
+      - Run formatting, validation, and plan-like checks available in the task environment.
+      - Repair the declared issue and verify the resulting configuration.
+      constraints:
+      - Do not apply infrastructure changes to live cloud accounts.
+      - Keep credentials and environment-specific secrets out of versioned files.
+      likely_tools:
+      - terraform
+      - YAML

@@ -1,0 +1,20 @@
+---
+schema_version: 1
+id: multi-language
+name: multi-language
+sampling_weight: 0.06
+runtime: Multiple compatible language toolchains
+runtime_guidance_origin: authored
+package_manager: task-defined
+build_command: task-defined
+test_command: task-defined
+compatible_domain_ids:
+  - security
+  - software_engineering
+  - file_operations
+  - data_querying
+  - data_science
+  - debugging
+  - scientific_computing
+  - data_processing
+  - system_administration

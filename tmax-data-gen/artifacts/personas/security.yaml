@@ -1,0 +1,46 @@
+---
+schema_version: 1
+domain_id: security
+personas:
+- id: security-auditor-checking-permissions
+  role: security auditor checking permissions
+  description: 'Terminal task framed around this Tmax scenario: security auditor checking
+    permissions.'
+- id: penetration-tester-scanning-vulnerabilities
+  role: penetration tester scanning vulnerabilities
+  description: 'Terminal task framed around this Tmax scenario: penetration tester
+    scanning vulnerabilities.'
+- id: security-engineer-rotating-credentials
+  role: security engineer rotating credentials
+  description: 'Terminal task framed around this Tmax scenario: security engineer
+    rotating credentials.'
+- id: devsecops-engineer-enforcing-policy-as-code
+  role: DevSecOps engineer enforcing policy as code
+  description: 'Terminal task framed around this Tmax scenario: DevSecOps engineer
+    enforcing policy as code.'
+- id: compliance-analyst-generating-audit-trails
+  role: compliance analyst generating audit trails
+  description: 'Terminal task framed around this Tmax scenario: compliance analyst
+    generating audit trails.'
+- id: incident-responder-investigating-issues
+  role: incident responder investigating issues
+  description: 'Terminal task framed around this Tmax scenario: incident responder
+    investigating issues.'
+- id: network-engineer-inspecting-traffic
+  role: network engineer inspecting traffic
+  description: 'Terminal task framed around this Tmax scenario: network engineer inspecting
+    traffic.'
+- id: forensics-analyst-recovering-evidence-from-a-compromised-host
+  role: forensics analyst recovering evidence from a compromised host
+  description: 'Terminal task framed around this Tmax scenario: forensics analyst
+    recovering evidence from a compromised host.'
+- id: red-team-operator-crafting-an-evasion-payload
+  role: red-team operator crafting an evasion payload
+  description: 'Terminal task framed around this Tmax scenario: red-team operator
+    crafting an evasion payload.'
+- id: application-security-engineer-reviewing-services
+  role: application security engineer reviewing services
+  description: Authored terminal task framed around an application security engineer reviewing services.
+- id: cloud-security-engineer-enforcing-infrastructure-baselines
+  role: cloud security engineer enforcing infrastructure baselines
+  description: Authored terminal task framed around a cloud security engineer enforcing infrastructure baselines.

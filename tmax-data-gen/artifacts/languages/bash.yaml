@@ -1,0 +1,20 @@
+---
+schema_version: 1
+id: bash
+name: Bash
+sampling_weight: 0.15
+runtime: GNU Bash shell
+runtime_guidance_origin: authored
+package_manager: apt
+build_command: bash -n <script>
+test_command: bash <test-script>
+compatible_domain_ids:
+  - security
+  - software_engineering
+  - file_operations
+  - data_querying
+  - data_science
+  - debugging
+  - scientific_computing
+  - data_processing
+  - system_administration

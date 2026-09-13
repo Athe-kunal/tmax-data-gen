@@ -1,0 +1,6 @@
+---
+schema_version: 1
+id: file_operations
+name: File Operations
+description: Terminal tasks involving file I/O, directory operations, file formats,
+  compression, filesystem metadata, links, and permissions.

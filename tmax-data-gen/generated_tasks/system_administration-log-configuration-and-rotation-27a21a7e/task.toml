@@ -1,0 +1,25 @@
+schema_version = "1.1"
+
+[task]
+name = "tmax/system_administration-log-configuration-and-rotation-27a21a7e"
+description = "Migrate the logging configuration from a centralized server to a cloud-based logging service. I have been tasked with migrating our organization's logging infrastructure from a centralized server to a"
+
+[metadata]
+source = "tmax-data-gen knowledge graph"
+domain = "system_administration"
+skill_type = "configuration"
+primitive_skill = "log-configuration-and-rotation"
+persona = "cloud-architect-migrating-services"
+language = "go"
+generation_model = "openai/meta-llama/Llama-3.1-8B-Instruct"
+
+[agent]
+timeout_sec = 600.0
+
+[verifier]
+timeout_sec = 120.0
+
+[environment]
+cpus = 1
+memory_mb = 2048
+allow_internet = true

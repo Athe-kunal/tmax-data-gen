@@ -1,0 +1,67 @@
+---
+schema_version: 1
+domain_id: debugging
+personas:
+- id: devops-engineer-debugging-logs
+  role: DevOps engineer debugging logs
+  description: 'Terminal task framed around this Tmax scenario: DevOps engineer debugging
+    logs.'
+- id: support-engineer-collecting-diagnostics
+  role: support engineer collecting diagnostics
+  description: 'Terminal task framed around this Tmax scenario: support engineer collecting
+    diagnostics.'
+- id: site-reliability-engineer-monitoring-uptime
+  role: site reliability engineer monitoring uptime
+  description: 'Terminal task framed around this Tmax scenario: site reliability engineer
+    monitoring uptime.'
+- id: developer-debugging-a-failing-build
+  role: developer debugging a failing build
+  description: 'Terminal task framed around this Tmax scenario: developer debugging
+    a failing build.'
+- id: operations-engineer-triaging-incidents
+  role: operations engineer triaging incidents
+  description: 'Terminal task framed around this Tmax scenario: operations engineer
+    triaging incidents.'
+- id: performance-engineer-profiling-applications
+  role: performance engineer profiling applications
+  description: 'Terminal task framed around this Tmax scenario: performance engineer
+    profiling applications.'
+- id: it-support-technician-resolving-tickets
+  role: IT support technician resolving tickets
+  description: 'Terminal task framed around this Tmax scenario: IT support technician
+    resolving tickets.'
+- id: on-call-engineer-responding-to-a-3am-page
+  role: on-call engineer responding to a 3am page
+  description: 'Terminal task framed around this Tmax scenario: on-call engineer responding
+    to a 3am page.'
+- id: developer-inheriting-an-unfamiliar-codebase
+  role: developer inheriting an unfamiliar codebase
+  description: 'Terminal task framed around this Tmax scenario: developer inheriting
+    an unfamiliar codebase.'
+- id: security-researcher-analysing-a-suspicious-binary
+  role: security researcher analysing a suspicious binary
+  description: 'Terminal task framed around this Tmax scenario: security researcher
+    analysing a suspicious binary.'
+- id: engineer-investigating-a-memory-leak-in-a-long-running-service
+  role: engineer investigating a memory leak in a long-running service
+  description: 'Terminal task framed around this Tmax scenario: engineer investigating
+    a memory leak in a long-running service.'
+- id: developer-bisecting-a-regression-across-200-commits
+  role: developer bisecting a regression across 200 commits
+  description: 'Terminal task framed around this Tmax scenario: developer bisecting
+    a regression across 200 commits.'
+- id: incident-commander-coordinating-production-recovery
+  role: incident commander coordinating production recovery
+  description: Authored terminal task framed around an incident commander coordinating production recovery.
+- id: production-support-engineer-investigating-customer-failures
+  role: production support engineer investigating customer failures
+  description: Authored terminal task framed around a production support engineer investigating customer failures.
+- id: observability-engineer-designing-incident-diagnostics
+  role: observability engineer designing incident diagnostics
+  description: Authored terminal task framed around an observability engineer designing incident diagnostics.
+- id: support-engineer-resolving-a-configuration-incident-without-code-changes
+  role: support engineer resolving a configuration incident without code changes
+  description: Authored terminal task framed around a support engineer resolving a configuration incident without code changes.
+- id: incident-responder-diagnosing-a-symptom-only-report
+  role: incident responder diagnosing a symptom-only report
+  description: Authored terminal task framed around an incident responder diagnosing a symptom-only report.

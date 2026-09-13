@@ -1,0 +1,645 @@
+---
+schema_version: 1
+domain_id: software_engineering
+skill_types:
+- id: algorithmic
+  name: Algorithmic
+  primitives:
+  - id: graph-traversal-and-dependency-resolution
+    description: Graph traversal and dependency resolution
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: Graph traversal and dependency resolution.'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: Graph traversal and dependency resolution.'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+  - id: custom-data-structure-design
+    description: Custom data structure design
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: Custom data structure design.'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: Custom data structure design.'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+  - id: sorting-merging-and-diffing
+    description: Sorting, merging, and diffing
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: Sorting, merging, and diffing.'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: Sorting, merging, and diffing.'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+  - id: state-machine-and-parser-construction
+    description: State machine and parser construction
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: State machine and parser construction.'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: State machine and parser construction.'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+  - id: constraint-satisfaction
+    description: Constraint satisfaction
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: Constraint satisfaction.'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: Constraint satisfaction.'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+  - id: interpreter-and-emulator-implementation
+    description: Interpreter and emulator implementation
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: Interpreter and emulator implementation.'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: Interpreter and emulator implementation.'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+- id: systems
+  name: Systems
+  primitives:
+  - id: build-system-configuration-and-linking
+    description: Build system configuration and linking
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: Build system configuration and linking.'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: Build system configuration and linking.'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+  - id: shared-library-and-abi-management
+    description: Shared library and ABI management
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: Shared library and ABI management.'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: Shared library and ABI management.'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+  - id: cross-compilation-and-conditional-builds
+    description: Cross-compilation and conditional builds
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: Cross-compilation and conditional
+        builds.'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: Cross-compilation and conditional builds.'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+  - id: ci-cd-pipeline-setup
+    description: CI/CD pipeline setup
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: CI/CD pipeline setup.'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: CI/CD pipeline setup.'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+  - id: memory-debugging-and-profiling
+    description: Memory debugging and profiling
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: Memory debugging and profiling.'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: Memory debugging and profiling.'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+  - id: package-and-dependency-management
+    description: Package and dependency management
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: Package and dependency management.'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: Package and dependency management.'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+- id: data-processing
+  name: Data Processing
+  primitives:
+  - id: structured-data-parsing-and-transformation
+    description: Structured data parsing and transformation
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: Structured data parsing and transformation.'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: Structured data parsing and transformation.'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+  - id: serialization-and-deserialization
+    description: Serialization and deserialization
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: Serialization and deserialization.'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: Serialization and deserialization.'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+  - id: schema-migration
+    description: Schema migration
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: Schema migration.'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: Schema migration.'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+  - id: diff-and-patch-processing
+    description: Diff and patch processing
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: Diff and patch processing.'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: Diff and patch processing.'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+  - id: code-translation-between-languages
+    description: Code translation between languages
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: Code translation between languages.'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: Code translation between languages.'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+- id: web-security
+  name: Web Security
+  primitives:
+  - id: rest-graphql-api-construction
+    description: REST/GraphQL API construction
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: REST/GraphQL API construction.'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: REST/GraphQL API construction.'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+  - id: request-validation-and-rate-limiting
+    description: Request validation and rate limiting
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: Request validation and rate limiting.'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: Request validation and rate limiting.'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+  - id: reverse-proxy-configuration
+    description: Reverse proxy configuration
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: Reverse proxy configuration.'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: Reverse proxy configuration.'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+  - id: websocket-communication
+    description: WebSocket communication
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: WebSocket communication.'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: WebSocket communication.'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+  - id: url-routing-and-parameter-parsing
+    description: URL routing and parameter parsing
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: URL routing and parameter parsing.'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: URL routing and parameter parsing.'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+  - id: grpc-and-protobuf-service-design
+    description: gRPC and protobuf service design
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: gRPC and protobuf service design.'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: gRPC and protobuf service design.'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+- id: testing
+  name: Testing
+  primitives:
+  - id: unit-and-integration-testing
+    description: Unit and integration testing
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: Unit and integration testing.'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: Unit and integration testing.'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+  - id: test-fixture-and-mock-setup
+    description: Test fixture and mock setup
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: Test fixture and mock setup.'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: Test fixture and mock setup.'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+  - id: property-based-testing
+    description: Property-based testing
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: Property-based testing.'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: Property-based testing.'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+  - id: performance-benchmarking
+    description: Performance benchmarking
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: Performance benchmarking.'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: Performance benchmarking.'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+  - id: end-to-end-test-orchestration
+    description: End-to-end test orchestration
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: End-to-end test orchestration.'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: End-to-end test orchestration.'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+- id: mathematical
+  name: Mathematical
+  primitives:
+  - id: numerical-algorithm-implementation
+    description: Numerical algorithm implementation
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: Numerical algorithm implementation.'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: Numerical algorithm implementation.'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+  - id: expression-parsing-and-evaluation
+    description: Expression parsing and evaluation
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: Expression parsing and evaluation.'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: Expression parsing and evaluation.'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+  - id: semantic-version-comparison
+    description: Semantic version comparison
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: Semantic version comparison.'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: Semantic version comparison.'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+  - id: checksum-and-error-correcting-codes
+    description: Checksum and error-correcting codes
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: Checksum and error-correcting codes.'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: Checksum and error-correcting codes.'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+  - id: character-and-data-encoding
+    description: Character and data encoding
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: Character and data encoding.'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: Character and data encoding.'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+- id: multi-language
+  name: Multi-Language
+  primitives:
+  - id: c-program-compilation-debugging-and-makefile-repair
+    description: C program compilation, debugging, and Makefile repair
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: C program compilation, debugging,
+        and Makefile repair.'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: C program compilation, debugging, and Makefile
+        repair.'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+  - id: rust-ownership-and-borrow-checker-debugging
+    description: Rust ownership and borrow checker debugging
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: Rust ownership and borrow checker
+        debugging.'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: Rust ownership and borrow checker debugging.'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+  - id: go-concurrency-patterns-goroutines-channels
+    description: Go concurrency patterns (goroutines, channels)
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: Go concurrency patterns (goroutines,
+        channels).'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: Go concurrency patterns (goroutines, channels).'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+  - id: c-c-memory-safety-and-undefined-behaviour-repair
+    description: C/C++ memory safety and undefined behaviour repair
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: C/C++ memory safety and undefined
+        behaviour repair.'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: C/C++ memory safety and undefined behaviour
+        repair.'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+  - id: polyglot-build-orchestration-multiple-compiled-languages
+    description: Polyglot build orchestration (multiple compiled languages)
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: Polyglot build orchestration (multiple
+        compiled languages).'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: Polyglot build orchestration (multiple compiled
+        languages).'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+  - id: ffi-and-cross-language-interop-c-bindings-ctypes-cgo
+    description: FFI and cross-language interop (C bindings, ctypes, cgo)
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: FFI and cross-language interop (C
+        bindings, ctypes, cgo).'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: FFI and cross-language interop (C bindings,
+        ctypes, cgo).'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+  - id: assembly-level-analysis-and-minimal-program-construction
+    description: Assembly-level analysis and minimal program construction
+    guidance:
+      origin: authored
+      goal: 'Complete a terminal task involving: Assembly-level analysis and minimal
+        program construction.'
+      expected_operations:
+      - Inspect the initial environment and identify the inputs, tools, and current
+        state relevant to the task.
+      - 'Use terminal tools to perform: Assembly-level analysis and minimal program
+        construction.'
+      - Run the deterministic task verifier and iterate until it passes.
+      constraints:
+      - Keep changes within the supplied task environment.
+      - Preserve required interfaces, files, and services unless the task explicitly
+        requires changing them.
+- id: authored-extensions
+  name: Authored extensions
+  primitives:
+  - id: git-workflow-and-history-repair
+    description: Repair a Git workflow or history while preserving intended changes.
+    guidance:
+      origin: authored
+      goal: Restore a coherent Git state with the requested commits, branches, and conflict resolution.
+      expected_operations:
+      - Inspect branches, commits, working-tree state, and the requested target history.
+      - Apply the minimal rebase, revert, cherry-pick, or conflict resolution needed.
+      - Verify history, working-tree cleanliness, and project tests.
+      constraints:
+      - Do not rewrite shared history unless the task explicitly authorizes it.
+      - Preserve unrelated user changes.
+      likely_tools:
+      - git
+  - id: code-review-and-targeted-refactoring
+    description: Review code and apply a focused refactor without changing intended behavior.
+    guidance:
+      origin: authored
+      goal: Improve a specific maintainability, correctness, or clarity concern with a minimal verified change.
+      expected_operations:
+      - Inspect the relevant implementation, tests, and caller expectations.
+      - Make a narrow refactor that addresses the identified issue.
+      - Run behavior-focused tests and review the diff for unintended changes.
+      constraints:
+      - Do not introduce unrelated abstractions or broad formatting churn.
+      - Preserve public interfaces unless the task explicitly requests a migration.
+      likely_tools:
+      - git
+      - pytest
+  - id: cross-service-and-cross-repository-change-coordination
+    description: Make a compatible change across services, clients, schemas, infrastructure, and CI.
+    guidance:
+      origin: authored
+      goal: Deliver a coordinated change that preserves contracts across every supplied component.
+      expected_operations:
+      - Map the affected service boundaries, API or schema contracts, client or SDK callers, and deployment checks.
+      - Make compatible changes in each supplied component and preserve required migration order.
+      - Run integration checks that exercise the changed boundary end to end.
+      constraints:
+      - Do not repair one component by breaking an existing caller or compatibility contract.
+      - Keep changes scoped to the supplied repositories and interfaces.
+      likely_tools:
+      - git
+      - pytest

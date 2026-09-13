@@ -151,6 +151,9 @@ activemq-data/
 .env
 .envrc
 .venv
+
+# Claude Code project-scoped config/credentials
+.claude-config/
 env/
 venv/
 ENV/
@@ -216,3 +219,8 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+tmax/evaluation_assets
+
+tmax-data-gen/data_gen/kg.db
+tmax-data-gen/data_gen/kg.db.embeddings.json
