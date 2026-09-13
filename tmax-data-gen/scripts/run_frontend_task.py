@@ -18,6 +18,7 @@ headless-browser interaction (not a text/string check).
 
 from __future__ import annotations
 
+import base64
 import textwrap
 import uuid
 from pathlib import Path
@@ -127,27 +128,51 @@ _TRUTH = (
 )
 
 _TEST_CODE = textwrap.dedent("""\
+    import pathlib
+
     from playwright.sync_api import sync_playwright
 
     HTML_PATH = "/home/user/app/index.html"
+    SCREENSHOT_DIR = pathlib.Path("/logs/verifier/screenshots")
 
 
     def test_counter_increments_by_one_and_updates_immediately():
+        SCREENSHOT_DIR.mkdir(parents=True, exist_ok=True)
         with sync_playwright() as p:
             browser = p.chromium.launch()
             page = browser.new_page()
             page.goto(f"file://{HTML_PATH}")
 
+            page.screenshot(path=str(SCREENSHOT_DIR / "click_0.png"))
             assert page.locator("#count").inner_text() == "0"
 
             button = page.locator("#increment")
-            for expected in ("1", "2", "3"):
+            for i, expected in enumerate(("1", "2", "3"), start=1):
                 button.click()
+                page.screenshot(path=str(SCREENSHOT_DIR / f"click_{i}.png"))
                 actual = page.locator("#count").inner_text()
-                assert actual == expected, f"after a click, expected #count={expected!r}, got {actual!r}"
+                assert actual == expected, f"after click {i}, expected #count={expected!r}, got {actual!r}"
 
             browser.close()
 """)
+
+
+def _pull_dir(env, remote_dir: str, local_dir: Path) -> list[Path]:
+    """Downloads every file in `remote_dir` (flat, no subdirs) to `local_dir`.
+
+    `env_exec.read_file` is text-only (`cat`) - not safe for PNGs - so this
+    round-trips each file through base64, same encoding `env_exec.write_file`
+    already uses for the opposite direction.
+    """
+    local_dir.mkdir(parents=True, exist_ok=True)
+    names = _run(env, f"ls -1 {remote_dir}")["output"].split()
+    paths = []
+    for name in names:
+        b64 = _run(env, f"base64 -w0 {remote_dir}/{name}")["output"].strip()
+        local_path = local_dir / name
+        local_path.write_bytes(base64.b64decode(b64))
+        paths.append(local_path)
+    return paths
 
 
 def _build_sample() -> SampledEntry:
@@ -195,10 +220,17 @@ def _build_sample() -> SampledEntry:
 
 
 @weave_op
-def run_frontend_task(solve_model: str, model_style: str = "text") -> TurnResult:
+def run_frontend_task(solve_model: str, model_style: str = "text", screenshots_dir: Path | None = None) -> TurnResult:
     """Runs the hand-authored frontend task end-to-end in a W&B Sandbox with
     the browser enabled, verifies it, and returns the TurnResult (traced to
-    Weave as the root op)."""
+    Weave as the root op).
+
+    Args:
+        screenshots_dir: If given, the verifier's per-click screenshots
+            (see `_TEST_CODE` - it screenshots before and after each click,
+            not just the final state) are pulled from the sandbox into this
+            local directory before it's torn down.
+    """
     inference_config = OpenAICompatibleConfig.from_env(model=solve_model)
     litellm_model, model_kwargs = inference_config.litellm_model(), inference_config.litellm_kwargs()
 
@@ -241,6 +273,8 @@ def run_frontend_task(solve_model: str, model_style: str = "text") -> TurnResult
         _run(env, f"bash {_TESTS_DIR}/test.sh")
         reward = float(_read_file(env, "/logs/verifier/reward.txt").strip())
         verifier_stdout = _read_file(env, "/logs/verifier/test-stdout.txt")
+        if screenshots_dir is not None:
+            _pull_dir(env, "/logs/verifier/screenshots", screenshots_dir)
     finally:
         env.cleanup()
 
@@ -256,6 +290,8 @@ def run_frontend_task(solve_model: str, model_style: str = "text") -> TurnResult
 
 if __name__ == "__main__":
     import argparse
+    import shutil
+    import tempfile
 
     parser = argparse.ArgumentParser()
     parser.add_argument("--solve-model", default="deepseek-ai/DeepSeek-V4-Flash-0731")
@@ -266,12 +302,14 @@ if __name__ == "__main__":
 
     for i in range(args.n):
         print(f"=== frontend task run {i + 1}/{args.n} ===")
-        turn = run_frontend_task(args.solve_model, args.model_style)
-        print(f"reward={turn.reward}")
-        print(turn.verifier_stdout[-2000:])
-        if is_gold(turn):
-            task_name = f"frontend-dom-event-handler-bugfix-{uuid.uuid4().hex[:8]}"
-            path = materialize_gold_turn(turn, args.out_dir / task_name)
-            print(f"GOLD -> {path}")
-        else:
-            print("NOT gold (reward < 1.0) - not materialized into gold_tasks/")
+        with tempfile.TemporaryDirectory() as staging:
+            turn = run_frontend_task(args.solve_model, args.model_style, screenshots_dir=Path(staging))
+            print(f"reward={turn.reward}")
+            print(turn.verifier_stdout[-2000:])
+            if is_gold(turn):
+                task_name = f"frontend-dom-event-handler-bugfix-{uuid.uuid4().hex[:8]}"
+                path = materialize_gold_turn(turn, args.out_dir / task_name)
+                shutil.copytree(staging, path / "screenshots")
+                print(f"GOLD -> {path} (+ {len(list((path / 'screenshots').iterdir()))} verifier screenshots)")
+            else:
+                print("NOT gold (reward < 1.0) - not materialized into gold_tasks/")
