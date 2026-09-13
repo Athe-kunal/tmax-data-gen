@@ -23,6 +23,8 @@ import textwrap
 import uuid
 from pathlib import Path
 
+import weave
+
 from data_gen.catalog import Language, SkillType, Primitive, load_catalog
 from data_gen.env_exec import read_file as _read_file
 from data_gen.env_exec import run as _run
@@ -157,6 +159,15 @@ _TEST_CODE = textwrap.dedent("""\
 """)
 
 
+@weave_op
+def _log_screenshots(images: list[weave.Content]) -> list[weave.Content]:
+    """A pass-through op purely so `images` shows up as this call's
+    inputs/outputs in the Weave UI, nested under `run_frontend_task`'s trace
+    - `weave.Content` values aren't uploaded unless they cross a traced
+    call's boundary (they're just local file paths otherwise)."""
+    return images
+
+
 def _pull_dir(env, remote_dir: str, local_dir: Path) -> list[Path]:
     """Downloads every file in `remote_dir` (flat, no subdirs) to `local_dir`.
 
@@ -274,7 +285,13 @@ def run_frontend_task(solve_model: str, model_style: str = "text", screenshots_d
         reward = float(_read_file(env, "/logs/verifier/reward.txt").strip())
         verifier_stdout = _read_file(env, "/logs/verifier/test-stdout.txt")
         if screenshots_dir is not None:
-            _pull_dir(env, "/logs/verifier/screenshots", screenshots_dir)
+            local_paths = _pull_dir(env, "/logs/verifier/screenshots", screenshots_dir)
+            images = [
+                weave.Content.from_bytes(p.read_bytes(), extension="png", mimetype="image/png")
+                for p in sorted(local_paths)
+            ]
+            if images:
+                _log_screenshots(images)
     finally:
         env.cleanup()
 
