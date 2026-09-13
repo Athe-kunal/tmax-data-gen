@@ -40,7 +40,7 @@ DEFAULT_BASE_IMAGES: dict[str, str] = {
     "model-choice": "ubuntu:22.04",
 }
 
-_TEST_SH = textwrap.dedent("""\
+TEST_SH = textwrap.dedent("""\
     #!/bin/bash
     set -e
 
@@ -158,7 +158,7 @@ def materialize_harbor_task(
     (out_dir / "environment" / "Dockerfile").write_text(
         _generate_dockerfile(question.sample.language.id, question.sample.language.base_image)
     )
-    (out_dir / "tests" / "test.sh").write_text(_TEST_SH)
+    (out_dir / "tests" / "test.sh").write_text(TEST_SH)
     (out_dir / "tests" / "test_final_state.py").write_text(question.test_code + "\n")
 
     meta = {

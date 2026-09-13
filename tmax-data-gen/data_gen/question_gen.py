@@ -21,6 +21,7 @@ litellm_kwargs()` for W&B Weave Inference - see `data_gen.inference_config`).
 
 from __future__ import annotations
 
+import logging
 import re
 import textwrap
 from dataclasses import dataclass
@@ -29,6 +30,8 @@ import litellm
 
 from data_gen.question_sampler import SampledEntry
 from data_gen.weave_logger import weave_op
+
+logger = logging.getLogger(__name__)
 
 _TASK_TRUTH_SYSTEM_TEMPLATE = """\
 You are an expert at creating {domain_label} tasks for AI agent training.
@@ -226,14 +229,34 @@ def _parse_test_code(raw: str) -> str:
     return code
 
 
+def _retry(fn, max_retries: int, description: str):
+    """Calls `fn()`, retrying on ValueError/SyntaxError up to `max_retries` times.
+
+    Weaker models occasionally truncate or malform structured output (e.g.
+    never closing `</truth>`, or emitting invalid Python) - same class of
+    unreliability tmax's own legacy pipeline retries against
+    (`apptainer_def_gen.iterate_def_template_batch`). Re-sampling usually
+    produces a well-formed response since the failure isn't deterministic.
+    """
+    last_error: Exception | None = None
+    for attempt in range(1 + max_retries):
+        try:
+            return fn()
+        except (ValueError, SyntaxError) as e:
+            last_error = e
+            logger.warning("%s failed (attempt %d/%d): %s", description, attempt + 1, 1 + max_retries, e)
+    raise last_error
+
+
 @weave_op
 def generate_question(
     sample: SampledEntry,
     model: str,
     context: list[str] | None = None,
     temperature: float = 1.0,
-    max_tokens: int = 4096,
+    max_tokens: int = 8192,
     extra_kwargs: dict[str, object] | None = None,
+    max_retries: int = 2,
 ) -> GeneratedQuestion:
     """Generates one full-spec question for `sample` via two LLM calls.
 
@@ -250,35 +273,42 @@ def generate_question(
         extra_kwargs: Extra kwargs merged into every `litellm.completion`
             call (e.g. `api_base`/`api_key`/`extra_headers` for a
             self-hosted or alternate OpenAI-compatible provider).
+        max_retries: Re-sample attempts if a response fails to parse (see `_retry`).
 
     Returns:
         The parsed GeneratedQuestion, ready for Harbor materialization.
     """
     extra_kwargs = extra_kwargs or {}
 
-    task_truth_response = litellm.completion(
-        model=model,
-        messages=_build_task_truth_messages(sample, context or []),
-        temperature=temperature,
-        max_tokens=max_tokens,
-        **extra_kwargs,
-    )
-    task_description, truth = _parse_task_truth(task_truth_response.choices[0].message.content)
+    def _call_task_truth() -> tuple[str, str]:
+        response = litellm.completion(
+            model=model,
+            messages=_build_task_truth_messages(sample, context or []),
+            temperature=temperature,
+            max_tokens=max_tokens,
+            **extra_kwargs,
+        )
+        return _parse_task_truth(response.choices[0].message.content)
 
-    test_response = litellm.completion(
-        model=model,
-        messages=[
-            {"role": "system", "content": _TEST_SYSTEM_MSG},
-            {
-                "role": "user",
-                "content": _TEST_USER_TEMPLATE.format(task_description=task_description, truth=truth),
-            },
-        ],
-        temperature=0.6,
-        max_tokens=max_tokens,
-        **extra_kwargs,
-    )
-    test_code = _parse_test_code(test_response.choices[0].message.content)
+    task_description, truth = _retry(_call_task_truth, max_retries, "task+truth generation")
+
+    def _call_test() -> str:
+        response = litellm.completion(
+            model=model,
+            messages=[
+                {"role": "system", "content": _TEST_SYSTEM_MSG},
+                {
+                    "role": "user",
+                    "content": _TEST_USER_TEMPLATE.format(task_description=task_description, truth=truth),
+                },
+            ],
+            temperature=0.6,
+            max_tokens=max_tokens,
+            **extra_kwargs,
+        )
+        return _parse_test_code(response.choices[0].message.content)
+
+    test_code = _retry(_call_test, max_retries, "test generation")
 
     return GeneratedQuestion(
         sample=sample, task_description=task_description, truth=truth, test_code=test_code, model=model

@@ -1,22 +1,16 @@
-"""Executes bash commands inside a W&B/CoreWeave Sandbox (the `cwsandbox` client -
-see https://docs.wandb.ai/sandboxes; `wandb.sandbox` is a deprecated wrapper
-around the same client and is not used here).
+"""Executes bash commands inside a Daytona sandbox (https://www.daytona.io/docs/).
 
 Matches the same interface as mini-swe-agent's built-in environments (see
-`minisweagent.environments.docker.DockerEnvironment`): `.execute(action, cwd,
-timeout) -> {"output", "returncode", "exception_info"}`. This is what lets
-`data_gen.harness.build_agent(..., environment="sandbox", ...)` plug in with
-no other changes to the agent loop.
+`minisweagent.environments.docker.DockerEnvironment`), so
+`data_gen.harness.build_agent(..., environment="daytona", ...)` plugs in with
+no other changes to the agent loop. Structurally a near-mirror of
+`data_gen.sandbox_environment.SandboxEnvironment` (the W&B/CoreWeave
+backend) - same contract, different SDK underneath - which is what makes
+`data_gen.rollout` work against either without caring which one it's given.
 
-Sandboxes only pull public pre-built images (no Dockerfile build support), so
-`container_image` should be a plain public image reference - see
-`data_gen.harbor.resolve_base_image` for the per-language default used
-elsewhere in this project.
-
-Owns the sandbox's lifecycle (creates + starts it, stops it on cleanup)
-unless an already-running `sandbox=` is passed in - e.g. so a rollout driver
-can create one sandbox, run the agent in it, and then run the task's
-verifier in that same sandbox afterward (see `data_gen.rollout`).
+Auth: `DaytonaConfig()` reads `DAYTONA_API_KEY` from the environment if no
+`api_key` is passed explicitly - no per-organization approval gate, unlike
+W&B Sandboxes' public-preview access model.
 """
 
 from __future__ import annotations
@@ -25,7 +19,7 @@ import logging
 import platform
 from typing import Any
 
-import cwsandbox
+from daytona import CreateSandboxFromImageParams, Daytona, DaytonaConfig, Sandbox
 from pydantic import BaseModel, ConfigDict
 
 from minisweagent.exceptions import Submitted
@@ -34,51 +28,42 @@ from minisweagent.utils.serialize import recursive_merge
 logger = logging.getLogger("minisweagent.environment")
 
 
-class SandboxEnvironmentConfig(BaseModel):
+class DaytonaEnvironmentConfig(BaseModel):
     model_config = ConfigDict(arbitrary_types_allowed=True)
 
-    container_image: str = "python:3.11"
+    image: str = "python:3.11"
     """Public container image to start. Ignored when `sandbox` is given."""
     cwd: str = "/"
     """Working directory in which to execute commands."""
-    environment_variables: dict[str, str] = {}
-    """Environment variables for the sandbox (sandbox-wide, set at creation -
-    cwsandbox's exec() has no per-call env override). Ignored when `sandbox`
-    is given."""
+    env: dict[str, str] = {}
+    """Environment variables for the sandbox. Ignored when `sandbox` is given."""
     timeout: int = 60
     """Default timeout in seconds for executing a command."""
-    max_lifetime_seconds: float = 3600.0
-    """Max sandbox lifetime (server-side). Ignored when `sandbox` is given."""
-    sandbox: cwsandbox.Sandbox | None = None
+    sandbox: Sandbox | None = None
     """An already-running Sandbox to reuse instead of creating a new one.
-    When given, this environment does not stop it on cleanup - the caller
+    When given, this environment does not delete it on cleanup - the caller
     that created it owns its lifecycle."""
 
 
-class SandboxEnvironment:
-    def __init__(self, *, config_class: type = SandboxEnvironmentConfig, **kwargs):
+class DaytonaEnvironment:
+    def __init__(self, *, config_class: type = DaytonaEnvironmentConfig, **kwargs):
         self.config = config_class(**kwargs)
         self._owns_sandbox = self.config.sandbox is None
         if self.config.sandbox is not None:
             self.sandbox = self.config.sandbox
         else:
-            self.sandbox = cwsandbox.Sandbox.run(
-                "sleep",
-                "infinity",
-                container_image=self.config.container_image,
-                auth=cwsandbox.AuthStrategy.WANDB,
-                environment_variables=self.config.environment_variables,
-                max_lifetime_seconds=self.config.max_lifetime_seconds,
-            ).wait()
+            self._client = Daytona(DaytonaConfig())
+            self.sandbox = self._client.create(
+                CreateSandboxFromImageParams(image=self.config.image, env_vars=self.config.env)
+            )
 
     def execute(self, action: dict, cwd: str = "", *, timeout: int | None = None) -> dict[str, Any]:
         """Executes a command in the sandbox and returns the result as a dict."""
         command = action.get("command", "")
         cwd = cwd or self.config.cwd
         try:
-            process = self.sandbox.exec(["bash", "-lc", command], cwd=cwd, timeout_seconds=timeout or self.config.timeout)
-            result = process.result()
-            output = {"output": result.stdout + result.stderr, "returncode": result.returncode, "exception_info": ""}
+            response = self.sandbox.process.exec(command, cwd=cwd, timeout=timeout or self.config.timeout)
+            output = {"output": response.result, "returncode": response.exit_code, "exception_info": ""}
         except Exception as e:
             output = {
                 "output": "",
@@ -116,18 +101,18 @@ class SandboxEnvironment:
         }
 
     def cleanup(self):
-        """Stops the sandbox, unless it was passed in already-running (not owned).
+        """Deletes the sandbox, unless it was passed in already-running (not owned).
 
         Idempotent: `__del__` calls this again at garbage collection even
         after an explicit `cleanup()` already ran, and by then Python's own
         modules (including logging) may be partially torn down - so a
-        second call must be a clean no-op, not attempt another stop.
+        second call must be a clean no-op, not attempt another delete.
         """
         if self._owns_sandbox and getattr(self, "sandbox", None) is not None:
             try:
-                self.sandbox.stop(missing_ok=True)
+                self.sandbox.delete()
             except Exception:
-                logger.warning("Failed to stop sandbox", exc_info=True)
+                logger.warning("Failed to delete sandbox", exc_info=True)
             finally:
                 self.sandbox = None
 

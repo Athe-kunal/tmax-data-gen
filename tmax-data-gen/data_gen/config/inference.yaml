@@ -1,12 +1,13 @@
 # Non-secret defaults for W&B Weave Inference (https://docs.wandb.ai/weave/guides/integrations/inference).
 # Secrets (WANDB_API_KEY, WANDB_PROJECT) live in .env, not here - see .env.example.
+#
+# available_models is checked against the live API (not just the docs page,
+# which lists more than are actually deployed at any given time - public
+# preview, roster changes). Verified 2026-09-13 via a direct curl per model;
+# re-check the same way before relying on a model not listed here.
 weave_inference:
   base_url: https://api.inference.wandb.ai/v1
   default_model: meta-llama/Llama-3.1-8B-Instruct
   available_models:
     - meta-llama/Llama-3.1-8B-Instruct
     - meta-llama/Llama-3.3-70B-Instruct
-    - deepseek-ai/DeepSeek-V3-0324
-    - deepseek-ai/DeepSeek-R1-0528
-    - meta-llama/Llama-4-Scout-17B-16E-Instruct
-    - microsoft/Phi-4-mini-instruct
