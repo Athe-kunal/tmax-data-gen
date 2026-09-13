@@ -114,7 +114,7 @@ def run_rollout(
 
     env = _ENVIRONMENTS[environment](**{_IMAGE_KWARG[environment]: image})
     try:
-        _run(env, _INSTALL_PYTEST_CMD)
+        _run(env, _INSTALL_PYTEST_CMD, timeout=300)
         _run(env, f"mkdir -p {_AGENT_WORKDIR}")
 
         # Materializes the task's "given" initial state (input files,
@@ -124,7 +124,7 @@ def run_rollout(
         # expectations regardless of how well the task itself is solved.
         setup_script = task_meta.get("setup_script")
         if setup_script:
-            _run(env, setup_script)
+            _run(env, setup_script, timeout=300)
 
         # Verifier files live outside the agent's working directory so it
         # can't read its own test assertions - same no-leakage convention

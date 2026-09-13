@@ -12,18 +12,33 @@ from __future__ import annotations
 import base64
 
 
-def run(env, command: str) -> dict:
-    """Runs `command` through an environment's own execute(); raises on nonzero exit."""
-    result = env.execute({"command": command})
+def run(env, command: str, *, timeout: int | None = None) -> dict:
+    """Runs `command` through an environment's own execute(); raises on nonzero exit.
+
+    Args:
+        env: Any mini-swe-agent-style environment (has `.execute()`).
+        command: The shell command to run.
+        timeout: Seconds before the environment itself times the command out
+            (forwarded to `env.execute(..., timeout=...)`; None uses the
+            environment's own default, typically 60s - too short for
+            multi-step setup scripts that apt-get install/build/etc.).
+    """
+    result = env.execute({"command": command}, timeout=timeout)
     if result["returncode"] != 0:
-        raise RuntimeError(f"Command failed ({result['returncode']}): {command}\n{result['output']}")
+        # A returncode of -1 with empty output (no stdout/stderr at all) is
+        # SandboxEnvironment/DaytonaEnvironment's exception fallback path -
+        # e.g. a timeout - whose real cause lives in exception_info, not
+        # output. Surface it, or failures like that are undebuggable.
+        exception_info = result.get("exception_info") or result.get("extra", {}).get("exception")
+        detail = f"\n{result['output']}" if result.get("output") else f"\nexception_info: {exception_info}"
+        raise RuntimeError(f"Command failed ({result['returncode']}): {command}{detail}")
     return result
 
 
-def write_file(env, path: str, content: bytes) -> None:
+def write_file(env, path: str, content: bytes, *, timeout: int | None = None) -> None:
     """Writes `content` to `path` inside the environment via a base64 shell pipe."""
     encoded = base64.b64encode(content).decode()
-    run(env, f"mkdir -p {path.rsplit('/', 1)[0]} && echo {encoded} | base64 -d > {path}")
+    run(env, f"mkdir -p {path.rsplit('/', 1)[0]} && echo {encoded} | base64 -d > {path}", timeout=timeout)
 
 
 def read_file(env, path: str) -> str:

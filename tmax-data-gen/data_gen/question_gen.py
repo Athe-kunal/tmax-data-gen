@@ -274,6 +274,8 @@ def _parse_test_code(raw: str) -> str:
     fence_match = re.search(r"```(?:python)?\n(.*?)```", raw, re.DOTALL | re.IGNORECASE)
     code = fence_match.group(1) if fence_match else raw
     code = textwrap.dedent(code).rstrip()
+    if not code.strip():
+        raise ValueError(f"Empty test code in generation response:\n{raw}")
     compile(code, "test_final_state.py", "exec")  # raises SyntaxError if malformed
     return code
 
@@ -354,7 +356,7 @@ def generate_question(
             max_tokens=max_tokens,
             **extra_kwargs,
         )
-        return _parse_task_truth(response.choices[0].message.content)
+        return _parse_task_truth(response.choices[0].message.content or "")
 
     task_description, truth = _retry(_call_task_truth, max_retries, "task+truth generation")
 
@@ -372,7 +374,7 @@ def generate_question(
             max_tokens=max_tokens,
             **extra_kwargs,
         )
-        return _parse_test_code(response.choices[0].message.content)
+        return _parse_test_code(response.choices[0].message.content or "")
 
     test_code = _retry(_call_test, max_retries, "test generation")
 
@@ -390,7 +392,7 @@ def generate_question(
             max_tokens=max_tokens,
             **extra_kwargs,
         )
-        return _parse_setup_script(response.choices[0].message.content)
+        return _parse_setup_script(response.choices[0].message.content or "")
 
     setup_script = _retry(_call_setup, max_retries, "setup script generation")
 

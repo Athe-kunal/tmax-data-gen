@@ -181,6 +181,7 @@ def run_multi_turn_rollout(
     model: str | None = None,
     raw_model: str | None = None,
     agent_max_tokens: int | None = None,
+    generation_max_tokens: int | None = None,
 ) -> TrajectoryResult:
     """Runs up to `max_turns` questions as one continuous agent/sandbox session.
 
@@ -207,6 +208,11 @@ def run_multi_turn_rollout(
             before an actual action is ever produced, causing a FormatError
             (empty content) rather than a real response. Non-reasoning
             models generally don't need this set.
+        generation_max_tokens: Max tokens per `question_gen.generate_question`
+            call (task+truth/test/setup-script generation). Same reasoning-
+            model consideration as `agent_max_tokens`, but for generation
+            rather than solving - defaults to `generate_question`'s own
+            default (8192) when unset.
 
     Returns:
         The TrajectoryResult: every turn's sample, question, agent exit, and reward.
@@ -247,6 +253,7 @@ def run_multi_turn_rollout(
                     model=litellm_model,
                     context=[t.task_description for t in turns],
                     extra_kwargs=model_kwargs,
+                    **({"max_tokens": generation_max_tokens} if generation_max_tokens else {}),
                 )
 
             # First turn only: start the sandbox + agent; later turns reuse both.
@@ -256,7 +263,7 @@ def run_multi_turn_rollout(
                 else:
                     image = container_image or resolve_base_image(sample.language.id, sample.language.base_image)
                 env = _ENVIRONMENTS[environment](**{_IMAGE_KWARG[environment]: image})
-                _run(env, _INSTALL_PYTEST_CMD)
+                _run(env, _INSTALL_PYTEST_CMD, timeout=300)
                 _run(env, f"mkdir -p {_AGENT_WORKDIR}")
                 if turn_index == 0:
                     apply_seed_environment(env, seed_row)
@@ -276,7 +283,7 @@ def run_multi_turn_rollout(
             # from but its own guess - which then mismatches the verifier's
             # truth-derived expectations no matter how well it's solved.
             if turn_index > 0:
-                _run(env, question.setup_script)
+                _run(env, question.setup_script, timeout=300)
 
             # 2. NPC Agent: the persona-framed <task> text *is* the delivery.
             messages_start = len(agent.messages)

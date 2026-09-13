@@ -121,8 +121,13 @@ def build_seed_question(row: pd.Series, sample: SampledEntry) -> GeneratedQuesti
     )
 
 
-def apply_seed_environment(env, row: pd.Series) -> None:
+def apply_seed_environment(env, row: pd.Series, timeout: int = 600) -> None:
     """Runs the row's container_def `%post` body in `env` to prep the
     sandbox before the agent starts - the tmax RL corpus's own initial-state
-    setup (creating git repos, oracle binaries, fixture files, etc.)."""
-    run(env, _extract_post_body(row["container_def"]))
+    setup (creating git repos, oracle binaries, fixture files, etc.).
+
+    A generous default timeout: these scripts apt-get install, `make`,
+    create multi-commit git histories, etc. - routinely well past an
+    environment's normal ~60s per-command default for a single agent step.
+    """
+    run(env, _extract_post_body(row["container_def"]), timeout=timeout)

@@ -104,6 +104,13 @@ if __name__ == "__main__":
         help="Max tokens per agent completion. Needed for reasoning models (e.g. GLM-5.2) - "
         "too small a default truncates before an action is produced.",
     )
+    parser.add_argument(
+        "--generation-max-tokens",
+        type=int,
+        default=None,
+        help="Max tokens per question-generation completion. Same reasoning-model consideration "
+        "as --agent-max-tokens, but for generate_question rather than solving.",
+    )
     args = parser.parse_args()
 
     result = run_multi_turn_rollout(
@@ -116,6 +123,7 @@ if __name__ == "__main__":
         model=args.model,
         raw_model=args.raw_model,
         agent_max_tokens=args.agent_max_tokens,
+        generation_max_tokens=args.generation_max_tokens,
     )
     gold_paths = collect_gold_from_trajectory(result, args.out_dir, args.gold_threshold)
 
