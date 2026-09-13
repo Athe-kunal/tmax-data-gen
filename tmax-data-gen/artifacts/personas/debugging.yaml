@@ -56,3 +56,12 @@ personas:
 - id: production-support-engineer-investigating-customer-failures
   role: production support engineer investigating customer failures
   description: Authored terminal task framed around a production support engineer investigating customer failures.
+- id: observability-engineer-designing-incident-diagnostics
+  role: observability engineer designing incident diagnostics
+  description: Authored terminal task framed around an observability engineer designing incident diagnostics.
+- id: support-engineer-resolving-a-configuration-incident-without-code-changes
+  role: support engineer resolving a configuration incident without code changes
+  description: Authored terminal task framed around a support engineer resolving a configuration incident without code changes.
+- id: incident-responder-diagnosing-a-symptom-only-report
+  role: incident responder diagnosing a symptom-only report
+  description: Authored terminal task framed around an incident responder diagnosing a symptom-only report.

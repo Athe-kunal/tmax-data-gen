@@ -460,3 +460,33 @@ skill_types:
       likely_tools:
       - Python
       - pytest
+  - id: training-serving-feature-skew-detection
+    description: Detect and repair feature skew between training and serving pipelines.
+    guidance:
+      origin: authored
+      goal: Identify differences between offline training features and online serving features, then restore parity.
+      expected_operations:
+      - Inspect training data, feature-transformation code, and serving inputs for the same entities.
+      - Compare feature names, types, defaults, transformations, and representative values.
+      - Repair the declared source of skew and verify parity with a deterministic fixture.
+      constraints:
+      - Preserve the published model input contract unless the task explicitly requests a migration.
+      - Do not mask differences by weakening parity checks or dropping failing features.
+      likely_tools:
+      - Python
+      - pytest
+  - id: data-and-model-drift-monitoring
+    description: Monitor data and model drift and identify affected production segments.
+    guidance:
+      origin: authored
+      goal: Build or repair drift monitoring that distinguishes input-distribution change from model-quality degradation.
+      expected_operations:
+      - Inspect baseline and current data or prediction distributions and supplied segment definitions.
+      - Compute the required drift metrics and configure thresholds or alerts.
+      - Verify the monitor flags the expected drifted segment without alerting on stable control data.
+      constraints:
+      - Keep baseline windows, metrics, and thresholds explicit and reproducible.
+      - Do not treat missing or malformed telemetry as evidence of no drift.
+      likely_tools:
+      - Python
+      - pandas

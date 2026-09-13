@@ -628,3 +628,18 @@ skill_types:
       likely_tools:
       - git
       - pytest
+  - id: cross-service-and-cross-repository-change-coordination
+    description: Make a compatible change across services, clients, schemas, infrastructure, and CI.
+    guidance:
+      origin: authored
+      goal: Deliver a coordinated change that preserves contracts across every supplied component.
+      expected_operations:
+      - Map the affected service boundaries, API or schema contracts, client or SDK callers, and deployment checks.
+      - Make compatible changes in each supplied component and preserve required migration order.
+      - Run integration checks that exercise the changed boundary end to end.
+      constraints:
+      - Do not repair one component by breaking an existing caller or compatibility contract.
+      - Keep changes scoped to the supplied repositories and interfaces.
+      likely_tools:
+      - git
+      - pytest

@@ -611,3 +611,48 @@ skill_types:
       likely_tools:
       - pytest
       - git
+  - id: observability-instrumentation-and-diagnostic-signal-design
+    description: Add metrics, structured logs, and traces that make a future incident diagnosable.
+    guidance:
+      origin: authored
+      goal: Add the smallest set of diagnostic signals needed to identify a specified failure mode in production.
+      expected_operations:
+      - Inspect the incident scenario, existing telemetry, and the decision a future responder must make.
+      - Add or repair structured logs, metrics, labels, or trace context at the relevant system boundary.
+      - Run the supplied incident simulation and verify the required signals identify the failing component.
+      constraints:
+      - Avoid high-cardinality metric labels and logging sensitive payloads.
+      - Do not add telemetry that cannot distinguish the target failure from its healthy control case.
+      likely_tools:
+      - OpenTelemetry
+      - JSON
+  - id: configuration-only-incident-resolution
+    description: Resolve an incident caused by configuration without unnecessary source-code changes.
+    guidance:
+      origin: authored
+      goal: Diagnose and correct a configuration, environment, or deployment issue while leaving application code unchanged.
+      expected_operations:
+      - Inspect runtime evidence, configuration files, environment values, and deployment manifests.
+      - Identify the misconfiguration and apply the smallest authorized configuration correction.
+      - Verify the service recovers and confirm source-code files remain unchanged.
+      constraints:
+      - Do not modify application source code when the supplied evidence identifies a configuration root cause.
+      - Preserve unrelated configuration and secret references.
+      likely_tools:
+      - diff
+      - YAML
+  - id: symptom-driven-incident-diagnosis
+    description: Diagnose an incident from symptoms and evidence rather than an explicit bug description.
+    guidance:
+      origin: authored
+      goal: Form and test hypotheses from incomplete production symptoms until the root cause is supported by evidence.
+      expected_operations:
+      - Extract observable symptoms, timing, affected scope, and healthy control behavior from the incident report.
+      - Gather logs, metrics, traces, configuration, and reproduction evidence to test competing hypotheses.
+      - Record the supported root cause and apply only the change warranted by the evidence.
+      constraints:
+      - Do not assume the user-reported symptom identifies the failing component.
+      - Preserve evidence that disproves rejected hypotheses.
+      likely_tools:
+      - jq
+      - rg
