@@ -14,10 +14,18 @@ from __future__ import annotations
 
 import os
 from dataclasses import dataclass
+from pathlib import Path
 
+from dotenv import load_dotenv
 from openai import OpenAI
 
 _DEFAULT_MODEL = "text-embedding-3-small"
+
+# Loaded here (not just in inference_config.py) so EmbeddingClient works
+# standalone - e.g. `kg_retrieve.py --build-only` doesn't import
+# inference_config at all, so without this, EMBEDDING_* vars in .env would
+# silently never be read when this module is used on its own.
+load_dotenv(Path(__file__).resolve().parent.parent / ".env")
 
 
 @dataclass(frozen=True)

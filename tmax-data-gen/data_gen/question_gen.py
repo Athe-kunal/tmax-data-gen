@@ -1,7 +1,7 @@
 """Generates one full-spec question from a sampled catalog entry.
 
-Two-call pipeline (mirrors tmax's legacy `task_template_gen.py` /
-`completion_test_gen.py` split):
+Three-call pipeline (mirrors tmax's legacy `task_template_gen.py` /
+`completion_test_gen.py` / `apptainer_def_gen.py` split):
 
   1. Task+truth call: given the sampled Domain/SkillType/Primitive/
      Persona/Language and prior "context till now" (previously generated
@@ -11,6 +11,12 @@ Two-call pipeline (mirrors tmax's legacy `task_template_gen.py` /
   2. Test call: given the task description and truth, emit a
      `test_final_state.py` pytest suite that passes only if the task was
      solved correctly.
+  3. Setup-script call: given the task description and truth, emit a bash
+     script that actually creates the "given" initial state (input files,
+     datasets, running services) the task/truth claim already exist -
+     without this, a solving agent has nothing to work with but its own
+     guess at what that data should look like, and fails verification
+     against the real truth no matter how well it solves the task itself.
 
 Both calls go through `litellm.completion` directly (not mini-swe-agent's
 `LitellmModel`, which forces a bash tool-call loop unsuited to a plain text
@@ -21,7 +27,9 @@ litellm_kwargs()` for W&B Weave Inference - see `data_gen.inference_config`).
 
 from __future__ import annotations
 
+import logging
 import re
+import subprocess
 import textwrap
 from dataclasses import dataclass
 
@@ -29,6 +37,8 @@ import litellm
 
 from data_gen.question_sampler import SampledEntry
 from data_gen.weave_logger import weave_op
+
+logger = logging.getLogger(__name__)
 
 _TASK_TRUTH_SYSTEM_TEMPLATE = """\
 You are an expert at creating {domain_label} tasks for AI agent training.
@@ -164,6 +174,43 @@ The task description is: {task_description}
 The truth value is: {truth}
 Write the code in a fenced code block that can be parsed."""
 
+_SETUP_SYSTEM_MSG = """\
+You are an expert at preparing terminal task environments.
+
+You will be given a task description and its privileged ground truth. Your
+job is to write a bash script that creates the INITIAL state of the
+environment - every file, directory, dataset, or running service that
+<task> or <truth> claims already exists - so the task is actually solvable
+and verifiable exactly as specified, instead of the agent having to guess
+at or fabricate input data.
+
+IMPORTANT RULES:
+* Install ONLY the additional system or language packages the task needs
+  beyond what is already present (prefer pip/apt as appropriate).
+* Create every file, directory, dataset, database, or service the task
+  description or truth claims already exists, with the exact contents,
+  schema, or scale described.
+* Do NOT create the files or outputs the agent is supposed to produce -
+  only the starting state.
+* Do NOT include any code that solves the task.
+* The script runs as root in a fresh container; the agent's home directory
+  is /home/user.
+* Do NOT use templated or placeholder values (no {{ }}).
+* End with `chmod -R 777 /home/user` unless the task specifically requires
+  narrower permissions.
+* Respond with ONLY a bash script in a single fenced code block."""
+
+_SETUP_USER_TEMPLATE = """\
+Task description given to the agent:
+{task_description}
+
+Ground truth (privileged - describes the exact initial state to create):
+{truth}
+
+Write a bash script that creates the initial state described above, so the
+task is solvable and verifiable against this exact truth. Respond with ONLY
+the bash script in a fenced code block."""
+
 
 @dataclass(frozen=True)
 class GeneratedQuestion:
@@ -174,6 +221,11 @@ class GeneratedQuestion:
     truth: str
     test_code: str
     model: str
+    setup_script: str = ""
+    """Bash script that creates the task's "given" initial state before the
+    agent starts (see `_SETUP_SYSTEM_MSG`). Empty for questions whose
+    environment is set up some other way - e.g. `tmax_rl_seed`'s cold-start
+    questions, which use the source row's own real container_def instead."""
 
 
 def _format_bullets(items: list[str]) -> str:
@@ -222,8 +274,46 @@ def _parse_test_code(raw: str) -> str:
     fence_match = re.search(r"```(?:python)?\n(.*?)```", raw, re.DOTALL | re.IGNORECASE)
     code = fence_match.group(1) if fence_match else raw
     code = textwrap.dedent(code).rstrip()
+    if not code.strip():
+        raise ValueError(f"Empty test code in generation response:\n{raw}")
     compile(code, "test_final_state.py", "exec")  # raises SyntaxError if malformed
     return code
+
+
+def _parse_setup_script(raw: str) -> str:
+    fence_match = re.search(r"```(?:bash|sh)?\n(.*?)```", raw, re.DOTALL | re.IGNORECASE)
+    script = fence_match.group(1) if fence_match else raw
+    script = textwrap.dedent(script).rstrip()
+    if not script.strip():
+        raise ValueError(f"Empty setup script in generation response:\n{raw}")
+    if re.search(r"\{\{.*?\}\}", script):
+        raise ValueError(f"Setup script contains forbidden {{{{ }}}} placeholders:\n{script}")
+    # Cheap local syntax check (bash -n) before ever sending this to a remote
+    # sandbox - mirrors tmax's own def-generation validation in spirit
+    # (apptainer_def_gen.py checks for {{ }} before an expensive remote build).
+    check = subprocess.run(["bash", "-n", "-c", script], capture_output=True, text=True)
+    if check.returncode != 0:
+        raise ValueError(f"Setup script failed `bash -n` syntax check: {check.stderr}\n{script}")
+    return script
+
+
+def _retry(fn, max_retries: int, description: str):
+    """Calls `fn()`, retrying on ValueError/SyntaxError up to `max_retries` times.
+
+    Weaker models occasionally truncate or malform structured output (e.g.
+    never closing `</truth>`, or emitting invalid Python) - same class of
+    unreliability tmax's own legacy pipeline retries against
+    (`apptainer_def_gen.iterate_def_template_batch`). Re-sampling usually
+    produces a well-formed response since the failure isn't deterministic.
+    """
+    last_error: Exception | None = None
+    for attempt in range(1 + max_retries):
+        try:
+            return fn()
+        except (ValueError, SyntaxError) as e:
+            last_error = e
+            logger.warning("%s failed (attempt %d/%d): %s", description, attempt + 1, 1 + max_retries, e)
+    raise last_error
 
 
 @weave_op
@@ -232,10 +322,11 @@ def generate_question(
     model: str,
     context: list[str] | None = None,
     temperature: float = 1.0,
-    max_tokens: int = 4096,
+    max_tokens: int = 8192,
     extra_kwargs: dict[str, object] | None = None,
+    max_retries: int = 2,
 ) -> GeneratedQuestion:
-    """Generates one full-spec question for `sample` via two LLM calls.
+    """Generates one full-spec question for `sample` via three LLM calls.
 
     Args:
         sample: The catalog entry (domain/skill type/primitive/persona/
@@ -250,36 +341,66 @@ def generate_question(
         extra_kwargs: Extra kwargs merged into every `litellm.completion`
             call (e.g. `api_base`/`api_key`/`extra_headers` for a
             self-hosted or alternate OpenAI-compatible provider).
+        max_retries: Re-sample attempts if a response fails to parse (see `_retry`).
 
     Returns:
         The parsed GeneratedQuestion, ready for Harbor materialization.
     """
     extra_kwargs = extra_kwargs or {}
 
-    task_truth_response = litellm.completion(
-        model=model,
-        messages=_build_task_truth_messages(sample, context or []),
-        temperature=temperature,
-        max_tokens=max_tokens,
-        **extra_kwargs,
-    )
-    task_description, truth = _parse_task_truth(task_truth_response.choices[0].message.content)
+    def _call_task_truth() -> tuple[str, str]:
+        response = litellm.completion(
+            model=model,
+            messages=_build_task_truth_messages(sample, context or []),
+            temperature=temperature,
+            max_tokens=max_tokens,
+            **extra_kwargs,
+        )
+        return _parse_task_truth(response.choices[0].message.content or "")
 
-    test_response = litellm.completion(
-        model=model,
-        messages=[
-            {"role": "system", "content": _TEST_SYSTEM_MSG},
-            {
-                "role": "user",
-                "content": _TEST_USER_TEMPLATE.format(task_description=task_description, truth=truth),
-            },
-        ],
-        temperature=0.6,
-        max_tokens=max_tokens,
-        **extra_kwargs,
-    )
-    test_code = _parse_test_code(test_response.choices[0].message.content)
+    task_description, truth = _retry(_call_task_truth, max_retries, "task+truth generation")
+
+    def _call_test() -> str:
+        response = litellm.completion(
+            model=model,
+            messages=[
+                {"role": "system", "content": _TEST_SYSTEM_MSG},
+                {
+                    "role": "user",
+                    "content": _TEST_USER_TEMPLATE.format(task_description=task_description, truth=truth),
+                },
+            ],
+            temperature=0.6,
+            max_tokens=max_tokens,
+            **extra_kwargs,
+        )
+        return _parse_test_code(response.choices[0].message.content or "")
+
+    test_code = _retry(_call_test, max_retries, "test generation")
+
+    def _call_setup() -> str:
+        response = litellm.completion(
+            model=model,
+            messages=[
+                {"role": "system", "content": _SETUP_SYSTEM_MSG},
+                {
+                    "role": "user",
+                    "content": _SETUP_USER_TEMPLATE.format(task_description=task_description, truth=truth),
+                },
+            ],
+            temperature=0.6,
+            max_tokens=max_tokens,
+            **extra_kwargs,
+        )
+        return _parse_setup_script(response.choices[0].message.content or "")
+
+    setup_script = _retry(_call_setup, max_retries, "setup script generation")
 
     return GeneratedQuestion(
-        sample=sample, task_description=task_description, truth=truth, test_code=test_code, model=model
+        sample=sample,
+        task_description=task_description,
+        truth=truth,
+        test_code=test_code,
+        model=model,
+        setup_script=setup_script,
     )

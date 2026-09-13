@@ -192,6 +192,29 @@ def _triplets_for_node(conn: kuzu.Connection, node_type: str, properties: dict) 
     return triplets
 
 
+def build_embeddings_cache(db_path: Path, client: EmbeddingClient | None = None) -> int:
+    """Builds (or refreshes, if the catalog changed) the node embeddings
+    cache at `<db_path>.embeddings.json`, without running any query.
+
+    Every `retrieve()` call already does this as a side effect via
+    `_embed_nodes`, so this is only useful to pay the embedding cost up
+    front (e.g. in a Makefile target) instead of on a rollout's first
+    retrieval call.
+
+    Returns:
+        The number of embedded nodes.
+    """
+    client = client or EmbeddingClient()
+    db = kuzu.Database(str(db_path), read_only=True)
+    conn = kuzu.Connection(db)
+    try:
+        nodes, _ = _embed_nodes(conn, client, db_path)
+        return len(nodes)
+    finally:
+        conn.close()
+        db.close()
+
+
 def retrieve(
     query: str,
     db_path: Path,
@@ -243,12 +266,21 @@ if __name__ == "__main__":
     import argparse
 
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("query", type=str)
+    parser.add_argument("query", type=str, nargs="?", help="Omit with --build-only.")
     parser.add_argument("--db-path", type=Path, default=Path("data_gen/kg.db"))
     parser.add_argument("--top-k", type=int, default=5)
+    parser.add_argument(
+        "--build-only", action="store_true", help="Only build/refresh the embeddings cache; no query needed."
+    )
     args = parser.parse_args()
 
-    for match in retrieve(args.query, args.db_path, top_k=args.top_k):
-        print(f"\n{match.node_type} {match.node_id!r} (similarity={match.similarity:.3f})")
-        for triplet in match.triplets:
-            print(f"  {triplet}")
+    if args.build_only:
+        count = build_embeddings_cache(args.db_path)
+        print(f"Embedded {count} nodes to {args.db_path}.embeddings.json")
+    else:
+        if not args.query:
+            parser.error("query is required unless --build-only is given")
+        for match in retrieve(args.query, args.db_path, top_k=args.top_k):
+            print(f"\n{match.node_type} {match.node_id!r} (similarity={match.similarity:.3f})")
+            for triplet in match.triplets:
+                print(f"  {triplet}")

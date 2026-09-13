@@ -1,4 +1,4 @@
-.PHONY: kg-db kg-viz kg sync-artifacts-to-tharun
+.PHONY: kg-db kg-viz kg kg-embeddings sync-artifacts-to-tharun
 
 # Rebuilds the Kùzu knowledge graph from tmax-data-gen/artifacts/.
 kg-db:
@@ -14,6 +14,14 @@ kg-viz:
 
 # Rebuilds the graph and re-renders the visualization in one step.
 kg: kg-db kg-viz
+
+# Builds/refreshes data_gen/kg.db.embeddings.json (the retrieval cache
+# kg_retrieve.py uses) without running a query. Requires EMBEDDING_API_KEY /
+# EMBEDDING_BASE_URL / EMBEDDING_MODEL in tmax-data-gen/.env (see
+# tmax-data-gen/.env.example) - e.g. a local MLX embedding server.
+kg-embeddings:
+	cd tmax-data-gen && uv run --project .. python -m data_gen.kg_retrieve \
+		--db-path data_gen/kg.db --build-only
 
 # Pushes tmax-data-gen/artifacts/ to the tharun branch on origin, mirroring
 # it exactly (files removed locally are removed there too). Uses a
