@@ -68,3 +68,6 @@ personas:
 - id: developer-experience-engineer-maintaining-tooling
   role: developer-experience engineer maintaining tooling
   description: Authored terminal task framed around a developer-experience engineer maintaining tooling.
+- id: integration-engineer-maintaining-backend-client-and-schema-contracts
+  role: integration engineer maintaining backend, client, and schema contracts
+  description: Authored terminal task framed around an integration engineer maintaining backend, client, and schema contracts.

@@ -17,25 +17,33 @@ from minisweagent import package_dir
 from minisweagent.agents.default import DefaultAgent
 from minisweagent.environments.docker import DockerEnvironment
 from minisweagent.environments.local import LocalEnvironment
+from minisweagent.models.litellm_model import LitellmModel
 from minisweagent.models.litellm_textbased_model import LitellmTextbasedModel
 
 from data_gen.daytona_environment import DaytonaEnvironment
 from data_gen.sandbox_environment import SandboxEnvironment
 from data_gen.weave_logger import weave_op
 
-# default.yaml pairs with LitellmTextbasedModel (regex-parses a single
-# ```mswea_bash_command block), not mini-swe-agent's other model class,
-# LitellmModel, which instead always passes tools=[BASH_TOOL] and only ever
-# parses native tool_calls - mismatching default.yaml's markdown-based
-# instructions entirely (every response gets rejected as "no tool calls
-# found", regardless of model quality; this is what mini.yaml pairs with).
-# Tested directly against Llama-3.3-70B-Instruct on Weave Inference: native
-# tool-calling is unreliable on complex multi-step prompts (the model
-# reverts to plain markdown code blocks despite tools being offered), while
-# the text-based path/prompt combination produces exactly one well-formed
-# action reliably - so default.yaml + LitellmTextbasedModel is used here,
-# not mini.yaml + LitellmModel.
-_DEFAULT_CONFIG_PATH = package_dir / "config" / "default.yaml"
+# Two mutually-consistent (model class, config) pairings - mismatching them
+# silently breaks every turn (each config's prompt describes the *other*
+# class's action format, so nothing the model says ever parses):
+#   "text":     LitellmTextbasedModel + default.yaml (regex-parses one
+#               ```mswea_bash_command block from plain text)
+#   "toolcall": LitellmModel + mini.yaml (always passes tools=[BASH_TOOL],
+#               only ever parses native tool_calls)
+# Neither is universally better - verified empirically, not assumed:
+# Llama-3.3-70B-Instruct on Weave Inference is reliable in "text" mode but
+# reverts to plain markdown (ignoring the tools it was offered) in
+# "toolcall" mode on complex prompts; GLM-5.3-Flash showed the opposite
+# problem in "text" mode (repeatedly failed to close its markdown fence
+# correctly, hitting RepeatedFormatError before finishing real tasks it was
+# otherwise solving correctly) and is expected to do better in "toolcall"
+# mode since GLM is trained specifically for function-calling. Pick per
+# model, not a fixed default.
+_MODEL_STYLES: dict[str, tuple[type, Path]] = {
+    "text": (LitellmTextbasedModel, package_dir / "config" / "default.yaml"),
+    "toolcall": (LitellmModel, package_dir / "config" / "mini.yaml"),
+}
 
 _ENVIRONMENTS = {
     "local": LocalEnvironment,
@@ -45,7 +53,7 @@ _ENVIRONMENTS = {
 }
 
 
-def load_default_agent_config(config_path: Path = _DEFAULT_CONFIG_PATH) -> dict[str, Any]:
+def load_default_agent_config(config_path: Path = _MODEL_STYLES["text"][1]) -> dict[str, Any]:
     """Loads the `agent:` section of a mini-swe-agent YAML config.
 
     Args:
@@ -65,6 +73,7 @@ def build_agent(
     environment_kwargs: dict[str, Any] | None = None,
     agent_config: dict[str, Any] | None = None,
     model_kwargs: dict[str, Any] | None = None,
+    model_style: Literal["text", "toolcall"] = "text",
 ) -> DefaultAgent:
     """Builds a mini-swe-agent `DefaultAgent` ready to `.run(task)`.
 
@@ -86,25 +95,35 @@ def build_agent(
             a new one).
         agent_config: Overrides for the agent config (system_template,
             instance_template, step_limit, cost_limit, ...). Merged over the
-            defaults bundled with mini-swe-agent.
+            defaults bundled with mini-swe-agent for `model_style`.
         model_kwargs: Extra kwargs merged into every underlying
             `litellm.completion` call the model makes (e.g. `api_base`/
             `api_key`/`extra_headers` for a self-hosted or alternate
             OpenAI-compatible provider - see
             `data_gen.inference_config.OpenAICompatibleConfig.litellm_kwargs`).
+        model_style: "text" (default) parses one ```mswea_bash_command
+            markdown block from plain text - reliable for models that don't
+            consistently emit native tool_calls, but may fumble the exact
+            fence syntax. "toolcall" passes `tools=[BASH_TOOL]` and parses
+            native tool_calls - better for models specifically trained for
+            function-calling. See `_MODEL_STYLES`; pick per model based on
+            actual observed behavior, not by default.
 
     Returns:
         A `DefaultAgent` instance, not yet run.
     """
     if environment not in _ENVIRONMENTS:
         raise ValueError(f"Unknown environment {environment!r}, expected one of {list(_ENVIRONMENTS)}")
+    if model_style not in _MODEL_STYLES:
+        raise ValueError(f"Unknown model_style {model_style!r}, expected one of {list(_MODEL_STYLES)}")
 
     env = _ENVIRONMENTS[environment](**(environment_kwargs or {}))
+    model_class, config_path = _MODEL_STYLES[model_style]
     # ignore_errors: litellm has no pricing entry for most self-hosted/custom
     # OpenAI-compatible models (e.g. Weave Inference's), so cost tracking
     # would otherwise raise on every single completion call.
-    model = LitellmTextbasedModel(model_name=model_name, model_kwargs=model_kwargs or {}, cost_tracking="ignore_errors")
-    config = load_default_agent_config() | (agent_config or {})
+    model = model_class(model_name=model_name, model_kwargs=model_kwargs or {}, cost_tracking="ignore_errors")
+    config = load_default_agent_config(config_path) | (agent_config or {})
     return DefaultAgent(model, env, **config)
 
 
@@ -116,6 +135,7 @@ def run_agent(
     environment_kwargs: dict[str, Any] | None = None,
     agent_config: dict[str, Any] | None = None,
     model_kwargs: dict[str, Any] | None = None,
+    model_style: Literal["text", "toolcall"] = "text",
 ) -> dict[str, Any]:
     """Builds an agent and runs it against a single task.
 
@@ -126,6 +146,7 @@ def run_agent(
         environment_kwargs: See `build_agent`.
         agent_config: See `build_agent`.
         model_kwargs: See `build_agent`.
+        model_style: See `build_agent`.
 
     Returns:
         The agent's exit dict, with at least "exit_status" and "submission"
@@ -137,5 +158,6 @@ def run_agent(
         environment_kwargs=environment_kwargs,
         agent_config=agent_config,
         model_kwargs=model_kwargs,
+        model_style=model_style,
     )
     return agent.run(task)

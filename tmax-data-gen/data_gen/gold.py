@@ -111,6 +111,14 @@ if __name__ == "__main__":
         help="Max tokens per question-generation completion. Same reasoning-model consideration "
         "as --agent-max-tokens, but for generate_question rather than solving.",
     )
+    parser.add_argument(
+        "--model-style",
+        choices=("text", "toolcall"),
+        default="text",
+        help="'text' parses one markdown-fenced bash block; 'toolcall' uses native tool_calls "
+        "(tools=[BASH_TOOL]). Pick per model based on observed behavior, not a fixed default - "
+        "see data_gen.harness._MODEL_STYLES.",
+    )
     args = parser.parse_args()
 
     result = run_multi_turn_rollout(
@@ -122,6 +130,7 @@ if __name__ == "__main__":
         agent_config={"step_limit": args.step_limit, "cost_limit": args.cost_limit},
         model=args.model,
         raw_model=args.raw_model,
+        model_style=args.model_style,
         agent_max_tokens=args.agent_max_tokens,
         generation_max_tokens=args.generation_max_tokens,
     )

@@ -182,6 +182,7 @@ def run_multi_turn_rollout(
     raw_model: str | None = None,
     agent_max_tokens: int | None = None,
     generation_max_tokens: int | None = None,
+    model_style: Literal["text", "toolcall"] = "text",
 ) -> TrajectoryResult:
     """Runs up to `max_turns` questions as one continuous agent/sandbox session.
 
@@ -213,6 +214,11 @@ def run_multi_turn_rollout(
             model consideration as `agent_max_tokens`, but for generation
             rather than solving - defaults to `generate_question`'s own
             default (8192) when unset.
+        model_style: "text" or "toolcall" - see `data_gen.harness.build_agent`.
+            Pick per model based on observed behavior (verified this session:
+            Llama-3.3-70B-Instruct is reliable in "text" mode; GLM-5.3-Flash
+            showed markdown-fencing failures in "text" mode and is expected
+            to do better in "toolcall" mode).
 
     Returns:
         The TrajectoryResult: every turn's sample, question, agent exit, and reward.
@@ -273,6 +279,7 @@ def run_multi_turn_rollout(
                     environment_kwargs={"sandbox": env.sandbox, "cwd": _AGENT_WORKDIR},
                     agent_config=agent_config,
                     model_kwargs=agent_model_kwargs,
+                    model_style=model_style,
                 )
 
             # Materialize this turn's "given" state before the agent sees it.

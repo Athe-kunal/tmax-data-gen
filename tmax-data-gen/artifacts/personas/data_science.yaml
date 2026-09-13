@@ -32,3 +32,9 @@ personas:
 - id: ml-platform-engineer-maintaining-training-infrastructure
   role: ML platform engineer maintaining training infrastructure
   description: Authored terminal task framed around an ML platform engineer maintaining training infrastructure.
+- id: ml-reliability-engineer-investigating-training-serving-skew
+  role: ML reliability engineer investigating training-serving feature skew
+  description: Authored terminal task framed around an ML reliability engineer investigating training-serving feature skew.
+- id: ml-observability-engineer-monitoring-model-drift
+  role: ML observability engineer monitoring data and model drift
+  description: Authored terminal task framed around an ML observability engineer monitoring data and model drift.
