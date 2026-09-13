@@ -1,0 +1,25 @@
+schema_version = "1.1"
+
+[task]
+name = "tmax/system_administration-service-lifecycle-management-systemd-init-1c01288d"
+description = "You are a senior infrastructure engineer at CloudMetrics Inc. The platform team has approved deployment of an internal log shipping service called `logshipperd`. Your responsibility is to build the da"
+
+[metadata]
+source = "tmax-data-gen knowledge graph"
+domain = "system_administration"
+skill_type = "process-service"
+primitive_skill = "service-lifecycle-management-systemd-init"
+persona = "infrastructure-engineer-automating-provisioning"
+language = "python"
+generation_model = "openai/MiniMaxAI/MiniMax-M3"
+
+[agent]
+timeout_sec = 600.0
+
+[verifier]
+timeout_sec = 120.0
+
+[environment]
+cpus = 1
+memory_mb = 2048
+allow_internet = true

@@ -1,0 +1,1 @@
+Our metrics collection service needs to run reliably in production, but it is not set up for normal operations yet. Please make it manageable for the platform team and leave useful operational records when it runs or fails.

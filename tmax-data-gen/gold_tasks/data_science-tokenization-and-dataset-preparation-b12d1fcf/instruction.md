@@ -1,0 +1,11 @@
+As a data analyst, I need to perform a series of tasks involving data preparation, PyTorch model definition, and numerical accuracy testing. I have a raw text corpus located at /home/user/corpus.txt and a vocabulary dictionary at /home/user/vocab.json. 
+
+First, I want you to read the raw text corpus and the vocabulary dictionary, tokenize the text by splitting on single spaces, and map each word to its integer ID using the vocabulary. If a word is not in the vocabulary, it should be mapped to the ID of the <unk> token. The resulting integer sequence should be saved to a memory-mapped numpy array located at /home/user/dataset.bin. The memmap should use the int32 data type, mode w+, and its shape should be a 1D array equal to the total number of tokens in the corpus.
+
+Next, I need to define a PyTorch model with a specific architecture. The model should be a subclass of torch.nn.Module with three layers executed in the following sequence: an Embedding layer, a Linear layer, and a ReLU activation function. The Embedding layer should have num_embeddings equal to the total number of keys in the vocabulary dictionary and an embedding_dim of 16. The Linear layer should have in_features=16 and out_features=8.
+
+After defining the model, I need to perform numerical accuracy testing and inference. Before initializing the model, the PyTorch manual seed should be set to 42. The first 100 tokens from the dataset.bin memmap array should be loaded, converted into a PyTorch long tensor, and passed through the initialized model to get an output tensor. The mean and standard deviation (unbiased) of the entire output tensor should be calculated.
+
+Finally, I need to create a JSON file at /home/user/metrics.json containing the total number of tokens processed and stored in the memmap, the mean of the output tensor, and the standard deviation of the output tensor. The code should be modular and handle dependencies correctly. If necessary, torch or numpy should be installed using pip.
+
+Please ensure that the code does not modify the corpus.txt or vocab.json files and that all dependencies are handled correctly. The final state of the system should include the following files: /home/user/dataset.bin, /home/user/metrics.json, and any necessary Python scripts or modules.

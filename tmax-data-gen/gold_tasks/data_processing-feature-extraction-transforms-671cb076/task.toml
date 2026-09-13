@@ -1,0 +1,25 @@
+schema_version = "1.1"
+
+[task]
+name = "tmax/data_processing-feature-extraction-transforms-671cb076"
+description = "As a localization engineer, I have a large dataset of translation updates in a JSONL file located at `/home/user/translation_updates.jsonl`. Each line in the file represents a translation update with "
+
+[metadata]
+source = "tmax-data-gen knowledge graph"
+domain = "data_processing"
+skill_type = "mathematical"
+primitive_skill = "feature-extraction-transforms"
+persona = "localization-engineer-updating-translations"
+language = "python"
+generation_model = "openai/meta-llama/Llama-3.3-70B-Instruct"
+
+[agent]
+timeout_sec = 600.0
+
+[verifier]
+timeout_sec = 120.0
+
+[environment]
+cpus = 1
+memory_mb = 2048
+allow_internet = true

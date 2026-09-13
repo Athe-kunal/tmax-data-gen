@@ -83,6 +83,17 @@ class PromptVariantTests(unittest.TestCase):
         self.assertEqual(1.0, metrics["precise_only_passes"])
         self.assertEqual("precise-only pass", pairs[0]["outcome"])
 
+    def test_summary_excludes_incomplete_pairs_from_prompt_comparison(self) -> None:
+        rows = [
+            {"case_id": "case-a", "variant_id": "precise-v1", "repetition": 0, "status": "error", "reward": None, "duration_seconds": 1.0, "domain_id": "debugging", "primitive_skill_id": "symptom-triage", "persona_id": "support-engineer", "language_id": "python"},
+            {"case_id": "case-a", "variant_id": "vague-symptom-only-v1", "repetition": 0, "status": "completed", "reward": 0.0, "duration_seconds": 1.0, "domain_id": "debugging", "primitive_skill_id": "symptom-triage", "persona_id": "support-engineer", "language_id": "python"},
+        ]
+        metrics, pairs, _ = summarize(rows)
+        self.assertEqual(0.0, metrics["valid_pair_count"])
+        self.assertEqual(1.0, metrics["incomplete_pair_count"])
+        self.assertEqual(1.0, metrics["infrastructure_errors"])
+        self.assertEqual("incomplete", pairs[0]["outcome"])
+
     def test_authored_prompt_creates_a_valid_variant_without_a_model(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             task = _make_task(Path(tmp))

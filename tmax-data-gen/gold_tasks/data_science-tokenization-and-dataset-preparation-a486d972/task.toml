@@ -1,0 +1,25 @@
+schema_version = "1.1"
+
+[task]
+name = "tmax/data_science-tokenization-and-dataset-preparation-a486d972"
+description = "As an applied scientist, I need to evaluate an experiment involving text data processing and a PyTorch model. I have a raw text corpus located at /home/user/corpus.txt and a vocabulary dictionary at /"
+
+[metadata]
+source = "tmax-data-gen knowledge graph"
+domain = "data_science"
+skill_type = "data-processing"
+primitive_skill = "tokenization-and-dataset-preparation"
+persona = "applied-scientist-evaluating-experiments"
+language = "python"
+generation_model = "openai/meta-llama/Llama-3.3-70B-Instruct"
+
+[agent]
+timeout_sec = 600.0
+
+[verifier]
+timeout_sec = 120.0
+
+[environment]
+cpus = 1
+memory_mb = 2048
+allow_internet = true

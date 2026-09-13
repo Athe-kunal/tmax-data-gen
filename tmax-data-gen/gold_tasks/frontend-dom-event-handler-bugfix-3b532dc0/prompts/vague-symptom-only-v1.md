@@ -1,0 +1,1 @@
+I've got a tiny counter widget on my page with a plus button, but the number it shows is off from how many times I've actually clicked. I start at zero, tap it a few times, and the displayed count just doesn't line up with reality. I need the on-page number to reliably reflect the actual click count so it matches what users expect when they interact with it.

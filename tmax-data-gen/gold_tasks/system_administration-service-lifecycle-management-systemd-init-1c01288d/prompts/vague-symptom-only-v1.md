@@ -1,0 +1,1 @@
+Our internal log shipping service is not ready for reliable day-to-day operation. Please get it running as a manageable background service so the operations team can control it, monitor it, and trust that logs reach their destination.

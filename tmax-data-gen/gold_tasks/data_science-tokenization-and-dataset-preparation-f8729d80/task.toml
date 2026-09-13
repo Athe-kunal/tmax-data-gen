@@ -1,0 +1,25 @@
+schema_version = "1.1"
+
+[task]
+name = "tmax/data_science-tokenization-and-dataset-preparation-f8729d80"
+description = "As a data scientist, I need to perform a series of tasks involving data preparation, PyTorch model definition, and numerical accuracy testing. I have a raw text corpus located at /home/user/corpus.txt"
+
+[metadata]
+source = "tmax-data-gen knowledge graph"
+domain = "data_science"
+skill_type = "data-processing"
+primitive_skill = "tokenization-and-dataset-preparation"
+persona = "data-scientist-cleaning-datasets"
+language = "c"
+generation_model = "openai/meta-llama/Llama-3.3-70B-Instruct"
+
+[agent]
+timeout_sec = 600.0
+
+[verifier]
+timeout_sec = 120.0
+
+[environment]
+cpus = 1
+memory_mb = 2048
+allow_internet = true

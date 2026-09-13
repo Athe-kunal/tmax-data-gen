@@ -1,0 +1,25 @@
+schema_version = "1.1"
+
+[task]
+name = "tmax/data_science-inference-performance-benchmarking-30b2fd4d"
+description = "As an MLOps engineer, I am tasked with tracking experiment artifacts and analyzing the inference performance benchmarks stored in the CSV file at `/home/user/benchmarks.csv`. The file contains three c"
+
+[metadata]
+source = "tmax-data-gen knowledge graph"
+domain = "data_science"
+skill_type = "testing"
+primitive_skill = "inference-performance-benchmarking"
+persona = "mlops-engineer-tracking-experiment-artifacts"
+language = "python"
+generation_model = "openai/meta-llama/Llama-3.3-70B-Instruct"
+
+[agent]
+timeout_sec = 600.0
+
+[verifier]
+timeout_sec = 120.0
+
+[environment]
+cpus = 1
+memory_mb = 2048
+allow_internet = true

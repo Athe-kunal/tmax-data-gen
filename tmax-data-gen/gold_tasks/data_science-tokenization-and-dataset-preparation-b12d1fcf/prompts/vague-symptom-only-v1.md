@@ -1,0 +1,1 @@
+Our machine learning workflow is producing inconsistent results between preparation and use. We need a dependable way to turn the available text data into training-ready inputs, run a small validation inference, and report the key health numbers for the team. Please investigate and leave the workflow ready to use.

@@ -36,6 +36,7 @@ DEFAULT_BASE_IMAGES: dict[str, str] = {
     "cpp": "ubuntu:22.04",
     "rust": "rust:1.82-slim",
     "go": "golang:1.23",
+    "javascript": "node:22-bookworm",
     "multi-language": "ubuntu:22.04",
     "model-choice": "ubuntu:22.04",
 }

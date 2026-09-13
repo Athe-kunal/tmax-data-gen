@@ -1,0 +1,1 @@
+I'm working through a bunch of citation data for my research and I need to figure out which paper has been cited the most. The data is sitting in a file with paper IDs, titles, and lists of references to other papers. I just need the ID of the most cited paper written out so I can use it in my analysis. Can you help me get this working?

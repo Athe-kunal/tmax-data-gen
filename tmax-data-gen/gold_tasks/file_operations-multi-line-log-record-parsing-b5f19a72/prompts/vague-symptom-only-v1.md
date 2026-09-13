@@ -1,0 +1,1 @@
+I've got a folder full of log files where each entry takes up several lines — a timestamp header followed by indented key=value pairs. I need each entry collapsed into a single block and saved as a new file alongside the originals. The originals must stay untouched, and I need to spot-check a few files to confirm the reformatting worked correctly.

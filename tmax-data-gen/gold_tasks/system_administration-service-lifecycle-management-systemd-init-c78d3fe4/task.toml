@@ -1,0 +1,25 @@
+schema_version = "1.1"
+
+[task]
+name = "tmax/system_administration-service-lifecycle-management-systemd-init-c78d3fe4"
+description = "You are a system administrator at CloudMetrics Inc. The platform team has approved the deployment of a new internal service called `metricsaggd` — a metrics aggregator daemon. Your job is to deploy it"
+
+[metadata]
+source = "tmax-data-gen knowledge graph"
+domain = "system_administration"
+skill_type = "process-service"
+primitive_skill = "service-lifecycle-management-systemd-init"
+persona = "system-administrator-maintaining-servers"
+language = "python"
+generation_model = "openai/MiniMaxAI/MiniMax-M3"
+
+[agent]
+timeout_sec = 600.0
+
+[verifier]
+timeout_sec = 120.0
+
+[environment]
+cpus = 1
+memory_mb = 2048
+allow_internet = true

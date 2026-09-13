@@ -1,0 +1,1 @@
+Got this little counter widget on my page with a plus button, but the number showing doesn't match how many times I've actually clicked it - after a few clicks the display seems off or stuck or something. I just want the on-screen count to actually reflect the real number of clicks so users can trust what they're seeing. Can you take a look?

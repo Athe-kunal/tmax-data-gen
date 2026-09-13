@@ -197,6 +197,10 @@ cython_debug/
 #   Learn more at https://abstra.io/docs
 .abstra/
 
+# Local macOS metadata and benchmark run outputs
+.DS_Store
+/tmax-data-gen/runs/
+
 # Visual Studio Code
 #   Visual Studio Code specific template is maintained in a separate VisualStudioCode.gitignore 
 #   that can be found at https://github.com/github/gitignore/blob/main/Global/VisualStudioCode.gitignore
