@@ -175,12 +175,14 @@ def render_vague_prompt(
     style: str,
     model: str | None = None,
     raw_model: str | None = None,
-    max_tokens: int = 300,
+    max_tokens: int = 1_500,
 ) -> tuple[str, str]:
     """Renders a vague public prompt from public text only.
 
     The caller deliberately passes only ``instruction.md``. Private truth,
-    verifier code, and setup data never enter this model call.
+    verifier code, and setup data never enter this model call. The larger
+    token allowance leaves room for reasoning models that emit visible text
+    only after their internal reasoning budget.
     """
     if model and raw_model:
         raise ValueError("Pass at most one of model or raw_model")
