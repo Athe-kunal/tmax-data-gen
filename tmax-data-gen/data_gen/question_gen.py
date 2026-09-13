@@ -322,7 +322,7 @@ def generate_question(
     model: str,
     context: list[str] | None = None,
     temperature: float = 1.0,
-    max_tokens: int = 8192,
+    max_tokens: int = 32768,
     extra_kwargs: dict[str, object] | None = None,
     max_retries: int = 2,
 ) -> GeneratedQuestion:
