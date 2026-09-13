@@ -25,7 +25,7 @@ kg-embeddings:
 
 # Opens the local experiment dashboard. Run `data_gen.run_experiment` first.
 dashboard:
-	uv run streamlit run tmax-data-gen/data_gen/dashboard.py -- --db-path runs/tmax_results.sqlite
+	uv run streamlit run tmax-data-gen/data_gen/dashboard.py -- --db-path tmax-data-gen/runs/tmax_results.sqlite
 
 # Pushes tmax-data-gen/artifacts/ to the tharun branch on origin, mirroring
 # it exactly (files removed locally are removed there too). Uses a
