@@ -1,4 +1,4 @@
-.PHONY: kg-db kg-viz kg kg-embeddings sync-artifacts-to-tharun
+.PHONY: kg-db kg-viz kg kg-embeddings dashboard sync-artifacts-to-tharun
 
 # Rebuilds the Kùzu knowledge graph from tmax-data-gen/artifacts/.
 kg-db:
@@ -22,6 +22,10 @@ kg: kg-db kg-viz
 kg-embeddings:
 	cd tmax-data-gen && uv run --project .. python -m data_gen.kg_retrieve \
 		--db-path data_gen/kg.db --build-only
+
+# Opens the local experiment dashboard. Run `data_gen.run_experiment` first.
+dashboard:
+	uv run streamlit run tmax-data-gen/data_gen/dashboard.py -- --db-path runs/tmax_results.sqlite
 
 # Pushes tmax-data-gen/artifacts/ to the tharun branch on origin, mirroring
 # it exactly (files removed locally are removed there too). Uses a

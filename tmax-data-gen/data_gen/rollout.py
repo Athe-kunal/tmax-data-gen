@@ -37,6 +37,7 @@ from data_gen.env_exec import write_file as _write_file
 from data_gen.harbor import resolve_base_image
 from data_gen.harness import _ENVIRONMENTS, run_agent
 from data_gen.inference_config import OpenAICompatibleConfig  # also loads .env via python-dotenv on import
+from data_gen.prompt_variants import PRECISE_VARIANT_ID, load_prompt_variant
 from data_gen.weave_logger import weave_op
 
 _INSTALL_PYTEST_CMD = (
@@ -57,6 +58,7 @@ class RolloutResult:
     """The outcome of one rollout against a Harbor task."""
 
     task_name: str
+    prompt_variant_id: str
     reward: float
     verifier_stdout: str
     agent_exit: dict
@@ -70,6 +72,7 @@ def run_rollout(
     agent_config: dict | None = None,
     model: str | None = None,
     raw_model: str | None = None,
+    prompt_variant_id: str = PRECISE_VARIANT_ID,
 ) -> RolloutResult:
     """Solves and verifies one Harbor task inside a fresh remote sandbox.
 
@@ -109,7 +112,8 @@ def run_rollout(
         litellm_model, model_kwargs = inference_config.litellm_model(), inference_config.litellm_kwargs()
 
     task_meta = json.loads((task_dir / "task_meta.json").read_text())
-    instruction = (task_dir / "instruction.md").read_text()
+    prompt_variant = load_prompt_variant(task_dir, prompt_variant_id)
+    instruction = prompt_variant.text
     image = container_image or resolve_base_image(task_meta["language"], None)
 
     env = _ENVIRONMENTS[environment](**{_IMAGE_KWARG[environment]: image})
@@ -146,7 +150,11 @@ def run_rollout(
         verifier_stdout = _read_file(env, "/logs/verifier/test-stdout.txt")
 
         return RolloutResult(
-            task_name=task_meta["task_name"], reward=reward, verifier_stdout=verifier_stdout, agent_exit=agent_exit
+            task_name=task_meta["task_name"],
+            prompt_variant_id=prompt_variant.id,
+            reward=reward,
+            verifier_stdout=verifier_stdout,
+            agent_exit=agent_exit,
         )
     finally:
         env.cleanup()
@@ -165,6 +173,7 @@ if __name__ == "__main__":
     )
     parser.add_argument("--environment", choices=_SANDBOX_ENVIRONMENTS, default="sandbox")
     parser.add_argument("--container-image", type=str, default=None)
+    parser.add_argument("--prompt-variant", type=str, default=PRECISE_VARIANT_ID)
     parser.add_argument("--step-limit", type=int, default=0, help="Max agent steps (0 = unlimited).")
     parser.add_argument("--cost-limit", type=float, default=0.0, help="Max agent cost in USD (0 = unlimited).")
     args = parser.parse_args()
@@ -176,6 +185,7 @@ if __name__ == "__main__":
         agent_config={"step_limit": args.step_limit, "cost_limit": args.cost_limit},
         model=args.model,
         raw_model=args.raw_model,
+        prompt_variant_id=args.prompt_variant,
     )
     print(f"reward={result.reward} task={result.task_name}")
     print(result.verifier_stdout)

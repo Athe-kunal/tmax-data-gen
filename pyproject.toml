@@ -16,6 +16,7 @@ dependencies = [
     "openai>=1.0",
     "python-dotenv>=1.0",
     "pyyaml>=6.0",
+    "streamlit>=1.41.0",
     "wandb[sandbox]>=0.30.0",
     "weave>=0.53.9",
 ]

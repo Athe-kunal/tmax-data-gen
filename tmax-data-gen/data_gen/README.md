@@ -160,6 +160,46 @@ Every run prints a Weave trace link (`wandb.ai/<you>/tmax-data-gen/weave`)
 with the full nested trace: retrieval query + matches, generated
 task/truth/tests, every agent tool call, and the verifier result.
 
+### Compare detailed and human-style prompts
+
+Create a vague prompt for each completed gold task. This command reads only
+the public `instruction.md`. It does not pass the private truth or verifier
+to the prompt-rewrite model.
+
+```bash
+for task_dir in gold_tasks/*; do
+    uv run python -m data_gen.prompt_variants \
+        --task-dir "$task_dir" \
+        --style symptom-only \
+        --model MiniMaxAI/MiniMax-M3
+done
+```
+
+Run each task once with the detailed prompt and once with its vague prompt.
+The runner starts a fresh sandbox for every attempt and writes all results to
+SQLite.
+
+```bash
+uv run python -m data_gen.run_experiment \
+    --tasks-dir gold_tasks \
+    --variants precise-v1 vague-symptom-only-v1 \
+    --run-id minimax-prompt-robustness-v1 \
+    --model MiniMaxAI/MiniMax-M3 \
+    --repetitions 3 \
+    --environment sandbox \
+    --step-limit 200
+```
+
+Open the local dashboard after the experiment completes.
+
+```bash
+make dashboard
+```
+
+The dashboard reports pass rates for both prompt variants and marks each
+matched attempt as both pass, precise-only pass, vague-only pass, or both
+fail. It keeps Weave as the detailed trace viewer.
+
 ## What each module does
 
 | Module | Role |
@@ -179,6 +219,9 @@ task/truth/tests, every agent tool call, and the verifier result.
 | `rollout.py` | Single question → solve → verify, one sandbox |
 | `multi_turn_rollout.py` | The main loop: cold start + N dynamic turns, one sandbox/conversation throughout |
 | `gold.py` | Runs a rollout, keeps turns above the reward threshold as gold |
+| `prompt_variants.py` | Creates a vague public prompt for an existing task without changing its verifier |
+| `run_experiment.py` | Runs matched precise/vague rollouts and writes durable SQLite results |
+| `dashboard.py` | Shows local matched-pair benchmark outcomes |
 
 ## Real bugs found and fixed this session (worth knowing about)
 
