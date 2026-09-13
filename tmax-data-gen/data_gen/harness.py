@@ -19,6 +19,7 @@ from minisweagent.environments.docker import DockerEnvironment
 from minisweagent.environments.local import LocalEnvironment
 from minisweagent.models.litellm_model import LitellmModel
 
+from data_gen.sandbox_environment import SandboxEnvironment
 from data_gen.weave_logger import weave_op
 
 _DEFAULT_CONFIG_PATH = package_dir / "config" / "default.yaml"
@@ -26,6 +27,7 @@ _DEFAULT_CONFIG_PATH = package_dir / "config" / "default.yaml"
 _ENVIRONMENTS = {
     "local": LocalEnvironment,
     "docker": DockerEnvironment,
+    "sandbox": SandboxEnvironment,
 }
 
 
@@ -45,7 +47,7 @@ def load_default_agent_config(config_path: Path = _DEFAULT_CONFIG_PATH) -> dict[
 
 def build_agent(
     model_name: str,
-    environment: Literal["local", "docker"] = "local",
+    environment: Literal["local", "docker", "sandbox"] = "local",
     environment_kwargs: dict[str, Any] | None = None,
     agent_config: dict[str, Any] | None = None,
 ) -> DefaultAgent:
@@ -55,9 +57,13 @@ def build_agent(
         model_name: LiteLLM model name (e.g. "gemini/gemini-3.1-pro-preview").
         environment: Which mini-swe-agent environment backend to execute
             actions in. "local" runs bash commands directly on this
-            machine; "docker" runs them inside a container.
+            machine; "docker" runs them inside a local container; "sandbox"
+            runs them inside a W&B/CoreWeave Sandbox (see
+            data_gen.sandbox_environment.SandboxEnvironment).
         environment_kwargs: Extra kwargs forwarded to the environment's
-            constructor (e.g. `{"image": "python:3.13"}` for docker).
+            constructor (e.g. `{"image": "python:3.13"}` for docker, or
+            `{"sandbox": <cwsandbox.Sandbox>}` to reuse an existing sandbox
+            instead of starting a new one).
         agent_config: Overrides for the agent config (system_template,
             instance_template, step_limit, cost_limit, ...). Merged over the
             defaults bundled with mini-swe-agent.
@@ -78,7 +84,7 @@ def build_agent(
 def run_agent(
     task: str,
     model_name: str,
-    environment: Literal["local", "docker"] = "local",
+    environment: Literal["local", "docker", "sandbox"] = "local",
     environment_kwargs: dict[str, Any] | None = None,
     agent_config: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
@@ -87,7 +93,7 @@ def run_agent(
     Args:
         task: The task/problem statement to solve.
         model_name: LiteLLM model name.
-        environment: "local" or "docker". See `build_agent`.
+        environment: "local", "docker", or "sandbox". See `build_agent`.
         environment_kwargs: See `build_agent`.
         agent_config: See `build_agent`.
 

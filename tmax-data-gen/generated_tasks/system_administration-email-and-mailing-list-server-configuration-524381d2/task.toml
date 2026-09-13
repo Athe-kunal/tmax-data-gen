@@ -1,0 +1,25 @@
+schema_version = "1.1"
+
+[task]
+name = "tmax/system_administration-email-and-mailing-list-server-configuration-524381d2"
+description = "As an observability engineer, my main responsibility is to ensure our application's performance and health are visible to the team. To do this, I rely on our monitoring and logging infrastructure, whi"
+
+[metadata]
+source = "tmax-data-gen knowledge graph"
+domain = "system_administration"
+skill_type = "network"
+primitive_skill = "email-and-mailing-list-server-configuration"
+persona = "observability-engineer-tuning-dashboards"
+language = "model-choice"
+generation_model = "openai/meta-llama/Llama-3.1-8B-Instruct"
+
+[agent]
+timeout_sec = 600.0
+
+[verifier]
+timeout_sec = 120.0
+
+[environment]
+cpus = 1
+memory_mb = 2048
+allow_internet = true
