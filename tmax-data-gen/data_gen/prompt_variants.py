@@ -219,6 +219,7 @@ def create_vague_variant(
     model: str | None = None,
     raw_model: str | None = None,
     overwrite: bool = False,
+    prompt_text: str | None = None,
 ) -> PromptVariant:
     """Writes one vague variant and records its provenance in task metadata."""
     precise = load_prompt_variant(task_dir)
@@ -228,7 +229,14 @@ def create_vague_variant(
     if output_path.exists() and not overwrite:
         raise FileExistsError(f"Prompt variant already exists at {output_path}")
 
-    text, resolved_model = render_vague_prompt(precise.text, style, model, raw_model)
+    if prompt_text is None:
+        text, resolved_model = render_vague_prompt(precise.text, style, model, raw_model)
+    else:
+        if model or raw_model:
+            raise ValueError("An authored prompt cannot also specify model or raw_model")
+        text = prompt_text.strip()
+        _validate_vague_prompt(text)
+        resolved_model = "authored"
     output_path.parent.mkdir(exist_ok=True)
     output_path.write_text(text + "\n")
 
@@ -255,6 +263,12 @@ def main() -> None:
     parser.add_argument("--style", choices=("symptom-only", "goal-only", "suspected-cause", "sparse-context"), required=True)
     parser.add_argument("--model", type=str, default=None)
     parser.add_argument("--raw-model", type=str, default=None)
+    parser.add_argument(
+        "--prompt-text",
+        type=str,
+        default=None,
+        help="Use a reviewed human-authored prompt instead of calling a rewrite model.",
+    )
     parser.add_argument("--overwrite", action="store_true")
     args = parser.parse_args()
     variant = create_vague_variant(
@@ -263,6 +277,7 @@ def main() -> None:
         model=args.model,
         raw_model=args.raw_model,
         overwrite=args.overwrite,
+        prompt_text=args.prompt_text,
     )
     print(f"created {variant.id} at {variant.path}")
 

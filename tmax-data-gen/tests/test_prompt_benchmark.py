@@ -83,6 +83,14 @@ class PromptVariantTests(unittest.TestCase):
         self.assertEqual(1.0, metrics["precise_only_passes"])
         self.assertEqual("precise-only pass", pairs[0]["outcome"])
 
+    def test_authored_prompt_creates_a_valid_variant_without_a_model(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            task = _make_task(Path(tmp))
+            text = "An internal deployment now fails whenever it imports customer data. Please investigate the failure, find the cause, and restore normal processing for the affected customer team."
+            variant = create_vague_variant(task, "symptom-only", prompt_text=text)
+            self.assertEqual("authored", variant.generator_model)
+            self.assertEqual(text + "\n", variant.path.read_text())
+
     def test_store_persists_a_rollout(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
