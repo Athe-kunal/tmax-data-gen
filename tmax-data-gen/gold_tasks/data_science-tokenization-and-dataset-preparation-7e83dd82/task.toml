@@ -1,0 +1,25 @@
+schema_version = "1.1"
+
+[task]
+name = "tmax/data_science-tokenization-and-dataset-preparation-7e83dd82"
+description = "As a machine learning reliability engineer, I am tasked with investigating training-serving feature skew. I have a raw text corpus located at /home/user/corpus.txt and a vocabulary dictionary at /home"
+
+[metadata]
+source = "tmax-data-gen knowledge graph"
+domain = "data_science"
+skill_type = "data-processing"
+primitive_skill = "tokenization-and-dataset-preparation"
+persona = "ml-reliability-engineer-investigating-training-serving-skew"
+language = "bash"
+generation_model = "openai/meta-llama/Llama-3.3-70B-Instruct"
+
+[agent]
+timeout_sec = 600.0
+
+[verifier]
+timeout_sec = 120.0
+
+[environment]
+cpus = 1
+memory_mb = 2048
+allow_internet = true

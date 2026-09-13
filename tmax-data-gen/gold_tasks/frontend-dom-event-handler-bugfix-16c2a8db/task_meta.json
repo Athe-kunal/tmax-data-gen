@@ -1,0 +1,12 @@
+{
+  "task_name": "frontend-dom-event-handler-bugfix-16c2a8db",
+  "domain": "software_engineering",
+  "skill_type": "frontend-hand-authored",
+  "primitive_skill": "dom-event-handler-bugfix",
+  "persona": "web-developer-building-a-feature",
+  "language": "javascript",
+  "generation_model": "hand-authored",
+  "task_description": "You're a web developer building a feature. There's a small counter widget\nat /home/user/app/index.html (+ /home/user/app/script.js) with a bug report: \"the\non-page count doesn't match how many times I clicked the button.\"\n\nFix /home/user/app/script.js so that after N clicks of the \"+1\" button, the\n`#count` element's text is exactly the string `N` (starting from `0`\nbefore any clicks). Do not change index.html's structure/ids.\n\n`playwright` (Python) is already installed. To check your fix without\nguessing, you can run a quick headless-browser check as plain text output\n(no screenshots - this endpoint's model can't accept image content), e.g.:\n    python3 -c \"\nfrom playwright.sync_api import sync_playwright\nwith sync_playwright() as p:\n    page = p.chromium.launch().new_page()\n    page.goto('file:///home/user/app/index.html')\n    b = page.locator('#increment')\n    for _ in range(3):\n        b.click()\n    print(page.locator('#count').inner_text())\n\"\nThat should print exactly \"3\". Use it (or just read/reason about the JS)\nto verify your fix before finishing.\n",
+  "truth": "script.js's click handler must increment `count` by exactly 1 per click and write the *new* value of `count` to #count.textContent - not 2, and not a value read before the increment.",
+  "setup_script": "mkdir -p /home/user/app\ncat > /home/user/app/index.html << 'HTML_EOF'\n<!doctype html>\n<html>\n<head><meta charset=\"utf-8\"><title>Counter</title></head>\n<body>\n  <h1>Click Counter</h1>\n  <p>Count: <span id=\"count\">0</span></p>\n  <button id=\"increment\">+1</button>\n  <script src=\"script.js\"></script>\n</body>\n</html>\n\nHTML_EOF\ncat > /home/user/app/script.js << 'JS_EOF'\nlet count = 0;\n\ndocument.getElementById(\"increment\").addEventListener(\"click\", function () {\n  const display = document.getElementById(\"count\");\n  const shown = display.textContent;\n  count += 2;\n  display.textContent = shown;\n  display.textContent = String(count - 1);\n});\n\nJS_EOF\n"
+}

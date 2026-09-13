@@ -1,0 +1,25 @@
+schema_version = "1.1"
+
+[task]
+name = "tmax/file_operations-manifest-and-checksum-generation-c1e9ccf4"
+description = "As a backup administrator archiving data, I need to create a backup of my important files and generate a manifest with checksums for verification. I have a directory `/home/user/data/` containing vari"
+
+[metadata]
+source = "tmax-data-gen knowledge graph"
+domain = "file_operations"
+skill_type = "transformation"
+primitive_skill = "manifest-and-checksum-generation"
+persona = "backup-administrator-archiving-data"
+language = "python"
+generation_model = "openai/meta-llama/Llama-3.3-70B-Instruct"
+
+[agent]
+timeout_sec = 600.0
+
+[verifier]
+timeout_sec = 120.0
+
+[environment]
+cpus = 1
+memory_mb = 2048
+allow_internet = true

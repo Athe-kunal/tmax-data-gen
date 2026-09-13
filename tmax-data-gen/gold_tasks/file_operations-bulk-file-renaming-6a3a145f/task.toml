@@ -1,0 +1,25 @@
+schema_version = "1.1"
+
+[task]
+name = "tmax/file_operations-bulk-file-renaming-6a3a145f"
+description = "As a release archivist packaging deliverables, I need to prepare a set of files for distribution. The files are located in the `/home/user/deliverables` directory and are a mix of Python scripts, data"
+
+[metadata]
+source = "tmax-data-gen knowledge graph"
+domain = "file_operations"
+skill_type = "transformation"
+primitive_skill = "bulk-file-renaming"
+persona = "release-archivist-packaging-deliverables"
+language = "python"
+generation_model = "openai/meta-llama/Llama-3.3-70B-Instruct"
+
+[agent]
+timeout_sec = 600.0
+
+[verifier]
+timeout_sec = 120.0
+
+[environment]
+cpus = 1
+memory_mb = 2048
+allow_internet = true

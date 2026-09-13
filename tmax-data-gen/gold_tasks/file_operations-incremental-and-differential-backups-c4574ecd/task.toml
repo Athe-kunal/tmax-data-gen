@@ -1,0 +1,25 @@
+schema_version = "1.1"
+
+[task]
+name = "tmax/file_operations-incremental-and-differential-backups-c4574ecd"
+description = "As a researcher organizing datasets, I have a large collection of files that I need to back up regularly. I use a combination of full and incremental backups to save disk space. My backup system has c"
+
+[metadata]
+source = "tmax-data-gen knowledge graph"
+domain = "file_operations"
+skill_type = "archives"
+primitive_skill = "incremental-and-differential-backups"
+persona = "researcher-organizing-datasets"
+language = "rust"
+generation_model = "openai/meta-llama/Llama-3.3-70B-Instruct"
+
+[agent]
+timeout_sec = 600.0
+
+[verifier]
+timeout_sec = 120.0
+
+[environment]
+cpus = 1
+memory_mb = 2048
+allow_internet = true

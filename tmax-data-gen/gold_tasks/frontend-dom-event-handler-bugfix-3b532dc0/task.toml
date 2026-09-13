@@ -1,0 +1,25 @@
+schema_version = "1.1"
+
+[task]
+name = "tmax/frontend-dom-event-handler-bugfix-3b532dc0"
+description = "You're a web developer building a feature. There's a small counter widget"
+
+[metadata]
+source = "tmax-data-gen knowledge graph"
+domain = "software_engineering"
+skill_type = "frontend-hand-authored"
+primitive_skill = "dom-event-handler-bugfix"
+persona = "web-developer-building-a-feature"
+language = "javascript"
+generation_model = "hand-authored"
+
+[agent]
+timeout_sec = 600.0
+
+[verifier]
+timeout_sec = 120.0
+
+[environment]
+cpus = 1
+memory_mb = 2048
+allow_internet = true

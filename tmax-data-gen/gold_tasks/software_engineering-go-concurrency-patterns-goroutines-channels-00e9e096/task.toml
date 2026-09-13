@@ -1,0 +1,25 @@
+schema_version = "1.1"
+
+[task]
+name = "tmax/software_engineering-go-concurrency-patterns-goroutines-channels-00e9e096"
+description = "As an integration developer, I am tasked with testing APIs to ensure they meet the required standards. I have a Python project located at `/home/user/project` that contains several APIs. The project u"
+
+[metadata]
+source = "tmax-data-gen knowledge graph"
+domain = "software_engineering"
+skill_type = "multi-language"
+primitive_skill = "go-concurrency-patterns-goroutines-channels"
+persona = "integration-developer-testing-apis"
+language = "python"
+generation_model = "openai/meta-llama/Llama-3.3-70B-Instruct"
+
+[agent]
+timeout_sec = 600.0
+
+[verifier]
+timeout_sec = 120.0
+
+[environment]
+cpus = 1
+memory_mb = 2048
+allow_internet = true

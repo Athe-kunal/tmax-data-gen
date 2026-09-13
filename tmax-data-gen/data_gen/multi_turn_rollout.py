@@ -40,6 +40,7 @@ Usage:
 
 from __future__ import annotations
 
+import logging
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Literal
@@ -137,7 +138,19 @@ def _continue_with_task(agent: DefaultAgent, task_message: str) -> dict:
     implicitly via `__init__`, but a turn that exits via `RepeatedFormatError`
     would otherwise leave the count at its max, so the very next turn could
     exit after a single format error instead of a fresh error budget.
+
+    The previous turn's last message has `role: "exit"` - a mini-swe-agent
+    sentinel (see `minisweagent.exceptions.Submitted`/`FormatError`/etc.)
+    meant to end `run()`'s loop, not a role any chat-completions API
+    recognizes ("unknown variant `exit`, expected one of `developer`,
+    `system`, `user`, `assistant`, `tool`, `function`" - confirmed live).
+    `run()` never has to worry about this because it always resets
+    `self.messages = []` before the next call. Since this function
+    deliberately keeps history across turns, that sentinel message must be
+    rewritten to a real role before it's ever sent back to the model.
     """
+    if agent.messages and agent.messages[-1].get("role") == "exit":
+        agent.messages[-1] = {**agent.messages[-1], "role": "assistant"}
     agent.n_consecutive_format_errors = 0
     agent.add_messages(agent.model.format_message(role="user", content=task_message))
     while True:
@@ -180,6 +193,8 @@ def run_multi_turn_rollout(
     agent_config: dict | None = None,
     model: str | None = None,
     raw_model: str | None = None,
+    solve_model: str | None = None,
+    solve_raw_model: str | None = None,
     agent_max_tokens: int | None = None,
     generation_max_tokens: int | None = None,
     model_style: Literal["text", "toolcall"] = "text",
@@ -199,10 +214,21 @@ def run_multi_turn_rollout(
             `{"cost_limit": 2.0}` - applies cumulatively across all turns
             (mini-swe-agent's own cost/step counters are never reset
             between turns, only between separate rollouts).
-        model: Model ID routed through the configured OpenAI-compatible
-            endpoint. Mutually exclusive with `raw_model`.
-        raw_model: A full LiteLLM model string used verbatim, bypassing the
-            OpenAI-compatible endpoint. Mutually exclusive with `model`.
+        model: Model ID for `question_gen.generate_question` (task+truth/
+            test/setup-script), routed through the configured OpenAI-
+            compatible endpoint. Mutually exclusive with `raw_model`.
+        raw_model: A full LiteLLM model string for generation, used verbatim,
+            bypassing the OpenAI-compatible endpoint. Mutually exclusive with `model`.
+        solve_model: Model ID for the *solving* agent specifically. Defaults
+            to whatever `model`/`raw_model` resolve to when unset - i.e. one
+            model for everything, the original behavior. Split this out
+            when a model is reliable at solving but not at generation (or
+            vice versa) - verified this session: DeepSeek-V4-Flash-0731
+            solves tasks well but its test-generation call reliably exhausts
+            any token budget we've tried without ever finishing.
+        solve_raw_model: A full LiteLLM model string for solving, used
+            verbatim, bypassing the OpenAI-compatible endpoint. Mutually
+            exclusive with `solve_model`.
         agent_max_tokens: Max tokens per agent completion. Reasoning models
             (e.g. GLM-5.2) spend a chunk of the budget on a hidden
             `reasoning` field before `content`; too small a limit truncates
@@ -227,21 +253,36 @@ def run_multi_turn_rollout(
         raise ValueError(f"environment must be one of {_SANDBOX_ENVIRONMENTS}, got {environment!r}")
     if model and raw_model:
         raise ValueError("Pass at most one of `model` or `raw_model`, not both.")
+    if solve_model and solve_raw_model:
+        raise ValueError("Pass at most one of `solve_model` or `solve_raw_model`, not both.")
 
     if raw_model:
         litellm_model, model_kwargs = raw_model, {}
     else:
         inference_config = OpenAICompatibleConfig.from_env(model=model)
         litellm_model, model_kwargs = inference_config.litellm_model(), inference_config.litellm_kwargs()
+
+    if solve_raw_model:
+        solve_litellm_model, solve_model_kwargs = solve_raw_model, {}
+    elif solve_model:
+        solve_inference_config = OpenAICompatibleConfig.from_env(model=solve_model)
+        solve_litellm_model, solve_model_kwargs = (
+            solve_inference_config.litellm_model(),
+            solve_inference_config.litellm_kwargs(),
+        )
+    else:
+        solve_litellm_model, solve_model_kwargs = litellm_model, model_kwargs
     # Only the agent's own completions get agent_max_tokens - question_gen's
     # calls already set their own max_tokens independently.
-    agent_model_kwargs = model_kwargs | ({"max_tokens": agent_max_tokens} if agent_max_tokens else {})
+    agent_model_kwargs = solve_model_kwargs | ({"max_tokens": agent_max_tokens} if agent_max_tokens else {})
 
     catalog: Catalog = load_catalog(artifacts_dir)
     tmax_rl_df = load_tmax_rl_dataset()
     turns: list[TurnResult] = []
     env = None
     agent: DefaultAgent | None = None
+
+    _MAX_SETUP_ATTEMPTS = 3
 
     try:
         for turn_index in range(max_turns):
@@ -253,14 +294,45 @@ def run_multi_turn_rollout(
                 question = build_seed_question(seed_row, sample)
             else:
                 # 1. Question Agent: retrieve based on the trajectory so far.
-                sample = sample_entry_via_retrieval(catalog, turns[-1].task_description, kg_db_path).entry
-                question = generate_question(
-                    sample,
-                    model=litellm_model,
-                    context=[t.task_description for t in turns],
-                    extra_kwargs=model_kwargs,
-                    **({"max_tokens": generation_max_tokens} if generation_max_tokens else {}),
-                )
+                # A generated setup_script is free-form LLM-authored bash and
+                # can be logically broken in ways `bash -n` (syntax only)
+                # never catches - confirmed live: a generated script looped
+                # forever brute-forcing a file's content to match a SHA-256
+                # hash literal that no input could ever produce, hanging
+                # until the exec timeout killed the whole rollout. Rebuilding
+                # both the question and its setup_script from scratch (not
+                # just re-running the same broken script) and re-sampling
+                # gives a few independent chances before giving up on this
+                # turn slot - one bad generation shouldn't cost every prior
+                # turn's already-collected gold data.
+                question = None
+                for attempt in range(_MAX_SETUP_ATTEMPTS):
+                    sample = sample_entry_via_retrieval(catalog, turns[-1].task_description, kg_db_path).entry
+                    candidate = generate_question(
+                        sample,
+                        model=litellm_model,
+                        context=[t.task_description for t in turns],
+                        extra_kwargs=model_kwargs,
+                        **({"max_tokens": generation_max_tokens} if generation_max_tokens else {}),
+                    )
+                    try:
+                        _run(env, candidate.setup_script, timeout=300)
+                    except RuntimeError:
+                        logging.getLogger(__name__).warning(
+                            "Turn %d attempt %d: setup_script failed/hung, regenerating",
+                            turn_index,
+                            attempt,
+                        )
+                        continue
+                    question = candidate
+                    break
+                if question is None:
+                    logging.getLogger(__name__).warning(
+                        "Turn %d: giving up after %d failed setup_script attempts, skipping turn",
+                        turn_index,
+                        _MAX_SETUP_ATTEMPTS,
+                    )
+                    continue
 
             # First turn only: start the sandbox + agent; later turns reuse both.
             if env is None:
@@ -274,23 +346,13 @@ def run_multi_turn_rollout(
                 if turn_index == 0:
                     apply_seed_environment(env, seed_row)
                 agent = build_agent(
-                    litellm_model,
+                    solve_litellm_model,
                     environment=environment,
                     environment_kwargs={"sandbox": env.sandbox, "cwd": _AGENT_WORKDIR},
                     agent_config=agent_config,
                     model_kwargs=agent_model_kwargs,
                     model_style=model_style,
                 )
-
-            # Materialize this turn's "given" state before the agent sees it.
-            # Turn 0's is real (the tmax RL row's own container_def, applied
-            # above); every generated turn instead needs its LLM-authored
-            # setup_script actually run, or the task/truth's claimed input
-            # files/services never exist and the agent has nothing to work
-            # from but its own guess - which then mismatches the verifier's
-            # truth-derived expectations no matter how well it's solved.
-            if turn_index > 0:
-                _run(env, question.setup_script, timeout=300)
 
             # 2. NPC Agent: the persona-framed <task> text *is* the delivery.
             messages_start = len(agent.messages)

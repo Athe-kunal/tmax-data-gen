@@ -1,0 +1,25 @@
+schema_version = "1.1"
+
+[task]
+name = "tmax/file_operations-multi-line-log-record-parsing-b5f19a72"
+description = "As a release archivist packaging deliverables, I have a large collection of log files that need to be parsed to extract relevant information. The log files are stored in the /home/user/logs directory,"
+
+[metadata]
+source = "tmax-data-gen knowledge graph"
+domain = "file_operations"
+skill_type = "data-parsing"
+primitive_skill = "multi-line-log-record-parsing"
+persona = "release-archivist-packaging-deliverables"
+language = "bash"
+generation_model = "openai/meta-llama/Llama-3.3-70B-Instruct"
+
+[agent]
+timeout_sec = 600.0
+
+[verifier]
+timeout_sec = 120.0
+
+[environment]
+cpus = 1
+memory_mb = 2048
+allow_internet = true

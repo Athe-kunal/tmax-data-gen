@@ -1,0 +1,87 @@
+{
+  "task_name": "file_operations-bulk-file-renaming-d36b964f",
+  "domain": "file_operations",
+  "skill_type": "transformation",
+  "primitive_skill": "bulk-file-renaming",
+  "persona": "backup-administrator-archiving-data",
+  "language": "bash",
+  "generation_model": "openai/meta-llama/Llama-3.3-70B-Instruct",
+  "task_description": "As a backup administrator, I am tasked with archiving data for our company. I have a directory located at `/home/user/archived_data` that contains a large number of files with inconsistent naming conventions. The files are a mix of documents, images, and videos, and they all have a `.data` extension. My goal is to bulk rename these files to have a more consistent naming convention.\n\nThe current naming convention is a mix of letters and numbers, but it does not provide any meaningful information about the contents of the files. I want to rename the files to include a prefix that indicates the type of file (e.g., `doc_`, `img_`, `vid_`), followed by a unique identifier. The unique identifier should be a zero-padded, three-digit number, starting from 001.\n\nFor example, if the directory contains the following files:\n`file1.data`, `file2.data`, `file3.data`, etc.\nI want to rename them to:\n`doc_001.data`, `doc_002.data`, `doc_003.data`, etc.\n\nHowever, I also want to preserve the original file permissions and timestamps. I do not want to modify the contents of the files in any way.\n\nTo verify that the renaming process was successful, I want to generate a log file that contains the names of the original files and their corresponding new names. The log file should be named `rename_log.txt` and should be located in the `/home/user` directory.\n\nThe format of the log file should be:\n`original_name -> new_name`\nFor example:\n`file1.data -> doc_001.data`\n`file2.data -> doc_002.data`\n`file3.data -> doc_003.data`\n\nPlease assist me in bulk renaming these files and generating the log file.",
+  "truth": "The directory `/home/user/archived_data` contains 100 files with the `.data` extension. The files have the following names:\n`file1.data`, `file2.data`, `file3.data`, ..., `file100.data`\n\nThe correct renaming prefix for all files is `doc_`.\n\nThe `rename_log.txt` file should contain 100 lines, each with the format `original_name -> new_name`.\n\nTo generate the correct log file, the following command can be used:\n```bash\nfor i in {1..100}; do\n  original_name=\"file$i.data\"\n  new_name=\"doc_$(printf \"%03d\" $i).data\"\n  echo \"$original_name -> $new_name\"\ndone > /home/user/rename_log.txt\n```\nThe `rename_log.txt` file should be sorted alphabetically by the original file name.\n\nThe SHA256 checksum of the `rename_log.txt` file can be used to verify its contents. The correct checksum can be generated using the following command:\n```bash\nsha256sum /home/user/rename_log.txt\n```\nThe output of this command should match the expected checksum.",
+  "setup_script": "#!/bin/bash\n\n# Create the /home/user/archived_data directory\nmkdir -p /home/user/archived_data\n\n# Create 100 files with the .data extension\nfor i in {1..100}; do\n  touch /home/user/archived_data/file$i.data\ndone\n\n# Generate the rename_log.txt file\nfor i in {1..100}; do\n  original_name=\"file$i.data\"\n  new_name=\"doc_$(printf \"%03d\" $i).data\"\n  echo \"$original_name -> $new_name\"\ndone | sort > /home/user/rename_log.txt\n\n# Set the correct permissions\nchmod -R 777 /home/user",
+  "retrieval": {
+    "query": "You are an AI assistant helping a researcher organize their dataset. \n\nThe researcher has an archive located at `/home/user/research_data.tar`. This archive contains some messy data that needs to be cleaned up for a new processing pipeline. Unfortunately, the archive contains a symlink loop that has been breaking the researcher's automated backup scripts, and the text files have outdated encodings and poorly formatted names.\n\nYour task is to perform the following cleanup operations:\n1. Extract the contents of `/home/user/research_data.tar` into a new directory: `/home/user/processed/`.\n2. Find and delete any symlinks within `/home/user/processed/` to prevent infinite loop issues during future backups.\n3. The dataset contains several text files (`*.txt`). They are currently encoded in `ISO-8859-1`. Convert the contents of all `.txt` files in the extracted directory to `UTF-8`.\n4. Bulk rename all the `.txt` files in `/home/user/processed/` (and its subdirectories) by replacing any space characters (` `) in their filenames with underscores (`_`).\n5. Generate a final inventory of the cleaned text files. Compute the SHA256 checksum for each `.txt` file. Write the results to `/home/user/final_inventory.txt`. \n\nThe format of `/home/user/final_inventory.txt` must exactly match the standard output of the `sha256sum` command (e.g., `<hash>  <filepath>`), using the absolute paths to the files. Sort the lines alphabetically by filepath.\n\nYou may use any Bash commands or write short shell scripts to accomplish this.",
+    "matches": [
+      {
+        "node_type": "Primitive",
+        "node_id": "Primitive::file_operations::bulk-file-renaming",
+        "similarity": 0.4478139500513048,
+        "triplets": [
+          {
+            "subject_type": "SkillType",
+            "subject_label": "Transformation",
+            "relation": "HAS_PRIMITIVE",
+            "object_type": "Primitive",
+            "object_label": "Bulk file renaming"
+          }
+        ]
+      },
+      {
+        "node_type": "Primitive",
+        "node_id": "Primitive::file_operations::archive-creation-and-extraction",
+        "similarity": 0.4409465597371758,
+        "triplets": [
+          {
+            "subject_type": "SkillType",
+            "subject_label": "Archives",
+            "relation": "HAS_PRIMITIVE",
+            "object_type": "Primitive",
+            "object_label": "Archive creation and extraction"
+          }
+        ]
+      },
+      {
+        "node_type": "Primitive",
+        "node_id": "Primitive::data_processing::cleaning-normalization-and-deduplication",
+        "similarity": 0.42128594228592087,
+        "triplets": [
+          {
+            "subject_type": "SkillType",
+            "subject_label": "Manipulation",
+            "relation": "HAS_PRIMITIVE",
+            "object_type": "Primitive",
+            "object_label": "Cleaning, normalization, and deduplication"
+          }
+        ]
+      },
+      {
+        "node_type": "Primitive",
+        "node_id": "Primitive::data_processing::unicode-and-multi-language-text-processing",
+        "similarity": 0.3992093133178023,
+        "triplets": [
+          {
+            "subject_type": "SkillType",
+            "subject_label": "String/Text",
+            "relation": "HAS_PRIMITIVE",
+            "object_type": "Primitive",
+            "object_label": "Unicode and multi-language text processing"
+          }
+        ]
+      },
+      {
+        "node_type": "Primitive",
+        "node_id": "Primitive::file_operations::archive-integrity-verification",
+        "similarity": 0.39449116234705833,
+        "triplets": [
+          {
+            "subject_type": "SkillType",
+            "subject_label": "Archives",
+            "relation": "HAS_PRIMITIVE",
+            "object_type": "Primitive",
+            "object_label": "Archive integrity verification"
+          }
+        ]
+      }
+    ]
+  }
+}

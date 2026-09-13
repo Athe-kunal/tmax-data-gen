@@ -1,0 +1,227 @@
+{
+  "task_name": "data_querying-result-sorting-pagination-and-filtering-06ede4e1",
+  "domain": "data_querying",
+  "skill_type": "result-processing",
+  "primitive_skill": "result-sorting-pagination-and-filtering",
+  "persona": "data-engineer-building-etl-pipelines",
+  "language": "rust",
+  "generation_model": "openai/meta-llama/Llama-3.3-70B-Instruct",
+  "task_description": "As a data engineer building ETL pipelines, I have a task that involves processing a large dataset of user interactions and extracting a specific subset of users based on their weighted degree centrality. I have a relational SQLite database at `/home/user/data.db` with a table `users` containing user information (`id INTEGER PRIMARY KEY`, `name TEXT`, `department TEXT`). Additionally, I have a JSON file at `/home/user/interactions.json` containing communication interactions in the format: `[{\"src\": <user_id>, \"dst\": <user_id>, \"weight\": <integer>}, ...]`.\n\nMy goal is to perform the following steps:\n\n1. Load the users from the SQLite database and the interactions from the JSON file to build an in-memory graph.\n2. Calculate the weighted degree centrality for each user, which is the sum of the `weight` of all interactions where they are either the `src` or the `dst`.\n3. Drop any users from the result set whose weighted degree centrality is strictly less than 10.\n4. Sort the remaining users by their weighted degree centrality in descending order. If two users have the exact same centrality score, break the tie by sorting their `name` in ascending alphabetical order.\n5. Implement pagination on the sorted results using a page size of 3.\n6. Extract Page 3 (items 7, 8, and 9 from the sorted filtered list) and write this exact page to `/home/user/output_page3.json` as a JSON array of objects with the schema: `[{\"id\": <integer>, \"name\": \"<string>\", \"centrality\": <integer>}, ...]`.\n\nTo complete this task, I will use the Rust programming language and the required libraries, which can be installed using cargo. I will write a Rust program at `/home/user/process_graph.rs` that performs these steps and run it using the command `cargo run` to generate the output file.\n\nAfter running the program, I expect the output file `/home/user/output_page3.json` to contain the exact page of results in the specified format. I will verify the correctness of the output by checking its contents against the expected results.",
+  "truth": "The SQLite database `/home/user/data.db` contains the following data in the `users` table:\n\n| id | name | department |\n|----|------|------------|\n| 1  | John | Sales      |\n| 2  | Jane | Marketing  |\n| 3  | Bob  | IT         |\n| 4  | Alice| HR         |\n| 5  | Mike | Finance    |\n| 6  | Emma | Sales      |\n| 7  | Tom  | Marketing  |\n| 8  | Lisa | IT         |\n| 9  | David| HR         |\n| 10 | Sarah| Finance    |\n\nThe JSON file `/home/user/interactions.json` contains the following data:\n\n[\n  {\"src\": 1, \"dst\": 2, \"weight\": 5},\n  {\"src\": 1, \"dst\": 3, \"weight\": 3},\n  {\"src\": 2, \"dst\": 4, \"weight\": 2},\n  {\"src\": 3, \"dst\": 5, \"weight\": 4},\n  {\"src\": 4, \"dst\": 6, \"weight\": 1},\n  {\"src\": 5, \"dst\": 7, \"weight\": 6},\n  {\"src\": 6, \"dst\": 8, \"weight\": 3},\n  {\"src\": 7, \"dst\": 9, \"weight\": 2},\n  {\"src\": 8, \"dst\": 10, \"weight\": 5},\n  {\"src\": 9, \"dst\": 1, \"weight\": 4},\n  {\"src\": 10, \"dst\": 2, \"weight\": 6}\n]\n\nThe expected output in `/home/user/output_page3.json` is:\n\n[\n  {\"id\": 5, \"name\": \"Mike\", \"centrality\": 10},\n  {\"id\": 1, \"name\": \"John\", \"centrality\": 12},\n  {\"id\": 2, \"name\": \"Jane\", \"centrality\": 13}\n]",
+  "setup_script": "#!/bin/bash\n\n# Create the SQLite database and table\nsqlite3 /home/user/data.db \"CREATE TABLE users (id INTEGER PRIMARY KEY, name TEXT, department TEXT)\"\n\n# Insert data into the users table\nsqlite3 /home/user/data.db \"INSERT INTO users (id, name, department) VALUES (1, 'John', 'Sales')\"\nsqlite3 /home/user/data.db \"INSERT INTO users (id, name, department) VALUES (2, 'Jane', 'Marketing')\"\nsqlite3 /home/user/data.db \"INSERT INTO users (id, name, department) VALUES (3, 'Bob', 'IT')\"\nsqlite3 /home/user/data.db \"INSERT INTO users (id, name, department) VALUES (4, 'Alice', 'HR')\"\nsqlite3 /home/user/data.db \"INSERT INTO users (id, name, department) VALUES (5, 'Mike', 'Finance')\"\nsqlite3 /home/user/data.db \"INSERT INTO users (id, name, department) VALUES (6, 'Emma', 'Sales')\"\nsqlite3 /home/user/data.db \"INSERT INTO users (id, name, department) VALUES (7, 'Tom', 'Marketing')\"\nsqlite3 /home/user/data.db \"INSERT INTO users (id, name, department) VALUES (8, 'Lisa', 'IT')\"\nsqlite3 /home/user/data.db \"INSERT INTO users (id, name, department) VALUES (9, 'David', 'HR')\"\nsqlite3 /home/user/data.db \"INSERT INTO users (id, name, department) VALUES (10, 'Sarah', 'Finance')\"\n\n# Create the interactions JSON file\ncat > /home/user/interactions.json <<EOF\n[\n  {\"src\": 1, \"dst\": 2, \"weight\": 5},\n  {\"src\": 1, \"dst\": 3, \"weight\": 3},\n  {\"src\": 2, \"dst\": 4, \"weight\": 2},\n  {\"src\": 3, \"dst\": 5, \"weight\": 4},\n  {\"src\": 4, \"dst\": 6, \"weight\": 1},\n  {\"src\": 5, \"dst\": 7, \"weight\": 6},\n  {\"src\": 6, \"dst\": 8, \"weight\": 3},\n  {\"src\": 7, \"dst\": 9, \"weight\": 2},\n  {\"src\": 8, \"dst\": 10, \"weight\": 5},\n  {\"src\": 9, \"dst\": 1, \"weight\": 4},\n  {\"src\": 10, \"dst\": 2, \"weight\": 6}\n]\nEOF\n\n# Install Rust and cargo\napt update\napt install -y rustc cargo\n\n# Create the Rust program file\ncat > /home/user/process_graph.rs <<EOF\n// This file will be used by the agent to write the Rust program\nEOF\n\n# Make the directory and files writable\nchmod -R 777 /home/user",
+  "retrieval": {
+    "query": "As a database reliability engineer managing backups, I need to analyze the communication interactions among users in our organization. We have a relational SQLite database at `/home/user/data.db` with a table `users` containing user information (`id INTEGER PRIMARY KEY`, `name TEXT`, `department TEXT`). Additionally, we have a JSON file at `/home/user/interactions.json` containing communication interactions in the format: `[{\"src\": <user_id>, \"dst\": <user_id>, \"weight\": <integer>}, ...]`. \n\nMy goal is to perform graph analytics on this data, specifically calculating the weighted degree centrality for each user, and then filtering, sorting, and paginating the results. \n\nFirst, I need to load the users from the SQLite database and the interactions from the JSON file to build an in-memory graph. Then, I need to calculate the weighted degree centrality for each user, which is the sum of the `weight` of all interactions where they are either the `src` or the `dst`. \n\nNext, I need to drop any users from the result set whose weighted degree centrality is strictly less than 10. After that, I need to sort the remaining users by their weighted degree centrality in descending order. If two users have the exact same centrality score, I need to break the tie by sorting their `name` in ascending alphabetical order.\n\nFinally, I need to implement pagination on the sorted results using a page size of 3 and extract Page 2 (items 4, 5, and 6 from the sorted filtered list). I need to write this exact page to `/home/user/output_page2.json` as a JSON array of objects with the schema: `[{\"id\": <integer>, \"name\": \"<string>\", \"centrality\": <integer>}, ...]`.\n\nTo complete this task, I will use Python 3 and the required libraries, which can be installed using pip. I will write a Python script to perform these steps and run it to generate the output file.\n\nAfter running the script, I expect the output file `/home/user/output_page2.json` to contain the exact page of results in the specified format. I will verify the correctness of the output by checking its contents against the expected results.",
+    "matches": [
+      {
+        "node_type": "Primitive",
+        "node_id": "Primitive::data_querying::result-sorting-pagination-and-filtering",
+        "similarity": 0.4625220475264013,
+        "triplets": [
+          {
+            "subject_type": "SkillType",
+            "subject_label": "Result Processing",
+            "relation": "HAS_PRIMITIVE",
+            "object_type": "Primitive",
+            "object_label": "Result sorting, pagination, and filtering"
+          }
+        ]
+      },
+      {
+        "node_type": "Primitive",
+        "node_id": "Primitive::data_querying::graph-analytics-centrality-clustering",
+        "similarity": 0.41134400138421334,
+        "triplets": [
+          {
+            "subject_type": "SkillType",
+            "subject_label": "Graph Processing",
+            "relation": "HAS_PRIMITIVE",
+            "object_type": "Primitive",
+            "object_label": "Graph analytics (centrality, clustering)"
+          }
+        ]
+      },
+      {
+        "node_type": "Domain",
+        "node_id": "Domain::data_querying",
+        "similarity": 0.38073989563849464,
+        "triplets": [
+          {
+            "subject_type": "Domain",
+            "subject_label": "Data Querying",
+            "relation": "HAS_PERSONA",
+            "object_type": "Persona",
+            "object_label": "database administrator optimizing queries"
+          },
+          {
+            "subject_type": "Domain",
+            "subject_label": "Data Querying",
+            "relation": "HAS_PERSONA",
+            "object_type": "Persona",
+            "object_label": "data analyst processing CSV files"
+          },
+          {
+            "subject_type": "Domain",
+            "subject_label": "Data Querying",
+            "relation": "HAS_PERSONA",
+            "object_type": "Persona",
+            "object_label": "data engineer building ETL pipelines"
+          },
+          {
+            "subject_type": "Domain",
+            "subject_label": "Data Querying",
+            "relation": "HAS_PERSONA",
+            "object_type": "Persona",
+            "object_label": "researcher organizing datasets"
+          },
+          {
+            "subject_type": "Domain",
+            "subject_label": "Data Querying",
+            "relation": "HAS_PERSONA",
+            "object_type": "Persona",
+            "object_label": "database reliability engineer managing backups"
+          },
+          {
+            "subject_type": "Domain",
+            "subject_label": "Data Querying",
+            "relation": "HAS_PERSONA",
+            "object_type": "Persona",
+            "object_label": "compliance officer auditing systems"
+          },
+          {
+            "subject_type": "Domain",
+            "subject_label": "Data Querying",
+            "relation": "HAS_PERSONA",
+            "object_type": "Persona",
+            "object_label": "business-intelligence developer publishing dashboards"
+          },
+          {
+            "subject_type": "Domain",
+            "subject_label": "Data Querying",
+            "relation": "HAS_PERSONA",
+            "object_type": "Persona",
+            "object_label": "database platform engineer maintaining shared datasets"
+          },
+          {
+            "subject_type": "Domain",
+            "subject_label": "Data Querying",
+            "relation": "HAS_SKILL_TYPE",
+            "object_type": "SkillType",
+            "object_label": "Query Construction"
+          },
+          {
+            "subject_type": "Domain",
+            "subject_label": "Data Querying",
+            "relation": "HAS_SKILL_TYPE",
+            "object_type": "SkillType",
+            "object_label": "Data Comprehension"
+          },
+          {
+            "subject_type": "Domain",
+            "subject_label": "Data Querying",
+            "relation": "HAS_SKILL_TYPE",
+            "object_type": "SkillType",
+            "object_label": "Graph Processing"
+          },
+          {
+            "subject_type": "Domain",
+            "subject_label": "Data Querying",
+            "relation": "HAS_SKILL_TYPE",
+            "object_type": "SkillType",
+            "object_label": "Result Processing"
+          },
+          {
+            "subject_type": "Domain",
+            "subject_label": "Data Querying",
+            "relation": "HAS_SKILL_TYPE",
+            "object_type": "SkillType",
+            "object_label": "Authored extensions"
+          },
+          {
+            "subject_type": "Language",
+            "subject_label": "Python",
+            "relation": "COMPATIBLE_WITH",
+            "object_type": "Domain",
+            "object_label": "Data Querying"
+          },
+          {
+            "subject_type": "Language",
+            "subject_label": "C",
+            "relation": "COMPATIBLE_WITH",
+            "object_type": "Domain",
+            "object_label": "Data Querying"
+          },
+          {
+            "subject_type": "Language",
+            "subject_label": "Bash",
+            "relation": "COMPATIBLE_WITH",
+            "object_type": "Domain",
+            "object_label": "Data Querying"
+          },
+          {
+            "subject_type": "Language",
+            "subject_label": "C++",
+            "relation": "COMPATIBLE_WITH",
+            "object_type": "Domain",
+            "object_label": "Data Querying"
+          },
+          {
+            "subject_type": "Language",
+            "subject_label": "Rust",
+            "relation": "COMPATIBLE_WITH",
+            "object_type": "Domain",
+            "object_label": "Data Querying"
+          },
+          {
+            "subject_type": "Language",
+            "subject_label": "Go",
+            "relation": "COMPATIBLE_WITH",
+            "object_type": "Domain",
+            "object_label": "Data Querying"
+          },
+          {
+            "subject_type": "Language",
+            "subject_label": "multi-language",
+            "relation": "COMPATIBLE_WITH",
+            "object_type": "Domain",
+            "object_label": "Data Querying"
+          },
+          {
+            "subject_type": "Language",
+            "subject_label": "any (model's choice)",
+            "relation": "COMPATIBLE_WITH",
+            "object_type": "Domain",
+            "object_label": "Data Querying"
+          }
+        ]
+      },
+      {
+        "node_type": "Primitive",
+        "node_id": "Primitive::data_processing::database-bulk-import-export",
+        "similarity": 0.3584177576174911,
+        "triplets": [
+          {
+            "subject_type": "SkillType",
+            "subject_label": "Data I/O",
+            "relation": "HAS_PRIMITIVE",
+            "object_type": "Primitive",
+            "object_label": "Database bulk import/export"
+          }
+        ]
+      },
+      {
+        "node_type": "Primitive",
+        "node_id": "Primitive::data_querying::nosql-aggregation-pipelines",
+        "similarity": 0.3527205256451472,
+        "triplets": [
+          {
+            "subject_type": "SkillType",
+            "subject_label": "Query Construction",
+            "relation": "HAS_PRIMITIVE",
+            "object_type": "Primitive",
+            "object_label": "NoSQL aggregation pipelines"
+          }
+        ]
+      }
+    ]
+  }
+}
