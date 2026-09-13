@@ -1,0 +1,25 @@
+schema_version = "1.1"
+
+[task]
+name = "tmax/file_operations-bulk-file-renaming-d36b964f"
+description = "As a backup administrator, I am tasked with archiving data for our company. I have a directory located at `/home/user/archived_data` that contains a large number of files with inconsistent naming conv"
+
+[metadata]
+source = "tmax-data-gen knowledge graph"
+domain = "file_operations"
+skill_type = "transformation"
+primitive_skill = "bulk-file-renaming"
+persona = "backup-administrator-archiving-data"
+language = "bash"
+generation_model = "openai/meta-llama/Llama-3.3-70B-Instruct"
+
+[agent]
+timeout_sec = 600.0
+
+[verifier]
+timeout_sec = 120.0
+
+[environment]
+cpus = 1
+memory_mb = 2048
+allow_internet = true

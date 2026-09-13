@@ -1,0 +1,87 @@
+{
+  "task_name": "scientific_computing-optimization-gradient-descent-simplex-genetic-7649bf4f",
+  "domain": "scientific_computing",
+  "skill_type": "algorithmic",
+  "primitive_skill": "optimization-gradient-descent-simplex-genetic",
+  "persona": "bioinformatics-analyst-processing-sequences",
+  "language": "model-choice",
+  "generation_model": "openai/meta-llama/Llama-3.3-70B-Instruct",
+  "task_description": "As a bioinformatics analyst, I need to optimize the parameters of a complex biological system using the Simplex optimization algorithm. The system is modeled by a Python program located at `/home/user/model.py`, which calculates the objective function and its partial derivatives. The objective function is defined as a function of three parameters: `alpha`, `beta`, and `gamma`, which represent the frequencies of three different types of mutations in a genetic sequence.\n\nMy task has three parts:\n\n1. **Implement Simplex Optimization:** \n   I need to implement a Simplex optimization algorithm in the `model.py` file. The algorithm should minimize the objective function using the Simplex method with a initial simplex size of `1.0`. The initial values of `alpha`, `beta`, and `gamma` should be `0.5`, `0.3`, and `0.2`, respectively.\n\n2. **Run the Optimization:**\n   I have a set of genetic sequences in `/home/user/sequences.fasta`. For each sequence in the file, I need to run the Simplex optimization algorithm to find the optimal values of `alpha`, `beta`, and `gamma` that minimize the objective function. The optimization should run for a maximum of `100` iterations or until the simplex size is smaller than `1e-6`.\n\n3. **Store the Results:**\n   I need to store the optimized parameters in a file located at `/home/user/results.txt`. The file should contain four columns, `sequence_id`, `alpha`, `beta`, and `gamma`, separated by a space. Each row should correspond to the optimized parameters for each sequence in the `sequences.fasta` file.\n\nTo verify the results, I will use a test script located at `/home/user/test.py`. The script will check if the optimized parameters are close to the expected values. I expect the optimized parameters to be close to the values that minimize the objective function.\n\nTo run the `model.py` file, I will use the Python interpreter. I will also use the `scipy` library, which is installed in the `/home/user/venv` virtual environment. Please optimize the parameters of the system and store the results in the `results.txt` file.\n\nAfter running the optimization, please create a log file at `/home/user/log.txt` with the following format:\n```\nSequence ID: <sequence_id>\nOptimized Parameters: alpha = <alpha>, beta = <beta>, gamma = <gamma>\n```\nThis will help me verify the results and track the optimization process.",
+  "truth": "To verify the results, the test script `test.py` will check if the optimized parameters are close to the expected values. The expected values are the ones that minimize the objective function, which is defined as:\n```python\ndef objective_function(alpha, beta, gamma):\n    return (alpha - 0.4)**2 + (beta - 0.2)**2 + (gamma - 0.1)**2\n```\nThe expected values are `alpha = 0.4`, `beta = 0.2`, and `gamma = 0.1`.\n\nThe `sequences.fasta` file contains the following sequences:\n```\n>seq1\nATCG\n>seq2\nATGC\n>seq3\nACGT\n```\nThe `model.py` file should implement the Simplex optimization algorithm using the `scipy` library. The algorithm should minimize the objective function using the Simplex method with a initial simplex size of `1.0`. The initial values of `alpha`, `beta`, and `gamma` should be `0.5`, `0.3`, and `0.2`, respectively.\n\nThe `results.txt` file should contain the optimized parameters for each sequence in the `sequences.fasta` file. The file should have the following format:\n```\nsequence_id alpha beta gamma\nseq1 0.4 0.2 0.1\nseq2 0.4 0.2 0.1\nseq3 0.4 0.2 0.1\n```\nThe `log.txt` file should contain the log messages for each sequence in the `sequences.fasta` file. The file should have the following format:\n```\nSequence ID: seq1\nOptimized Parameters: alpha = 0.4, beta = 0.2, gamma = 0.1\nSequence ID: seq2\nOptimized Parameters: alpha = 0.4, beta = 0.2, gamma = 0.1\nSequence ID: seq3\nOptimized Parameters: alpha = 0.4, beta = 0.2, gamma = 0.1\n```\nTo run the `model.py` file, the following command should be used:\n```bash\npython /home/user/model.py\n```\nThe `scipy` library is installed in the `/home/user/venv` virtual environment. The following command should be used to activate the virtual environment:\n```bash\nsource /home/user/venv/bin/activate\n```",
+  "setup_script": "#!/bin/bash\n\n# Create the user directory\nmkdir -p /home/user\n\n# Create the sequences.fasta file\necho \">seq1\nATCG\n>seq2\nATGC\n>seq3\nACGT\" > /home/user/sequences.fasta\n\n# Create the model.py file\necho \"import numpy as np\nfrom scipy.optimize import fmin\n\ndef objective_function(params):\n    alpha, beta, gamma = params\n    return (alpha - 0.4)**2 + (beta - 0.2)**2 + (gamma - 0.1)**2\n\ndef optimize_sequence(sequence_id):\n    initial_params = [0.5, 0.3, 0.2]\n    optimized_params = fmin(objective_function, initial_params, maxiter=100, xtol=1e-6)\n    return optimized_params\n\ndef main():\n    sequences = []\n    with open('/home/user/sequences.fasta', 'r') as f:\n        lines = f.readlines()\n        for i in range(0, len(lines), 2):\n            sequence_id = lines[i].strip()[1:]\n            sequences.append(sequence_id)\n\n    with open('/home/user/results.txt', 'w') as f:\n        f.write('sequence_id alpha beta gamma\\n')\n        for sequence_id in sequences:\n            optimized_params = optimize_sequence(sequence_id)\n            f.write(f'{sequence_id} {optimized_params[0]} {optimized_params[1]} {optimized_params[2]}\\n')\n\n    with open('/home/user/log.txt', 'w') as f:\n        for sequence_id in sequences:\n            optimized_params = optimize_sequence(sequence_id)\n            f.write(f'Sequence ID: {sequence_id}\\n')\n            f.write(f'Optimized Parameters: alpha = {optimized_params[0]}, beta = {optimized_params[1]}, gamma = {optimized_params[2]}\\n')\n\nif __name__ == '__main__':\n    main()\" > /home/user/model.py\n\n# Create the test.py file\necho \"import numpy as np\n\ndef objective_function(alpha, beta, gamma):\n    return (alpha - 0.4)**2 + (beta - 0.2)**2 + (gamma - 0.1)**2\n\ndef test_optimized_parameters():\n    with open('/home/user/results.txt', 'r') as f:\n        lines = f.readlines()[1:]\n        for line in lines:\n            sequence_id, alpha, beta, gamma = line.strip().split()\n            assert np.isclose(float(alpha), 0.4)\n            assert np.isclose(float(beta), 0.2)\n            assert np.isclose(float(gamma), 0.1)\n\nif __name__ == '__main__':\n    test_optimized_parameters()\" > /home/user/test.py\n\n# Create the virtual environment\npython3 -m venv /home/user/venv\n/home/user/venv/bin/pip install scipy\n\n# Change permissions\nchmod -R 777 /home/user",
+  "retrieval": {
+    "query": "As a computational scientist running batch experiments, I need to optimize the parameters of a complex system using gradient descent. The system is modeled by a C program located at `/home/user/model.c`, which calculates the objective function and its gradient. The objective function is defined as `f(x) = x^2 + 2*y^2`, where `x` and `y` are the parameters to be optimized.\n\nMy task has three parts:\n\n1. **Implement Gradient Descent:** \n   I need to implement a gradient descent optimization algorithm in the `model.c` file. The algorithm should minimize the objective function `f(x, y)` using the gradient descent method with a fixed step size. The step size should be set to `0.01`. The initial values of `x` and `y` should be `10` and `5`, respectively.\n\n2. **Run the Optimization:**\n   I have a set of initial conditions in `/home/user/initial_conditions.txt`. Each line in the file contains two values, `x0` and `y0`, separated by a space. For each line in the file, I need to run the gradient descent optimization algorithm with the corresponding initial conditions. The optimization should run for `100` iterations.\n\n3. **Store the Results:**\n   I need to store the optimized parameters in a file located at `/home/user/results.txt`. The file should contain two columns, `x` and `y`, separated by a space. Each row should correspond to the optimized parameters for each initial condition in the `initial_conditions.txt` file.\n\nTo verify the results, I will use a test script located at `/home/user/test.sh`. The script will check if the optimized parameters are close to the expected values. I expect the optimized parameters to be close to `x = 0` and `y = 0`, which are the minimum values of the objective function.\n\nTo compile the `model.c` file, I will use the `make` command. The `Makefile` is located at `/home/user/Makefile` and contains the necessary commands to compile the `model.c` file.\n\nPlease optimize the parameters of the system and store the results in the `results.txt` file.",
+    "matches": [
+      {
+        "node_type": "Primitive",
+        "node_id": "Primitive::scientific_computing::optimization-gradient-descent-simplex-genetic",
+        "similarity": 0.49533101132748836,
+        "triplets": [
+          {
+            "subject_type": "SkillType",
+            "subject_label": "Algorithmic",
+            "relation": "HAS_PRIMITIVE",
+            "object_type": "Primitive",
+            "object_label": "Optimization (gradient descent, simplex, genetic)"
+          }
+        ]
+      },
+      {
+        "node_type": "Primitive",
+        "node_id": "Primitive::software_engineering::c-program-compilation-debugging-and-makefile-repair",
+        "similarity": 0.4194109328829345,
+        "triplets": [
+          {
+            "subject_type": "SkillType",
+            "subject_label": "Multi-Language",
+            "relation": "HAS_PRIMITIVE",
+            "object_type": "Primitive",
+            "object_label": "C program compilation, debugging, and Makefile repair"
+          }
+        ]
+      },
+      {
+        "node_type": "Primitive",
+        "node_id": "Primitive::scientific_computing::parameter-sweep-orchestration",
+        "similarity": 0.39738656124624944,
+        "triplets": [
+          {
+            "subject_type": "SkillType",
+            "subject_label": "Authored extensions",
+            "relation": "HAS_PRIMITIVE",
+            "object_type": "Primitive",
+            "object_label": "Run and collect reproducible parameter sweeps for scientific experiments."
+          }
+        ]
+      },
+      {
+        "node_type": "Primitive",
+        "node_id": "Primitive::debugging::delta-debugging-and-test-minimization",
+        "similarity": 0.36228671395481077,
+        "triplets": [
+          {
+            "subject_type": "SkillType",
+            "subject_label": "Debugging",
+            "relation": "HAS_PRIMITIVE",
+            "object_type": "Primitive",
+            "object_label": "Delta debugging and test minimization"
+          }
+        ]
+      },
+      {
+        "node_type": "Persona",
+        "node_id": "Persona::scientific_computing::computational-scientist-running-batch-experiments",
+        "similarity": 0.35471644304267436,
+        "triplets": [
+          {
+            "subject_type": "Domain",
+            "subject_label": "Scientific Computing",
+            "relation": "HAS_PERSONA",
+            "object_type": "Persona",
+            "object_label": "computational scientist running batch experiments"
+          }
+        ]
+      }
+    ]
+  }
+}

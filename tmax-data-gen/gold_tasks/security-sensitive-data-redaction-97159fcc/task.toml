@@ -1,0 +1,25 @@
+schema_version = "1.1"
+
+[task]
+name = "tmax/security-sensitive-data-redaction-97159fcc"
+description = "As a security auditor checking permissions, I need to analyze a log file and a data dump to identify potential security vulnerabilities and prepare the data for further analysis. The log file is locat"
+
+[metadata]
+source = "tmax-data-gen knowledge graph"
+domain = "security"
+skill_type = "data-processing"
+primitive_skill = "sensitive-data-redaction"
+persona = "security-auditor-checking-permissions"
+language = "bash"
+generation_model = "openai/meta-llama/Llama-3.3-70B-Instruct"
+
+[agent]
+timeout_sec = 600.0
+
+[verifier]
+timeout_sec = 120.0
+
+[environment]
+cpus = 1
+memory_mb = 2048
+allow_internet = true

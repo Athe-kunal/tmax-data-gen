@@ -1,0 +1,87 @@
+{
+  "task_name": "data_querying-graph-traversal-and-shortest-path-computation-e4197265",
+  "domain": "data_querying",
+  "skill_type": "graph-processing",
+  "primitive_skill": "graph-traversal-and-shortest-path-computation",
+  "persona": "researcher-organizing-datasets",
+  "language": "rust",
+  "generation_model": "openai/meta-llama/Llama-3.3-70B-Instruct",
+  "task_description": "As a researcher organizing datasets, I need to compute the shortest path distance in a graph represented by an edge list. I have a CSV file `/home/user/graph_edges.csv` containing three comma-separated columns: `source_node`, `target_node`, and `edge_weight`. However, this graph contains unweighted edges (all `edge_weight` values are 1), and I need to find the minimum number of hops between `NODE_42` and `NODE_91`. \n\nTo start, I need to inspect the initial environment and identify the inputs, tools, and current state relevant to the task. The graph is directed, meaning edges point from `source_node` to `target_node`. My goal is to write a Rust script that reads `/home/user/graph_edges.csv`, computes the shortest path distance from `NODE_42` to `NODE_91`, and outputs the result to a file located at `/home/user/shortest_path_result.txt`.\n\nThe script should efficiently build the graph using an adjacency list (or equivalent index strategy) before performing the traversal. Since the graph is unweighted, the shortest path distance will be the minimum number of hops between the two nodes. If there is no path between the nodes, the script should output `-1` to indicate that.\n\nTo verify the result, I will use a test command that checks the contents of `/home/user/shortest_path_result.txt` against the expected output. The test command will be defined in the `test.sh` script located at `/home/user/test.sh`. \n\nThe Rust script should be built using the `cargo build` command, and the test command should be executed using `cargo test`. I also want to log any intermediate results or errors to a file located at `/home/user/logs.txt` for debugging purposes. \n\nPlease create the necessary scripts and files to solve this task. The final state of the system should include the following files:\n- `/home/user/graph_edges.csv`: The input graph edge list.\n- `/home/user/shortest_path_result.txt`: The output shortest path distance.\n- `/home/user/logs.txt`: The log file for intermediate results and errors.\n- `/home/user/src/main.rs`: The Rust script that computes the shortest path distance.\n- `/home/user/Cargo.toml`: The Cargo configuration file.",
+  "truth": "The correct output for the shortest path distance should be determined by the following procedure:\n1. Read the graph edge list from `/home/user/graph_edges.csv`.\n2. Build an adjacency list representation of the graph.\n3. Perform a breadth-first search (BFS) traversal from `NODE_42` to find the shortest path distance to `NODE_91`.\n4. If a path is found, output the minimum number of hops to `/home/user/shortest_path_result.txt`.\n5. If no path is found, output `-1` to `/home/user/shortest_path_result.txt`.\n\nThe expected output will depend on the specific contents of the `/home/user/graph_edges.csv` file. However, for the purpose of verification, we can assume that the graph contains a path from `NODE_42` to `NODE_91` with a minimum number of hops.\n\nTo verify the result, the `test.sh` script should compare the contents of `/home/user/shortest_path_result.txt` with the expected output. The expected output can be computed by running a reference implementation of the shortest path algorithm on the same graph.\n\nThe correct implementation of the Rust script should include the following components:\n- A function to read the graph edge list from `/home/user/graph_edges.csv` and build an adjacency list representation of the graph.\n- A function to perform a BFS traversal from `NODE_42` to find the shortest path distance to `NODE_91`.\n- A function to output the result to `/home/user/shortest_path_result.txt`.\n- Error handling to log any intermediate results or errors to `/home/user/logs.txt`.\n\nThe `Cargo.toml` file should include the necessary dependencies for the Rust script, including any libraries for reading CSV files and performing graph algorithms.",
+  "setup_script": "#!/bin/bash\n\n# Install necessary packages\napt update\napt install -y rust cargo\n\n# Create the user directory\nmkdir -p /home/user\n\n# Create the graph edge list file\necho \"source_node,target_node,edge_weight\" > /home/user/graph_edges.csv\necho \"NODE_42,NODE_43,1\" >> /home/user/graph_edges.csv\necho \"NODE_43,NODE_44,1\" >> /home/user/graph_edges.csv\necho \"NODE_44,NODE_91,1\" >> /home/user/graph_edges.csv\n\n# Create the logs file\ntouch /home/user/logs.txt\n\n# Create the Rust script directory\nmkdir -p /home/user/src\n\n# Create the Rust script\necho \"// Import necessary libraries\" > /home/user/src/main.rs\necho \"use std::collections::HashMap;\" >> /home/user/src/main.rs\necho \"use std::collections::VecDeque;\" >> /home/user/src/main.rs\necho \"use std::fs::File;\" >> /home/user/src/main.rs\necho \"use std::io::{BufRead, BufReader};\" >> /home/user/src/main.rs\necho \"use std::io::Write;\" >> /home/user/src/main.rs\necho \"\" >> /home/user/src/main.rs\necho \"// Define a function to read the graph edge list and build an adjacency list\" >> /home/user/src/main.rs\necho \"fn read_graph(filename: &str) -> HashMap<String, Vec<String>> {\" >> /home/user/src/main.rs\necho \"    let file = File::open(filename).unwrap();\" >> /home/user/src/main.rs\necho \"    let reader = BufReader::new(file);\" >> /home/user/src/main.rs\necho \"    let mut graph: HashMap<String, Vec<String>> = HashMap::new();\" >> /home/user/src/main.rs\necho \"    for line in reader.lines() {\" >> /home/user/src/main.rs\necho \"        let line = line.unwrap();\" >> /home/user/src/main.rs\necho \"        let parts: Vec<&str> = line.split(',').collect();\" >> /home/user/src/main.rs\necho \"        if parts[0] != \\\"source_node\\\" {\" >> /home/user/src/main.rs\necho \"            let source_node = parts[0].to_string();\" >> /home/user/src/main.rs\necho \"            let target_node = parts[1].to_string();\" >> /home/user/src/main.rs\necho \"            graph.entry(source_node).or_insert(Vec::new()).push(target_node);\" >> /home/user/src/main.rs\necho \"        }\" >> /home/user/src/main.rs\necho \"    }\" >> /home/user/src/main.rs\necho \"    graph\" >> /home/user/src/main.rs\necho \"}\" >> /home/user/src/main.rs\necho \"\" >> /home/user/src/main.rs\necho \"// Define a function to perform a BFS traversal\" >> /home/user/src/main.rs\necho \"fn bfs(graph: &HashMap<String, Vec<String>>, start_node: &str, target_node: &str) -> i32 {\" >> /home/user/src/main.rs\necho \"    let mut queue: VecDeque<(String, i32)> = VecDeque::new();\" >> /home/user/src/main.rs\necho \"    let mut visited: HashMap<String, bool> = HashMap::new();\" >> /home/user/src/main.rs\necho \"    queue.push_back((start_node.to_string(), 0));\" >> /home/user/src/main.rs\necho \"    while let Some((node, distance)) = queue.pop_front() {\" >> /home/user/src/main.rs\necho \"        if node == target_node {\" >> /home/user/src/main.rs\necho \"            return distance;\" >> /home/user/src/main.rs\necho \"        }\" >> /home/user/src/main.rs\necho \"        if visited.contains_key(&node) {\" >> /home/user/src/main.rs\necho \"            continue;\" >> /home/user/src/main.rs\necho \"        }\" >> /home/user/src/main.rs\necho \"        visited.insert(node.clone(), true);\" >> /home/user/src/main.rs\necho \"        if let Some(neighbors) = graph.get(&node) {\" >> /home/user/src/main.rs\necho \"            for neighbor in neighbors {\" >> /home/user/src/main.rs\necho \"                queue.push_back((neighbor.clone(), distance + 1));\" >> /home/user/src/main.rs\necho \"            }\" >> /home/user/src/main.rs\necho \"        }\" >> /home/user/src/main.rs\necho \"    }\" >> /home/user/src/main.rs\necho \"    -1\" >> /home/user/src/main.rs\necho \"}\" >> /home/user/src/main.rs\necho \"\" >> /home/user/src/main.rs\necho \"// Define the main function\" >> /home/user/src/main.rs\necho \"fn main() {\" >> /home/user/src/main.rs\necho \"    let graph = read_graph(\\\"/home/user/graph_edges.csv\\\");\" >> /home/user/src/main.rs\necho \"    let distance = bfs(&graph, \\\"NODE_42\\\", \\\"NODE_91\\\");\" >> /home/user/src/main.rs\necho \"    let mut file = File::create(\\\"/home/user/shortest_path_result.txt\\\").unwrap();\" >> /home/user/src/main.rs\necho \"    file.write_all(distance.to_string().as_bytes()).unwrap();\" >> /home/user/src/main.rs\necho \"}\" >> /home/user/src/main.rs\n\n# Create the Cargo configuration file\necho \"[package]\" > /home/user/Cargo.toml\necho \"name = \\\"shortest_path\\\"\" >> /home/user/Cargo.toml\necho \"version = \\\"0.1.0\\\"\" >> /home/user/Cargo.toml\necho \"edition = \\\"2021\\\"\" >> /home/user/Cargo.toml\necho \"\" >> /home/user/Cargo.toml\necho \"[dependencies]\" >> /home/user/Cargo.toml\n\n# Create the test script\necho \"#!/bin/bash\" > /home/user/test.sh\necho \"expected_output=$(cat /home/user/shortest_path_result.txt)\" >> /home/user/test.sh\necho \"if [ \\$expected_output -eq 2 ]; then\" >> /home/user/test.sh\necho \"    echo \\\"Test passed\\\"\" >> /home/user/test.sh\necho \"else\" >> /home/user/test.sh\necho \"    echo \\\"Test failed\\\"\" >> /home/user/test.sh\necho \"fi\" >> /home/user/test.sh\nchmod +x /home/user/test.sh\n\n# Set permissions\nchmod -R 777 /home/user",
+  "retrieval": {
+    "query": "As a data analyst processing CSV files, I need to compute the shortest path distance in a graph represented by an edge list. I have a CSV file `/home/user/graph_edges.csv` containing three comma-separated columns: `source_node`, `target_node`, and `edge_weight`. However, this graph contains unweighted edges (all `edge_weight` values are 1), and I need to find the minimum number of hops between `SOURCE_NODE` and `TARGET_NODE`. \n\nTo start, I need to inspect the initial environment and identify the inputs, tools, and current state relevant to the task. The graph is directed, meaning edges point from `source_node` to `target_node`. My goal is to write a script that reads `/home/user/graph_edges.csv`, computes the shortest path distance from `SOURCE_NODE` to `TARGET_NODE`, and outputs the result to a file located at `/home/user/shortest_path_result.txt`.\n\nThe script should efficiently build the graph using an adjacency list (or equivalent index strategy) before performing the traversal. Since the graph is unweighted, the shortest path distance will be the minimum number of hops between the two nodes. If there is no path between the nodes, the script should output `-1` to indicate that.\n\nTo verify the result, I will use a test command that checks the contents of `/home/user/shortest_path_result.txt` against the expected output. The test command will be defined in the `test.sh` script located at `/home/user/test.sh`. \n\nPlease create the necessary scripts and files to solve this task. Make sure to log any intermediate results or errors to a file located at `/home/user/logs.txt` for debugging purposes.",
+    "matches": [
+      {
+        "node_type": "Primitive",
+        "node_id": "Primitive::data_querying::graph-traversal-and-shortest-path-computation",
+        "similarity": 0.5269121932748225,
+        "triplets": [
+          {
+            "subject_type": "SkillType",
+            "subject_label": "Graph Processing",
+            "relation": "HAS_PRIMITIVE",
+            "object_type": "Primitive",
+            "object_label": "Graph traversal and shortest path computation"
+          }
+        ]
+      },
+      {
+        "node_type": "Primitive",
+        "node_id": "Primitive::data_querying::graph-analytics-centrality-clustering",
+        "similarity": 0.4049333506820358,
+        "triplets": [
+          {
+            "subject_type": "SkillType",
+            "subject_label": "Graph Processing",
+            "relation": "HAS_PRIMITIVE",
+            "object_type": "Primitive",
+            "object_label": "Graph analytics (centrality, clustering)"
+          }
+        ]
+      },
+      {
+        "node_type": "Primitive",
+        "node_id": "Primitive::data_processing::distance-and-similarity-computation",
+        "similarity": 0.3940844528187775,
+        "triplets": [
+          {
+            "subject_type": "SkillType",
+            "subject_label": "Mathematical",
+            "relation": "HAS_PRIMITIVE",
+            "object_type": "Primitive",
+            "object_label": "Distance and similarity computation"
+          }
+        ]
+      },
+      {
+        "node_type": "Primitive",
+        "node_id": "Primitive::software_engineering::graph-traversal-and-dependency-resolution",
+        "similarity": 0.394074347484164,
+        "triplets": [
+          {
+            "subject_type": "SkillType",
+            "subject_label": "Algorithmic",
+            "relation": "HAS_PRIMITIVE",
+            "object_type": "Primitive",
+            "object_label": "Graph traversal and dependency resolution"
+          }
+        ]
+      },
+      {
+        "node_type": "Persona",
+        "node_id": "Persona::data_querying::data-analyst-processing-csv-files",
+        "similarity": 0.3752068877433274,
+        "triplets": [
+          {
+            "subject_type": "Domain",
+            "subject_label": "Data Querying",
+            "relation": "HAS_PERSONA",
+            "object_type": "Persona",
+            "object_label": "data analyst processing CSV files"
+          }
+        ]
+      }
+    ]
+  }
+}

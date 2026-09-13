@@ -1,0 +1,87 @@
+{
+  "task_name": "security-sensitive-data-redaction-72f49470",
+  "domain": "security",
+  "skill_type": "data-processing",
+  "primitive_skill": "sensitive-data-redaction",
+  "persona": "incident-responder-investigating-issues",
+  "language": "python",
+  "generation_model": "openai/meta-llama/Llama-3.3-70B-Instruct",
+  "task_description": "As an incident responder investigating a recent security breach, I need to analyze the web server access logs and a raw data dump left by the attacker to identify the perpetrator and prepare the exfiltrated data for legal evidence. The access log is located at `/home/user/access.log`, and the data dump is at `/home/user/compromised_db_dump.csv`. My goal is to redact sensitive Personally Identifiable Information (PII) from the data dump and create a forensics report.\n\nTo begin, I need to analyze the access log to identify the IP address and timestamp of the successful SQL injection attack. The log contains both normal traffic and malicious attempts, so I must carefully inspect the entries to find the one with an HTTP status code of `200` and a request URI containing standard SQL injection keywords like `UNION` or `SELECT`.\n\nOnce I have identified the attacker's IP address and the attack timestamp, I need to create a redacted version of the data dump at `/home/user/redacted_evidence.csv`. The original data dump contains columns for `id`, `name`, `email`, `ssn`, and `cc_number`. I must replace all Social Security Numbers (in the format `ddd-dd-dddd`) with `XXX-XX-XXXX` and all Credit Card Numbers (in the format `dddd-dddd-dddd-dddd`) with `XXXX-XXXX-XXXX-XXXX`, leaving the header and all other data unchanged.\n\nFinally, I need to create a summary report at `/home/user/forensics_report.txt` with the attacker's IP address, the attack timestamp, and the total number of data rows redacted (excluding the header). The report must be in the following format:\n\n```\nAttacker IP: [Insert Attacker IP here]\nAttack Timestamp: [Insert Timestamp here, e.g., 10/Oct/2023:13:55:36 +0000]\nRedacted Records: [Insert the total number of data rows redacted, excluding the header]\n```\n\nI will use standard Linux command-line tools to perform these tasks. My Python environment is set up with the necessary packages, and I can use the Python 3 interpreter to execute any necessary scripts. I will also use `pip` as my package manager and `python -m compileall .` to build my code. To verify my results, I can run `python -m pytest` to execute any test cases.\n\nPlease help me complete these tasks and create the redacted evidence file and forensics report.",
+  "truth": "To verify the correctness of the task execution, the following ground-truth data can be used:\n\n* The access log `/home/user/access.log` contains the following entry for the successful SQL injection attack:\n```\n192.168.1.100 - - [10/Oct/2023:13:55:36 +0000] \"GET /index.php?name=Robert'); UNION SELECT * FROM users WHERE id=1;#\" 200 1234\n```\n* The data dump `/home/user/compromised_db_dump.csv` contains the following rows:\n```\nid,name,email,ssn,cc_number\n1,John Doe,johndoe@example.com,123-45-6789,1234-5678-9012-3456\n2,Jane Doe,janedoe@example.com,987-65-4321,9876-5432-1098-7654\n3,Bob Smith,bobsmith@example.com,111-11-1111,1111-1111-1111-1111\n```\n* The redacted evidence file `/home/user/redacted_evidence.csv` should contain the following rows:\n```\nid,name,email,ssn,cc_number\n1,John Doe,johndoe@example.com,XXX-XX-XXXX,XXXX-XXXX-XXXX-XXXX\n2,Jane Doe,janedoe@example.com,XXX-XX-XXXX,XXXX-XXXX-XXXX-XXXX\n3,Bob Smith,bobsmith@example.com,XXX-XX-XXXX,XXXX-XXXX-XXXX-XXXX\n```\n* The forensics report `/home/user/forensics_report.txt` should contain the following text:\n```\nAttacker IP: 192.168.1.100\nAttack Timestamp: 10/Oct/2023:13:55:36 +0000\nRedacted Records: 3\n```\nThese values can be used to verify the correctness of the task execution and ensure that the redacted evidence file and forensics report are generated correctly.",
+  "setup_script": "#!/bin/bash\n\n# Create the home directory for the user\nmkdir -p /home/user\n\n# Create the access log file\necho \"192.168.1.100 - - [10/Oct/2023:13:55:36 +0000] \\\"GET /index.php?name=Robert'); UNION SELECT * FROM users WHERE id=1;#\\\" 200 1234\" > /home/user/access.log\n\n# Create the data dump file\necho \"id,name,email,ssn,cc_number\n1,John Doe,johndoe@example.com,123-45-6789,1234-5678-9012-3456\n2,Jane Doe,janedoe@example.com,987-65-4321,9876-5432-1098-7654\n3,Bob Smith,bobsmith@example.com,111-11-1111,1111-1111-1111-1111\" > /home/user/compromised_db_dump.csv\n\n# Install necessary packages\napt update\napt install -y python3 python3-pip\n\n# Install pytest\npip3 install pytest\n\n# Create a directory for the python scripts\nmkdir -p /home/user/python_scripts\n\n# Change permissions\nchmod -R 777 /home/user",
+  "retrieval": {
+    "query": "You are an incident responder and forensics analyst investigating a recently compromised web server. The attacker managed to exfiltrate sensitive user data via an SQL injection vulnerability. \n\nYou have been provided with two pieces of evidence left on the compromised host:\n1. The web server access log: `/home/user/access.log`\n2. A raw data dump left by the attacker in a hidden directory: `/home/user/compromised_db_dump.csv`\n\nYour task is to analyze the logs, identify the attacker, and safely prepare the exfiltrated data for legal evidence by redacting sensitive Personally Identifiable Information (PII).\n\nPerform the following steps using standard Linux command-line tools:\n\n1. **Log Analysis and Correlation**:\n   Analyze `/home/user/access.log`. The log contains normal traffic and several malicious attempts. Identify the IP address and the exact timestamp of the **successful** SQL injection attack. \n   * A successful attack will have an HTTP status code of `200`.\n   * The SQL injection payload will be visible in the request URI (look for standard SQLi keywords like `UNION`, `SELECT`).\n\n2. **Sensitive Data Redaction**:\n   The file `/home/user/compromised_db_dump.csv` contains the exfiltrated user data with columns: `id,name,email,ssn,cc_number`.\n   You must create a redacted version of this file at `/home/user/redacted_evidence.csv`.\n   * Replace all Social Security Numbers (format: `ddd-dd-dddd`, where `d` is a digit) with `XXX-XX-XXXX`.\n   * Replace all Credit Card Numbers (format: `dddd-dddd-dddd-dddd`) with `XXXX-XXXX-XXXX-XXXX`.\n   * The header and all other data must remain unchanged.\n\n3. **Forensics Report Creation**:\n   Create a summary report at `/home/user/forensics_report.txt` with exactly the following format:\n\n   ```\n   Attacker IP: [Insert Attacker IP here]\n   Attack Timestamp: [Insert Timestamp here, e.g., 10/Oct/2023:13:55:36 +0000]\n   Redacted Records: [Insert the total number of data rows redacted, excluding the header]\n   ```\n\nMake sure your redacted CSV is correctly formatted and your report exactly matches the required keys and structure.",
+    "matches": [
+      {
+        "node_type": "Primitive",
+        "node_id": "Primitive::security::sensitive-data-redaction",
+        "similarity": 0.4681712422289194,
+        "triplets": [
+          {
+            "subject_type": "SkillType",
+            "subject_label": "Data Processing",
+            "relation": "HAS_PRIMITIVE",
+            "object_type": "Primitive",
+            "object_label": "Sensitive data redaction"
+          }
+        ]
+      },
+      {
+        "node_type": "Primitive",
+        "node_id": "Primitive::security::security-log-parsing-and-correlation",
+        "similarity": 0.4418131780329886,
+        "triplets": [
+          {
+            "subject_type": "SkillType",
+            "subject_label": "Data Processing",
+            "relation": "HAS_PRIMITIVE",
+            "object_type": "Primitive",
+            "object_label": "Security log parsing and correlation"
+          }
+        ]
+      },
+      {
+        "node_type": "Primitive",
+        "node_id": "Primitive::security::injection-and-xss-vulnerability-analysis",
+        "similarity": 0.43039874099586883,
+        "triplets": [
+          {
+            "subject_type": "SkillType",
+            "subject_label": "Web Security",
+            "relation": "HAS_PRIMITIVE",
+            "object_type": "Primitive",
+            "object_label": "Injection and XSS vulnerability analysis"
+          }
+        ]
+      },
+      {
+        "node_type": "Persona",
+        "node_id": "Persona::security::forensics-analyst-recovering-evidence-from-a-compromised-host",
+        "similarity": 0.4249214759033441,
+        "triplets": [
+          {
+            "subject_type": "Domain",
+            "subject_label": "Security",
+            "relation": "HAS_PERSONA",
+            "object_type": "Persona",
+            "object_label": "forensics analyst recovering evidence from a compromised host"
+          }
+        ]
+      },
+      {
+        "node_type": "Primitive",
+        "node_id": "Primitive::security::secret-scanning-and-remediation",
+        "similarity": 0.3987063720072365,
+        "triplets": [
+          {
+            "subject_type": "SkillType",
+            "subject_label": "Authored extensions",
+            "relation": "HAS_PRIMITIVE",
+            "object_type": "Primitive",
+            "object_label": "Detect exposed secrets and remediate them from a repository or configuration."
+          }
+        ]
+      }
+    ]
+  }
+}

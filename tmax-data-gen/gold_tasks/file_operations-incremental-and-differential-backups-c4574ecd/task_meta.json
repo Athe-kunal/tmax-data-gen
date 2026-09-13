@@ -1,0 +1,87 @@
+{
+  "task_name": "file_operations-incremental-and-differential-backups-c4574ecd",
+  "domain": "file_operations",
+  "skill_type": "archives",
+  "primitive_skill": "incremental-and-differential-backups",
+  "persona": "researcher-organizing-datasets",
+  "language": "rust",
+  "generation_model": "openai/meta-llama/Llama-3.3-70B-Instruct",
+  "task_description": "As a researcher organizing datasets, I have a large collection of files that I need to back up regularly. I use a combination of full and incremental backups to save disk space. My backup system has completed an incremental backup, but due to a configuration error, it copied all files completely instead of creating hard links for the files that hadn't changed. I need to deduplicate the files in the incremental backup directory by creating hard links to the identical files in the base backup directory.\n\nThe metadata about the backups, including the paths to the base backup directory and the incremental backup directory, is stored in a JSON file at `/home/user/backups.json`. The format of the JSON file is as follows:\n```json\n{\n    \"base\": \"/home/user/base_backup\",\n    \"inc\": \"/home/user/inc_backup\"\n}\n```\nA log file at `/home/user/sync.log` contains records of the files processed during the backup. Every record spans exactly three lines:\n```\nFILE: <filename>\nSIZE: <bytes>\nSTATUS: <SUCCESS|FAILED>\n```\nMy task is to write and execute a Rust program (using the Rust toolchain and cargo package manager) to perform the following operations:\n\n1. Parse `/home/user/backups.json` to extract the paths for the base and incremental backup directories.\n2. Parse `/home/user/sync.log` to identify all files that have `STATUS: SUCCESS`.\n3. For every successfully processed file, check if it exists in both the base and incremental directories. If the contents are exactly identical, deduplicate it by deleting the copy in the incremental directory and creating a hard link to the file in the base directory.\n4. Generate a CSV report at `/home/user/dedup_report.csv` with exactly two columns: `filename,saved_bytes`. Include only the files that were successfully hardlinked. The `saved_bytes` should be the size of the deduplicated file.\n5. Create a symbolic link at `/home/user/latest_backup` pointing to the incremental backup directory.\n\nTo verify the correctness of the task, I will run `cargo test` to check if the generated CSV report matches the expected format and if the symbolic link points to the correct directory.\n\nPlease note that the Rust program should be executed in the `/home/user` directory, and the `cargo build` command should be used to build the program before running it.",
+  "truth": "To verify the correctness of the task, the following ground-truth data can be used:\n\n* The `backups.json` file contains the following metadata:\n```json\n{\n    \"base\": \"/home/user/base_backup\",\n    \"inc\": \"/home/user/inc_backup\"\n}\n```\n* The `sync.log` file contains the following records:\n```\nFILE: file1.txt\nSIZE: 1024\nSTATUS: SUCCESS\nFILE: file2.txt\nSIZE: 2048\nSTATUS: SUCCESS\nFILE: file3.txt\nSIZE: 4096\nSTATUS: FAILED\n```\n* The `base_backup` directory contains the following files:\n```bash\nfile1.txt (1024 bytes)\nfile2.txt (2048 bytes)\n```\n* The `inc_backup` directory contains the following files:\n```bash\nfile1.txt (1024 bytes)\nfile2.txt (2048 bytes)\nfile3.txt (4096 bytes)\n```\n* The expected `dedup_report.csv` file should contain the following records:\n```csv\nfilename,saved_bytes\nfile1.txt,1024\nfile2.txt,2048\n```\n* The symbolic link at `/home/user/latest_backup` should point to the `/home/user/inc_backup` directory.\n\nThe `cargo test` command should check if the generated CSV report matches the expected format and if the symbolic link points to the correct directory.",
+  "setup_script": "#!/bin/bash\n\n# Install necessary packages\napt update\napt install -y rust cargo\n\n# Create directories\nmkdir -p /home/user/base_backup\nmkdir -p /home/user/inc_backup\n\n# Create files in base_backup directory\ndd if=/dev/zero of=/home/user/base_backup/file1.txt bs=1024 count=1\ndd if=/dev/zero of=/home/user/base_backup/file2.txt bs=2048 count=1\n\n# Create files in inc_backup directory\ndd if=/dev/zero of=/home/user/inc_backup/file1.txt bs=1024 count=1\ndd if=/dev/zero of=/home/user/inc_backup/file2.txt bs=2048 count=1\ndd if=/dev/zero of=/home/user/inc_backup/file3.txt bs=4096 count=1\n\n# Create backups.json file\necho '{\n    \"base\": \"/home/user/base_backup\",\n    \"inc\": \"/home/user/inc_backup\"\n}' > /home/user/backups.json\n\n# Create sync.log file\necho 'FILE: file1.txt\nSIZE: 1024\nSTATUS: SUCCESS\nFILE: file2.txt\nSIZE: 2048\nSTATUS: SUCCESS\nFILE: file3.txt\nSIZE: 4096\nSTATUS: FAILED' > /home/user/sync.log\n\n# Change ownership and permissions\nchown -R user:user /home/user\nchmod -R 777 /home/user",
+  "retrieval": {
+    "query": "You are acting as a storage administrator to reclaim disk space from redundant backup copies. \n\nThe backup system recently completed an incremental backup, but due to a configuration error, it copied all files completely instead of creating hard links for the files that hadn't changed.\n\nHere is the current system state:\n- A JSON registry file at `/home/user/backups.json` contains metadata about the backups, including the paths to the `base` backup directory and the `inc` (incremental) backup directory.\n- A multi-line log file at `/home/user/sync.log` contains records of the files processed during the backup. Every record spans exactly three lines:\n  ```\n  FILE: <filename>\n  SIZE: <bytes>\n  STATUS: <SUCCESS|FAILED>\n  ```\n\nYour task is to write and execute a Python script (alongside any shell commands you wish) to perform the following operations:\n1. Parse `/home/user/backups.json` to extract the paths for the base and incremental backup directories.\n2. Parse `/home/user/sync.log` to identify all files that have `STATUS: SUCCESS`.\n3. For every successfully processed file, check if it exists in both the base and incremental directories. If the contents are exactly identical, deduplicate it by deleting the copy in the incremental directory and creating a hard link to the file in the base directory.\n4. Generate a CSV report at `/home/user/dedup_report.csv` with exactly two columns: `filename,saved_bytes`. Include only the files that were successfully hardlinked. The `saved_bytes` should be the size of the deduplicated file.\n5. Create a symbolic link at `/home/user/latest_backup` pointing to the incremental backup directory.\n\nDo not modify the contents of the files in the base backup. Ensure your CSV exactly matches the header format `filename,saved_bytes`.",
+    "matches": [
+      {
+        "node_type": "Primitive",
+        "node_id": "Primitive::file_operations::incremental-and-differential-backups",
+        "similarity": 0.4764060629635382,
+        "triplets": [
+          {
+            "subject_type": "SkillType",
+            "subject_label": "Archives",
+            "relation": "HAS_PRIMITIVE",
+            "object_type": "Primitive",
+            "object_label": "Incremental and differential backups"
+          }
+        ]
+      },
+      {
+        "node_type": "Primitive",
+        "node_id": "Primitive::file_operations::symbolic-and-hard-link-management",
+        "similarity": 0.42965104295162626,
+        "triplets": [
+          {
+            "subject_type": "SkillType",
+            "subject_label": "Navigation",
+            "relation": "HAS_PRIMITIVE",
+            "object_type": "Primitive",
+            "object_label": "Symbolic and hard link management"
+          }
+        ]
+      },
+      {
+        "node_type": "Primitive",
+        "node_id": "Primitive::data_processing::hash-based-deduplication",
+        "similarity": 0.42853694219041555,
+        "triplets": [
+          {
+            "subject_type": "SkillType",
+            "subject_label": "Algorithmic",
+            "relation": "HAS_PRIMITIVE",
+            "object_type": "Primitive",
+            "object_label": "Hash-based deduplication"
+          }
+        ]
+      },
+      {
+        "node_type": "Primitive",
+        "node_id": "Primitive::debugging::deleted-file-recovery-and-filesystem-inspection",
+        "similarity": 0.40776662861002433,
+        "triplets": [
+          {
+            "subject_type": "SkillType",
+            "subject_label": "Forensics",
+            "relation": "HAS_PRIMITIVE",
+            "object_type": "Primitive",
+            "object_label": "Deleted file recovery and filesystem inspection"
+          }
+        ]
+      },
+      {
+        "node_type": "Primitive",
+        "node_id": "Primitive::file_operations::safe-directory-synchronization",
+        "similarity": 0.39947001787509995,
+        "triplets": [
+          {
+            "subject_type": "SkillType",
+            "subject_label": "Authored extensions",
+            "relation": "HAS_PRIMITIVE",
+            "object_type": "Primitive",
+            "object_label": "Synchronize directory trees without unintended deletion or corruption."
+          }
+        ]
+      }
+    ]
+  }
+}

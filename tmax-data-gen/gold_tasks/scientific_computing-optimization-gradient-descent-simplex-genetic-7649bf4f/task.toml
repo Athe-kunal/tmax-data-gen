@@ -1,0 +1,25 @@
+schema_version = "1.1"
+
+[task]
+name = "tmax/scientific_computing-optimization-gradient-descent-simplex-genetic-7649bf4f"
+description = "As a bioinformatics analyst, I need to optimize the parameters of a complex biological system using the Simplex optimization algorithm. The system is modeled by a Python program located at `/home/user"
+
+[metadata]
+source = "tmax-data-gen knowledge graph"
+domain = "scientific_computing"
+skill_type = "algorithmic"
+primitive_skill = "optimization-gradient-descent-simplex-genetic"
+persona = "bioinformatics-analyst-processing-sequences"
+language = "model-choice"
+generation_model = "openai/meta-llama/Llama-3.3-70B-Instruct"
+
+[agent]
+timeout_sec = 600.0
+
+[verifier]
+timeout_sec = 120.0
+
+[environment]
+cpus = 1
+memory_mb = 2048
+allow_internet = true

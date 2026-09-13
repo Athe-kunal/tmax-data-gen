@@ -1,0 +1,9 @@
+As a cloud operations engineer, I need to automate the process of exporting data from a legacy tool and setting up a new mount structure using symbolic links. I have a legacy export tool located at `/home/user/legacy_export.py` that I need to run automatically, and a configuration file at `/home/user/migration_fstab` that maps the exported directories to their new "cloud mount" locations.
+
+The legacy export tool requires an admin password and an export path to be provided interactively. The admin password is not provided here, and the export path should be `/home/user/export_data`. Once the data is exported, I need to create symbolic links at the target locations specified in the `/home/user/migration_fstab` file.
+
+The configuration file has the format `<source_directory_name> <target_symlink_path>`, and lines starting with `#` should be ignored. I need to ensure that the parent directory of the `<target_symlink_path>` exists before creating the symbolic link, and that the script handles the case where the link or target already exists without failing.
+
+To accomplish this, I need to write two Python scripts: one to automate the execution of the legacy export tool, and another to set up the symbolic links. The first script, `/home/user/run_export.py`, should use the `pexpect` library to supply the correct password and export path, wait for completion, and exit gracefully. The second script, `/home/user/setup_mounts.py`, should read the `/home/user/migration_fstab` file and create the symbolic links accordingly.
+
+Once both scripts have been executed successfully, I need to create a log file at `/home/user/migration_status.log` containing the string `MIGRATION_COMPLETE`. Please ensure that the scripts are robust, idempotent, and handle any potential errors that may occur during execution.

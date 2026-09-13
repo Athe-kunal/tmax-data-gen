@@ -1,0 +1,87 @@
+{
+  "task_name": "file_operations-bulk-file-renaming-6a3a145f",
+  "domain": "file_operations",
+  "skill_type": "transformation",
+  "primitive_skill": "bulk-file-renaming",
+  "persona": "release-archivist-packaging-deliverables",
+  "language": "python",
+  "generation_model": "openai/meta-llama/Llama-3.3-70B-Instruct",
+  "task_description": "As a release archivist packaging deliverables, I need to prepare a set of files for distribution. The files are located in the `/home/user/deliverables` directory and are a mix of Python scripts, data files, and documentation. The files have inconsistent naming conventions, which makes it difficult to manage and distribute them.\n\nMy goal is to bulk rename the files in the `/home/user/deliverables` directory to have a more consistent naming convention. The new naming convention should include a prefix that indicates the type of file (e.g., `script_`, `data_`, `doc_`), followed by a unique identifier. The unique identifier should be a zero-padded, three-digit number, starting from 001.\n\nFor example, if the directory contains the following files:\n`file1.py`, `file2.txt`, `file3.md`, etc.\nI want to rename them to:\n`script_001.py`, `data_001.txt`, `doc_001.md`, etc.\n\nHowever, I also want to preserve the original file permissions and timestamps. I do not want to modify the contents of the files in any way.\n\nTo verify that the renaming process was successful, I want to generate a log file that contains the names of the original files and their corresponding new names. The log file should be named `rename_log.txt` and should be located in the `/home/user` directory.\n\nThe format of the log file should be:\n`original_name -> new_name`\nFor example:\n`file1.py -> script_001.py`\n`file2.txt -> data_001.txt`\n`file3.md -> doc_001.md`\n\nPlease assist me in bulk renaming these files and generating the log file. You can use any terminal commands or write short shell scripts to accomplish this task.",
+  "truth": "The `/home/user/deliverables` directory contains the following files:\n- `file1.py`\n- `file2.txt`\n- `file3.md`\n- `file4.py`\n- `file5.txt`\n- `file6.md`\n\nThe correct log file `/home/user/rename_log.txt` should contain the following lines:\n- `file1.py -> script_001.py`\n- `file2.txt -> data_001.txt`\n- `file3.md -> doc_001.md`\n- `file4.py -> script_002.py`\n- `file5.txt -> data_002.txt`\n- `file6.md -> doc_002.md`\n\nThe file types and their corresponding prefixes are:\n- Python scripts: `script_`\n- Text files: `data_`\n- Markdown files: `doc_`\n\nThe unique identifier should be a zero-padded, three-digit number, starting from 001.\n\nTo verify the correctness of the task, you can check the contents of the `/home/user/rename_log.txt` file and the names of the files in the `/home/user/deliverables` directory.",
+  "setup_script": "#!/bin/bash\n\n# Create the /home/user/deliverables directory\nmkdir -p /home/user/deliverables\n\n# Create the files in the /home/user/deliverables directory\ntouch /home/user/deliverables/file1.py\ntouch /home/user/deliverables/file2.txt\ntouch /home/user/deliverables/file3.md\ntouch /home/user/deliverables/file4.py\ntouch /home/user/deliverables/file5.txt\ntouch /home/user/deliverables/file6.md\n\n# Create an empty log file in the /home/user directory\ntouch /home/user/rename_log.txt\n\n# Set the permissions of the files and directories\nchmod -R 777 /home/user\n\n# Verify the initial state\nls -l /home/user/deliverables\ncat /home/user/rename_log.txt",
+  "retrieval": {
+    "query": "As a backup administrator, I am tasked with archiving data for our company. I have a directory located at `/home/user/archived_data` that contains a large number of files with inconsistent naming conventions. The files are a mix of documents, images, and videos, and they all have a `.data` extension. My goal is to bulk rename these files to have a more consistent naming convention.\n\nThe current naming convention is a mix of letters and numbers, but it does not provide any meaningful information about the contents of the files. I want to rename the files to include a prefix that indicates the type of file (e.g., `doc_`, `img_`, `vid_`), followed by a unique identifier. The unique identifier should be a zero-padded, three-digit number, starting from 001.\n\nFor example, if the directory contains the following files:\n`file1.data`, `file2.data`, `file3.data`, etc.\nI want to rename them to:\n`doc_001.data`, `doc_002.data`, `doc_003.data`, etc.\n\nHowever, I also want to preserve the original file permissions and timestamps. I do not want to modify the contents of the files in any way.\n\nTo verify that the renaming process was successful, I want to generate a log file that contains the names of the original files and their corresponding new names. The log file should be named `rename_log.txt` and should be located in the `/home/user` directory.\n\nThe format of the log file should be:\n`original_name -> new_name`\nFor example:\n`file1.data -> doc_001.data`\n`file2.data -> doc_002.data`\n`file3.data -> doc_003.data`\n\nPlease assist me in bulk renaming these files and generating the log file.",
+    "matches": [
+      {
+        "node_type": "Primitive",
+        "node_id": "Primitive::file_operations::bulk-file-renaming",
+        "similarity": 0.6146309258855919,
+        "triplets": [
+          {
+            "subject_type": "SkillType",
+            "subject_label": "Transformation",
+            "relation": "HAS_PRIMITIVE",
+            "object_type": "Primitive",
+            "object_label": "Bulk file renaming"
+          }
+        ]
+      },
+      {
+        "node_type": "Primitive",
+        "node_id": "Primitive::system_administration::log-configuration-and-rotation",
+        "similarity": 0.36876386848925347,
+        "triplets": [
+          {
+            "subject_type": "SkillType",
+            "subject_label": "Configuration",
+            "relation": "HAS_PRIMITIVE",
+            "object_type": "Primitive",
+            "object_label": "Log configuration and rotation"
+          }
+        ]
+      },
+      {
+        "node_type": "Primitive",
+        "node_id": "Primitive::file_operations::format-conversion-between-file-types",
+        "similarity": 0.35326821010983295,
+        "triplets": [
+          {
+            "subject_type": "SkillType",
+            "subject_label": "Transformation",
+            "relation": "HAS_PRIMITIVE",
+            "object_type": "Primitive",
+            "object_label": "Format conversion between file types"
+          }
+        ]
+      },
+      {
+        "node_type": "Persona",
+        "node_id": "Persona::file_operations::backup-administrator-archiving-data",
+        "similarity": 0.32146135486243127,
+        "triplets": [
+          {
+            "subject_type": "Domain",
+            "subject_label": "File Operations",
+            "relation": "HAS_PERSONA",
+            "object_type": "Persona",
+            "object_label": "backup administrator archiving data"
+          }
+        ]
+      },
+      {
+        "node_type": "Primitive",
+        "node_id": "Primitive::file_operations::safe-directory-synchronization",
+        "similarity": 0.3162008007378738,
+        "triplets": [
+          {
+            "subject_type": "SkillType",
+            "subject_label": "Authored extensions",
+            "relation": "HAS_PRIMITIVE",
+            "object_type": "Primitive",
+            "object_label": "Synchronize directory trees without unintended deletion or corruption."
+          }
+        ]
+      }
+    ]
+  }
+}
