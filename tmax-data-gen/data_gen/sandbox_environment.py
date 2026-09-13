@@ -22,7 +22,6 @@ verifier in that same sandbox afterward (see `data_gen.rollout`).
 from __future__ import annotations
 
 import logging
-import platform
 from typing import Any
 
 import cwsandbox
@@ -30,6 +29,8 @@ from pydantic import BaseModel, ConfigDict
 
 from minisweagent.exceptions import Submitted
 from minisweagent.utils.serialize import recursive_merge
+
+from data_gen.env_exec import query_platform_info
 
 logger = logging.getLogger("minisweagent.environment")
 
@@ -70,6 +71,7 @@ class SandboxEnvironment:
                 environment_variables=self.config.environment_variables,
                 max_lifetime_seconds=self.config.max_lifetime_seconds,
             ).wait()
+        self._platform_info = query_platform_info(self)
 
     def execute(self, action: dict, cwd: str = "", *, timeout: int | None = None) -> dict[str, Any]:
         """Executes a command in the sandbox and returns the result as a dict."""
@@ -103,7 +105,7 @@ class SandboxEnvironment:
             )
 
     def get_template_vars(self, **kwargs) -> dict[str, Any]:
-        return recursive_merge(self.config.model_dump(exclude={"sandbox"}), platform.uname()._asdict(), kwargs)
+        return recursive_merge(self.config.model_dump(exclude={"sandbox"}), self._platform_info, kwargs)
 
     def serialize(self) -> dict:
         return {

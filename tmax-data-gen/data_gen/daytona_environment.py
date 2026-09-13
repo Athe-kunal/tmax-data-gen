@@ -16,7 +16,6 @@ W&B Sandboxes' public-preview access model.
 from __future__ import annotations
 
 import logging
-import platform
 from typing import Any
 
 from daytona import CreateSandboxFromImageParams, Daytona, DaytonaConfig, Sandbox
@@ -24,6 +23,8 @@ from pydantic import BaseModel, ConfigDict
 
 from minisweagent.exceptions import Submitted
 from minisweagent.utils.serialize import recursive_merge
+
+from data_gen.env_exec import query_platform_info
 
 logger = logging.getLogger("minisweagent.environment")
 
@@ -56,6 +57,7 @@ class DaytonaEnvironment:
             self.sandbox = self._client.create(
                 CreateSandboxFromImageParams(image=self.config.image, env_vars=self.config.env)
             )
+        self._platform_info = query_platform_info(self)
 
     def execute(self, action: dict, cwd: str = "", *, timeout: int | None = None) -> dict[str, Any]:
         """Executes a command in the sandbox and returns the result as a dict."""
@@ -88,7 +90,7 @@ class DaytonaEnvironment:
             )
 
     def get_template_vars(self, **kwargs) -> dict[str, Any]:
-        return recursive_merge(self.config.model_dump(exclude={"sandbox"}), platform.uname()._asdict(), kwargs)
+        return recursive_merge(self.config.model_dump(exclude={"sandbox"}), self._platform_info, kwargs)
 
     def serialize(self) -> dict:
         return {

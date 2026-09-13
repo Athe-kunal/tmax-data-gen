@@ -1,7 +1,7 @@
 """Generates one full-spec question from a sampled catalog entry.
 
-Two-call pipeline (mirrors tmax's legacy `task_template_gen.py` /
-`completion_test_gen.py` split):
+Three-call pipeline (mirrors tmax's legacy `task_template_gen.py` /
+`completion_test_gen.py` / `apptainer_def_gen.py` split):
 
   1. Task+truth call: given the sampled Domain/SkillType/Primitive/
      Persona/Language and prior "context till now" (previously generated
@@ -11,6 +11,12 @@ Two-call pipeline (mirrors tmax's legacy `task_template_gen.py` /
   2. Test call: given the task description and truth, emit a
      `test_final_state.py` pytest suite that passes only if the task was
      solved correctly.
+  3. Setup-script call: given the task description and truth, emit a bash
+     script that actually creates the "given" initial state (input files,
+     datasets, running services) the task/truth claim already exist -
+     without this, a solving agent has nothing to work with but its own
+     guess at what that data should look like, and fails verification
+     against the real truth no matter how well it solves the task itself.
 
 Both calls go through `litellm.completion` directly (not mini-swe-agent's
 `LitellmModel`, which forces a bash tool-call loop unsuited to a plain text
@@ -23,6 +29,7 @@ from __future__ import annotations
 
 import logging
 import re
+import subprocess
 import textwrap
 from dataclasses import dataclass
 
@@ -167,6 +174,43 @@ The task description is: {task_description}
 The truth value is: {truth}
 Write the code in a fenced code block that can be parsed."""
 
+_SETUP_SYSTEM_MSG = """\
+You are an expert at preparing terminal task environments.
+
+You will be given a task description and its privileged ground truth. Your
+job is to write a bash script that creates the INITIAL state of the
+environment - every file, directory, dataset, or running service that
+<task> or <truth> claims already exists - so the task is actually solvable
+and verifiable exactly as specified, instead of the agent having to guess
+at or fabricate input data.
+
+IMPORTANT RULES:
+* Install ONLY the additional system or language packages the task needs
+  beyond what is already present (prefer pip/apt as appropriate).
+* Create every file, directory, dataset, database, or service the task
+  description or truth claims already exists, with the exact contents,
+  schema, or scale described.
+* Do NOT create the files or outputs the agent is supposed to produce -
+  only the starting state.
+* Do NOT include any code that solves the task.
+* The script runs as root in a fresh container; the agent's home directory
+  is /home/user.
+* Do NOT use templated or placeholder values (no {{ }}).
+* End with `chmod -R 777 /home/user` unless the task specifically requires
+  narrower permissions.
+* Respond with ONLY a bash script in a single fenced code block."""
+
+_SETUP_USER_TEMPLATE = """\
+Task description given to the agent:
+{task_description}
+
+Ground truth (privileged - describes the exact initial state to create):
+{truth}
+
+Write a bash script that creates the initial state described above, so the
+task is solvable and verifiable against this exact truth. Respond with ONLY
+the bash script in a fenced code block."""
+
 
 @dataclass(frozen=True)
 class GeneratedQuestion:
@@ -177,6 +221,11 @@ class GeneratedQuestion:
     truth: str
     test_code: str
     model: str
+    setup_script: str = ""
+    """Bash script that creates the task's "given" initial state before the
+    agent starts (see `_SETUP_SYSTEM_MSG`). Empty for questions whose
+    environment is set up some other way - e.g. `tmax_rl_seed`'s cold-start
+    questions, which use the source row's own real container_def instead."""
 
 
 def _format_bullets(items: list[str]) -> str:
@@ -229,6 +278,23 @@ def _parse_test_code(raw: str) -> str:
     return code
 
 
+def _parse_setup_script(raw: str) -> str:
+    fence_match = re.search(r"```(?:bash|sh)?\n(.*?)```", raw, re.DOTALL | re.IGNORECASE)
+    script = fence_match.group(1) if fence_match else raw
+    script = textwrap.dedent(script).rstrip()
+    if not script.strip():
+        raise ValueError(f"Empty setup script in generation response:\n{raw}")
+    if re.search(r"\{\{.*?\}\}", script):
+        raise ValueError(f"Setup script contains forbidden {{{{ }}}} placeholders:\n{script}")
+    # Cheap local syntax check (bash -n) before ever sending this to a remote
+    # sandbox - mirrors tmax's own def-generation validation in spirit
+    # (apptainer_def_gen.py checks for {{ }} before an expensive remote build).
+    check = subprocess.run(["bash", "-n", "-c", script], capture_output=True, text=True)
+    if check.returncode != 0:
+        raise ValueError(f"Setup script failed `bash -n` syntax check: {check.stderr}\n{script}")
+    return script
+
+
 def _retry(fn, max_retries: int, description: str):
     """Calls `fn()`, retrying on ValueError/SyntaxError up to `max_retries` times.
 
@@ -258,7 +324,7 @@ def generate_question(
     extra_kwargs: dict[str, object] | None = None,
     max_retries: int = 2,
 ) -> GeneratedQuestion:
-    """Generates one full-spec question for `sample` via two LLM calls.
+    """Generates one full-spec question for `sample` via three LLM calls.
 
     Args:
         sample: The catalog entry (domain/skill type/primitive/persona/
@@ -310,6 +376,29 @@ def generate_question(
 
     test_code = _retry(_call_test, max_retries, "test generation")
 
+    def _call_setup() -> str:
+        response = litellm.completion(
+            model=model,
+            messages=[
+                {"role": "system", "content": _SETUP_SYSTEM_MSG},
+                {
+                    "role": "user",
+                    "content": _SETUP_USER_TEMPLATE.format(task_description=task_description, truth=truth),
+                },
+            ],
+            temperature=0.6,
+            max_tokens=max_tokens,
+            **extra_kwargs,
+        )
+        return _parse_setup_script(response.choices[0].message.content)
+
+    setup_script = _retry(_call_setup, max_retries, "setup script generation")
+
     return GeneratedQuestion(
-        sample=sample, task_description=task_description, truth=truth, test_code=test_code, model=model
+        sample=sample,
+        task_description=task_description,
+        truth=truth,
+        test_code=test_code,
+        model=model,
+        setup_script=setup_script,
     )

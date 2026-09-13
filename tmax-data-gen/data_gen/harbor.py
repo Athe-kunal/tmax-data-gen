@@ -160,6 +160,8 @@ def materialize_harbor_task(
     )
     (out_dir / "tests" / "test.sh").write_text(TEST_SH)
     (out_dir / "tests" / "test_final_state.py").write_text(question.test_code + "\n")
+    if question.setup_script:
+        (out_dir / "environment" / "setup.sh").write_text(question.setup_script + "\n")
 
     meta = {
         "task_name": task_name,
@@ -171,6 +173,7 @@ def materialize_harbor_task(
         "generation_model": question.model,
         "task_description": question.task_description,
         "truth": question.truth,
+        "setup_script": question.setup_script,
     }
     if retrieval is not None:
         meta["retrieval"] = retrieval

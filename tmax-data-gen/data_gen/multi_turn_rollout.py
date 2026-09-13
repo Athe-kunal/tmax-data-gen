@@ -132,7 +132,13 @@ def _continue_with_task(agent: DefaultAgent, task_message: str) -> dict:
     This is `DefaultAgent.run()`'s inner loop with the `self.messages = []`
     reset removed, built only from `DefaultAgent`'s public API - the agent
     class itself is untouched.
+
+    Explicitly resets `n_consecutive_format_errors` to 0: `run()` does this
+    implicitly via `__init__`, but a turn that exits via `RepeatedFormatError`
+    would otherwise leave the count at its max, so the very next turn could
+    exit after a single format error instead of a fresh error budget.
     """
+    agent.n_consecutive_format_errors = 0
     agent.add_messages(agent.model.format_message(role="user", content=task_message))
     while True:
         try:
@@ -174,6 +180,7 @@ def run_multi_turn_rollout(
     agent_config: dict | None = None,
     model: str | None = None,
     raw_model: str | None = None,
+    agent_max_tokens: int | None = None,
 ) -> TrajectoryResult:
     """Runs up to `max_turns` questions as one continuous agent/sandbox session.
 
@@ -194,6 +201,12 @@ def run_multi_turn_rollout(
             endpoint. Mutually exclusive with `raw_model`.
         raw_model: A full LiteLLM model string used verbatim, bypassing the
             OpenAI-compatible endpoint. Mutually exclusive with `model`.
+        agent_max_tokens: Max tokens per agent completion. Reasoning models
+            (e.g. GLM-5.2) spend a chunk of the budget on a hidden
+            `reasoning` field before `content`; too small a limit truncates
+            before an actual action is ever produced, causing a FormatError
+            (empty content) rather than a real response. Non-reasoning
+            models generally don't need this set.
 
     Returns:
         The TrajectoryResult: every turn's sample, question, agent exit, and reward.
@@ -208,6 +221,9 @@ def run_multi_turn_rollout(
     else:
         inference_config = OpenAICompatibleConfig.from_env(model=model)
         litellm_model, model_kwargs = inference_config.litellm_model(), inference_config.litellm_kwargs()
+    # Only the agent's own completions get agent_max_tokens - question_gen's
+    # calls already set their own max_tokens independently.
+    agent_model_kwargs = model_kwargs | ({"max_tokens": agent_max_tokens} if agent_max_tokens else {})
 
     catalog: Catalog = load_catalog(artifacts_dir)
     tmax_rl_df = load_tmax_rl_dataset()
@@ -249,8 +265,18 @@ def run_multi_turn_rollout(
                     environment=environment,
                     environment_kwargs={"sandbox": env.sandbox, "cwd": _AGENT_WORKDIR},
                     agent_config=agent_config,
-                    model_kwargs=model_kwargs,
+                    model_kwargs=agent_model_kwargs,
                 )
+
+            # Materialize this turn's "given" state before the agent sees it.
+            # Turn 0's is real (the tmax RL row's own container_def, applied
+            # above); every generated turn instead needs its LLM-authored
+            # setup_script actually run, or the task/truth's claimed input
+            # files/services never exist and the agent has nothing to work
+            # from but its own guess - which then mismatches the verifier's
+            # truth-derived expectations no matter how well it's solved.
+            if turn_index > 0:
+                _run(env, question.setup_script)
 
             # 2. NPC Agent: the persona-framed <task> text *is* the delivery.
             messages_start = len(agent.messages)

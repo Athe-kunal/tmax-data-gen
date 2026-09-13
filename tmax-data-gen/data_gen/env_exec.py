@@ -28,3 +28,20 @@ def write_file(env, path: str, content: bytes) -> None:
 
 def read_file(env, path: str) -> str:
     return run(env, f"cat {path}")["output"]
+
+
+def query_platform_info(env) -> dict[str, str]:
+    """Queries the *remote* environment's actual `uname` fields.
+
+    `platform.uname()` (what `DockerEnvironment`/`LocalEnvironment` use in
+    `get_template_vars`, and what a naive sandbox implementation would
+    inherit) reports the local orchestrator machine, not the sandbox - on a
+    developer's Mac, that renders `<system_information>Darwin ... arm64`
+    into the agent's prompt for a Linux container it's actually running in,
+    and even wrongly tells it to use BSD `sed -i ''` instead of GNU `sed -i`.
+    Keys match `platform.uname()._asdict()` so `get_template_vars` can drop
+    this in as a straight replacement.
+    """
+    result = run(env, "uname -s; uname -n; uname -r; uname -v; uname -m")
+    lines = (result["output"].strip().splitlines() + [""] * 5)[:5]
+    return dict(zip(("system", "node", "release", "version", "machine"), lines))

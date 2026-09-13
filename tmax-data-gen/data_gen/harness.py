@@ -17,12 +17,24 @@ from minisweagent import package_dir
 from minisweagent.agents.default import DefaultAgent
 from minisweagent.environments.docker import DockerEnvironment
 from minisweagent.environments.local import LocalEnvironment
-from minisweagent.models.litellm_model import LitellmModel
+from minisweagent.models.litellm_textbased_model import LitellmTextbasedModel
 
 from data_gen.daytona_environment import DaytonaEnvironment
 from data_gen.sandbox_environment import SandboxEnvironment
 from data_gen.weave_logger import weave_op
 
+# default.yaml pairs with LitellmTextbasedModel (regex-parses a single
+# ```mswea_bash_command block), not mini-swe-agent's other model class,
+# LitellmModel, which instead always passes tools=[BASH_TOOL] and only ever
+# parses native tool_calls - mismatching default.yaml's markdown-based
+# instructions entirely (every response gets rejected as "no tool calls
+# found", regardless of model quality; this is what mini.yaml pairs with).
+# Tested directly against Llama-3.3-70B-Instruct on Weave Inference: native
+# tool-calling is unreliable on complex multi-step prompts (the model
+# reverts to plain markdown code blocks despite tools being offered), while
+# the text-based path/prompt combination produces exactly one well-formed
+# action reliably - so default.yaml + LitellmTextbasedModel is used here,
+# not mini.yaml + LitellmModel.
 _DEFAULT_CONFIG_PATH = package_dir / "config" / "default.yaml"
 
 _ENVIRONMENTS = {
@@ -91,7 +103,7 @@ def build_agent(
     # ignore_errors: litellm has no pricing entry for most self-hosted/custom
     # OpenAI-compatible models (e.g. Weave Inference's), so cost tracking
     # would otherwise raise on every single completion call.
-    model = LitellmModel(model_name=model_name, model_kwargs=model_kwargs or {}, cost_tracking="ignore_errors")
+    model = LitellmTextbasedModel(model_name=model_name, model_kwargs=model_kwargs or {}, cost_tracking="ignore_errors")
     config = load_default_agent_config() | (agent_config or {})
     return DefaultAgent(model, env, **config)
 

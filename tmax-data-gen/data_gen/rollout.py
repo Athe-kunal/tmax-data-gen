@@ -117,6 +117,15 @@ def run_rollout(
         _run(env, _INSTALL_PYTEST_CMD)
         _run(env, f"mkdir -p {_AGENT_WORKDIR}")
 
+        # Materializes the task's "given" initial state (input files,
+        # datasets, services) before the agent starts - without this, the
+        # agent has nothing to work from but its own guess at what that data
+        # looks like, which then mismatches the verifier's truth-derived
+        # expectations regardless of how well the task itself is solved.
+        setup_script = task_meta.get("setup_script")
+        if setup_script:
+            _run(env, setup_script)
+
         # Verifier files live outside the agent's working directory so it
         # can't read its own test assertions - same no-leakage convention
         # `question_gen`'s <task>/<truth> split already follows.
