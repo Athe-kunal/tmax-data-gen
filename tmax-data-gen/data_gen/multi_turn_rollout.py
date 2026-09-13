@@ -213,7 +213,7 @@ def run_multi_turn_rollout(
             call (task+truth/test/setup-script generation). Same reasoning-
             model consideration as `agent_max_tokens`, but for generation
             rather than solving - defaults to `generate_question`'s own
-            default (8192) when unset.
+            default (32768) when unset.
         model_style: "text" or "toolcall" - see `data_gen.harness.build_agent`.
             Pick per model based on observed behavior (verified this session:
             Llama-3.3-70B-Instruct is reliable in "text" mode; GLM-5.3-Flash
