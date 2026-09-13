@@ -1,0 +1,25 @@
+schema_version = "1.1"
+
+[task]
+name = "tmax/scientific_computing-mesh-refinement-and-domain-decomposition-6849888d"
+description = "As a data scientist, I am working on a project that involves fitting models to spatial data. I have a dataset of 2D coordinates located at `/home/user/spatial_data.csv` and I need to perform mesh refi"
+
+[metadata]
+source = "tmax-data-gen knowledge graph"
+domain = "scientific_computing"
+skill_type = "algorithmic"
+primitive_skill = "mesh-refinement-and-domain-decomposition"
+persona = "data-scientist-fitting-models"
+language = "bash"
+generation_model = "openai/meta-llama/Llama-3.3-70B-Instruct"
+
+[agent]
+timeout_sec = 600.0
+
+[verifier]
+timeout_sec = 120.0
+
+[environment]
+cpus = 1
+memory_mb = 2048
+allow_internet = true

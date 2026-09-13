@@ -224,3 +224,5 @@ tmax/evaluation_assets
 
 tmax-data-gen/data_gen/kg.db
 tmax-data-gen/data_gen/kg.db.embeddings.json
+
+tmax-data-gen/gold_tasks_tmax_seed_bootstrap

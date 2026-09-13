@@ -1,0 +1,25 @@
+schema_version = "1.1"
+
+[task]
+name = "tmax/security-cwe-identification-and-code-auditing-e8cf2683"
+description = "As a cloud security engineer enforcing infrastructure baselines, I need to inspect and audit the cloud infrastructure configuration files located in `/home/user/infrastructure`. The directory contains"
+
+[metadata]
+source = "tmax-data-gen knowledge graph"
+domain = "security"
+skill_type = "testing"
+primitive_skill = "cwe-identification-and-code-auditing"
+persona = "cloud-security-engineer-enforcing-infrastructure-baselines"
+language = "python"
+generation_model = "openai/meta-llama/Llama-3.3-70B-Instruct"
+
+[agent]
+timeout_sec = 600.0
+
+[verifier]
+timeout_sec = 120.0
+
+[environment]
+cpus = 1
+memory_mb = 2048
+allow_internet = true

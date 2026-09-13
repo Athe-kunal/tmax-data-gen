@@ -1,0 +1,25 @@
+schema_version = "1.1"
+
+[task]
+name = "tmax/data_querying-graph-analytics-centrality-clustering-0514055e"
+description = "As a database platform engineer, I am tasked with analyzing a citation graph represented as a JSONL file. The file contains a collection of papers, each with a unique identifier, title, and a list of "
+
+[metadata]
+source = "tmax-data-gen knowledge graph"
+domain = "data_querying"
+skill_type = "graph-processing"
+primitive_skill = "graph-analytics-centrality-clustering"
+persona = "database-platform-engineer-maintaining-shared-datasets"
+language = "python"
+generation_model = "openai/meta-llama/Llama-3.3-70B-Instruct"
+
+[agent]
+timeout_sec = 600.0
+
+[verifier]
+timeout_sec = 120.0
+
+[environment]
+cpus = 1
+memory_mb = 2048
+allow_internet = true

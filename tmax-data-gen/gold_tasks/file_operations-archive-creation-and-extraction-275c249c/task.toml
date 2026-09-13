@@ -1,0 +1,25 @@
+schema_version = "1.1"
+
+[task]
+name = "tmax/file_operations-archive-creation-and-extraction-275c249c"
+description = "As a storage administrator managing disk space, I am facing an issue with a legacy backup process that has crashed halfway through archiving system logs. The process has left behind a multi-part, gzip"
+
+[metadata]
+source = "tmax-data-gen knowledge graph"
+domain = "file_operations"
+skill_type = "archives"
+primitive_skill = "archive-creation-and-extraction"
+persona = "storage-administrator-managing-disk-space"
+language = "bash"
+generation_model = "openai/meta-llama/Llama-3.3-70B-Instruct"
+
+[agent]
+timeout_sec = 600.0
+
+[verifier]
+timeout_sec = 120.0
+
+[environment]
+cpus = 1
+memory_mb = 2048
+allow_internet = true
