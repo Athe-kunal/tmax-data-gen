@@ -93,8 +93,16 @@ if __name__ == "__main__":
     parser.add_argument("--container-image", type=str, default=None)
     parser.add_argument("--max-turns", type=int, default=5)
     parser.add_argument("--gold-threshold", type=float, default=1.0)
-    parser.add_argument("--model", type=str, default=None)
-    parser.add_argument("--raw-model", type=str, default=None)
+    parser.add_argument("--model", type=str, default=None, help="Model for question generation.")
+    parser.add_argument("--raw-model", type=str, default=None, help="Full LiteLLM string for generation.")
+    parser.add_argument(
+        "--solve-model",
+        type=str,
+        default=None,
+        help="Model for the solving agent, if different from --model (defaults to --model/--raw-model "
+        "when unset). Split these when one model solves well but isn't reliable at generation, or vice versa.",
+    )
+    parser.add_argument("--solve-raw-model", type=str, default=None, help="Full LiteLLM string for solving.")
     parser.add_argument("--step-limit", type=int, default=0)
     parser.add_argument("--cost-limit", type=float, default=0.0)
     parser.add_argument(
@@ -130,6 +138,8 @@ if __name__ == "__main__":
         agent_config={"step_limit": args.step_limit, "cost_limit": args.cost_limit},
         model=args.model,
         raw_model=args.raw_model,
+        solve_model=args.solve_model,
+        solve_raw_model=args.solve_raw_model,
         model_style=args.model_style,
         agent_max_tokens=args.agent_max_tokens,
         generation_max_tokens=args.generation_max_tokens,
