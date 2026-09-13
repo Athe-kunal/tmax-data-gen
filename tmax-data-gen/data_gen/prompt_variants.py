@@ -10,6 +10,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import re
 from dataclasses import dataclass
 from datetime import UTC, datetime
 from pathlib import Path
@@ -21,13 +22,18 @@ from data_gen.weave_logger import weave_op
 
 PRECISE_VARIANT_ID = "precise-v1"
 _PROMPTS_DIR = "prompts"
-_VAGUE_SYSTEM_TEMPLATE = """You rewrite an existing software task into a short, realistic user request.
+_VAGUE_SYSTEM_TEMPLATE = """You create a human-style vague prompt for an ambiguity benchmark.
 
-Return only the rewritten request. Do not solve the task. Do not invent facts,
-files, requirements, constraints, or acceptance criteria. Keep the user's
-observable goal, but omit implementation detail and exact formatting details
-where a normal human would not know them. The result may be ambiguous. It must
-not mention hidden tests, ground truth, or this rewrite instruction.
+Return one complete paragraph of 25 to 90 words. Do not use markdown, bullets,
+lists, headings, or code formatting. Do not solve the task. Describe only the
+user's context, observed symptom, and broad desired outcome. Do not state
+implementation steps, file paths, filenames, commands, APIs, signals, exact
+formats, runtimes, libraries, test criteria, acceptance criteria, or exact
+outputs. Do not copy sentences from the source task. The request must sound
+like a busy human asking for help, not a benchmark specification.
+
+The vague prompt must not mention hidden tests, ground truth, or this rewrite
+instruction.
 
 Prompt style: {style}
 
@@ -37,6 +43,10 @@ Style guidance:
 - suspected-cause: include a plausible but unverified user diagnosis.
 - sparse-context: provide a short request with limited context.
 """
+_DETAILED_MARKERS = re.compile(
+    r"/(?:home|tmp|etc|var|usr|opt)/|`|```|\b(?:SIGTERM|SIGHUP|LSB|systemd|SysVinit|JSON|CSV|INI|PID|Python\s*3|standard library)\b",
+    re.IGNORECASE,
+)
 
 
 @dataclass(frozen=True)
@@ -95,6 +105,19 @@ def _variant_metadata(task_dir: Path) -> dict[str, dict]:
     return variants
 
 
+def _validate_vague_prompt(text: str) -> None:
+    """Reject a rewrite that still reads like a detailed benchmark task."""
+    words = re.findall(r"\b[\w'-]+\b", text)
+    if not 25 <= len(words) <= 90:
+        raise ValueError(f"Vague prompt must contain 25 to 90 words, got {len(words)}")
+    if "\n" in text.strip():
+        raise ValueError("Vague prompt must be one paragraph")
+    if re.search(r"^\s*(?:[-*]|\d+[.)])\s", text, re.MULTILINE):
+        raise ValueError("Vague prompt must not contain a checklist")
+    if _DETAILED_MARKERS.search(text):
+        raise ValueError("Vague prompt contains a path or implementation-specific detail")
+
+
 def load_prompt_variant(task_dir: Path, variant_id: str = PRECISE_VARIANT_ID) -> PromptVariant:
     """Loads a public prompt variant without exposing private task truth."""
     canonical_path = task_dir / "instruction.md"
@@ -131,6 +154,8 @@ def load_prompt_variant(task_dir: Path, variant_id: str = PRECISE_VARIANT_ID) ->
     text_hash = _sha256(text)
     if variant_data.get("text_sha256") != text_hash:
         raise ValueError(f"Prompt variant {variant_id!r} does not match its recorded hash")
+    if variant_data["kind"] == "vague":
+        _validate_vague_prompt(text)
     return PromptVariant(
         id=variant_id,
         kind=variant_data["kind"],
@@ -150,7 +175,7 @@ def render_vague_prompt(
     style: str,
     model: str | None = None,
     raw_model: str | None = None,
-    max_tokens: int = 1_500,
+    max_tokens: int = 300,
 ) -> tuple[str, str]:
     """Renders a vague public prompt from public text only.
 
@@ -164,20 +189,26 @@ def render_vague_prompt(
     else:
         config = OpenAICompatibleConfig.from_env(model=model)
         resolved_model, kwargs = config.litellm_model(), config.litellm_kwargs()
-    response = litellm.completion(
-        model=resolved_model,
-        messages=[
-            {"role": "system", "content": _VAGUE_SYSTEM_TEMPLATE.format(style=style)},
-            {"role": "user", "content": precise_prompt},
-        ],
-        temperature=0.4,
-        max_tokens=max_tokens,
-        **kwargs,
-    )
-    text = (response.choices[0].message.content or "").strip()
-    if not text:
-        raise ValueError("Prompt-variant model returned an empty response")
-    return text, resolved_model
+    last_error: ValueError | None = None
+    for _ in range(3):
+        response = litellm.completion(
+            model=resolved_model,
+            messages=[
+                {"role": "system", "content": _VAGUE_SYSTEM_TEMPLATE.format(style=style)},
+                {"role": "user", "content": precise_prompt},
+            ],
+            temperature=0.4,
+            max_tokens=max_tokens,
+            **kwargs,
+        )
+        text = (response.choices[0].message.content or "").strip()
+        try:
+            _validate_vague_prompt(text)
+        except ValueError as error:
+            last_error = error
+            continue
+        return text, resolved_model
+    raise ValueError(f"Prompt-variant model failed to produce a valid vague prompt: {last_error}")
 
 
 def create_vague_variant(

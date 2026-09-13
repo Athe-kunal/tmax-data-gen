@@ -44,10 +44,11 @@ class PromptVariantTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as tmp:
             task = _make_task(Path(tmp))
             before = task_case_hash(task)
-            with patch("data_gen.prompt_variants.render_vague_prompt", return_value=("The import is broken. Please fix it.", "test/model")):
+            vague_text = "An internal deployment now fails whenever it imports customer data. Please investigate the failure, find the cause, and restore normal processing for the affected customer team."
+            with patch("data_gen.prompt_variants.render_vague_prompt", return_value=(vague_text, "test/model")):
                 variant = create_vague_variant(task, "symptom-only")
             self.assertEqual("vague-symptom-only-v1", variant.id)
-            self.assertEqual("The import is broken. Please fix it.\n", variant.text)
+            self.assertEqual(vague_text + "\n", variant.text)
             self.assertEqual(before, task_case_hash(task))
             self.assertEqual(variant, load_prompt_variant(task, variant.id))
 
@@ -112,7 +113,8 @@ class PromptVariantTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
             task = _make_task(root)
-            with patch("data_gen.prompt_variants.render_vague_prompt", return_value=("The import is broken.", "test/model")):
+            vague_text = "An internal deployment now fails whenever it imports customer data. Please investigate the failure, find the cause, and restore normal processing for the affected customer team."
+            with patch("data_gen.prompt_variants.render_vague_prompt", return_value=(vague_text, "test/model")):
                 create_vague_variant(task, "symptom-only")
             with patch(
                 "data_gen.run_experiment.run_rollout",
