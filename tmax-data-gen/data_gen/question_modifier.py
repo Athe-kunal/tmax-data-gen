@@ -42,63 +42,41 @@ Rewrite the task as <noisy_task>: a shorter, more casual, less prescriptive \
 version of the same request, the way someone would actually type it under \
 time pressure - not a cleaned-up paraphrase of the ticket.
 
-You MAY:
-* Compress or drop exhaustive formatting specs, restated example \
-transcripts, and explicit "verification steps" instructions (a real user \
-wouldn't spell out how they'll grade the answer).
-* Use vaguer, more natural, less structured language - incomplete \
-sentences, a little hedging ("I think", "not 100% sure but..."), maybe a \
-minor typo.
-* Add a little irrelevant scene-setting noise (being busy, a stray aside) - \
-actual noise, not signal.
-* Reorder points, or leave something to be inferred that's obvious from \
-context.
+Two invariants govern every rewrite. Everything else is judgment calls in
+service of these, not a checklist:
 
-Be aggressive about compression, not just tone. A real person does not \
-carefully spec a format twice - once abstractly ("KEY=VALUE, one per \
-line...") and again as a concrete example. If <original_task> gives both an \
-abstract template AND a literal example that covers the same information, \
-DROP the abstract template and keep only the literal example (verbatim, per \
-the MUST-NOT rule below) - let the example itself imply the format, the way \
-someone dashing off a request actually would ("like this:" + one example, \
-not a spec). Cut numbered/lettered step lists down to a couple of plain \
-sentences. If you find yourself keeping most of the original's structure and \
-length, you have not compressed enough - aim for roughly half the length or \
-shorter, not just softer wording of the same content.
+1. VERIFIER-EQUIVALENCE. <noisy_task> must be graded correctly by the exact \
+same, unchanged verifier that grades <original_task>. Before cutting or \
+softening anything, ask: "does this piece of information participate in \
+determining what the verifier will check?" (an exact path/filename/\
+identifier, a literal fixture the verifier compares byte-for-byte, a \
+formula/threshold/parameter that determines the one correct output, an \
+output schema). If yes, it survives verbatim - no rewording, no rounding, no \
+"roughly". If no - it's redundant restatement, procedural hand-holding, an \
+explicit "here's how I'll verify this" aside, a format spelled out a second \
+time when a concrete example already pins it down - cut it freely, and cut \
+it hard. This is the one test to apply to every sentence; don't reason about \
+"is this a path" vs. "is this a formula" as separate cases, reason about \
+whether the verifier's grading would change without it.
 
-You MUST NOT:
-* Change, weaken, or omit any concrete identifier the verifier depends on \
-exactly as-is: exact file/directory paths, exact filenames the agent must \
-create, exact function/table/index/column names, exact output formats or \
-schemas that are mechanically checked, exact numeric values or literal \
-strings <truth> fixes.
-* Paraphrase, summarize, or drop any literal example/fixture content given \
-verbatim in <original_task> (e.g. an exact sample file's contents in a code \
-block) if <truth> shows the verifier checks that exact content byte-for-byte \
-- copy it into <noisy_task> completely unchanged, character for character, \
-even while shortening the prose around it. When in doubt about whether an \
-example is checked exactly, keep it verbatim - dropping it is the more \
-dangerous mistake.
-* Introduce any new requirement, constraint, or claimed fact that \
-contradicts <truth>.
-* Leave it ambiguous *what deliverable* is being graded - vague about *how* \
-is fine and expected; vague about *which file/output* is checked is not.
-* LEAK THE ANSWER: if <original_task> shows an example/expected-output \
-snippet with a placeholder for something the agent is supposed to figure \
-out (e.g. `"CWE-XXX"`, `<count>`, `TBD`, a blank), keep that field as the \
-same kind of placeholder in <noisy_task> - never replace it with the real \
-value from <truth>, even though you can see it. The whole point of that \
-field being a placeholder is that solving it *is* the task; filling it in \
-gives the answer away.
-* Drop or soften an exact formula, threshold, parameter, or procedure that \
-<truth> shows determines the one correct output (e.g. "anomalies are >3 \
-standard deviations from the mean of the previous 30 values", "RSA-2048 \
-with sha256"). This is different from the abstract-vs-concrete-example \
-compression above: dropping a redundant format template loses nothing \
-because the concrete example still pins it down, but dropping an exact \
-algorithmic parameter with no other place it's pinned down makes the \
-*correct answer itself* underdetermined, not just the phrasing vaguer. Cut \
-prose, never cut the numbers/procedure a correct solution depends on.
+2. NO LEAKAGE. This is the same rule that already governs the <task>/<truth> \
+split when this pipeline first generates a question: the request must never \
+state or imply the answer to whatever the agent is being asked to figure \
+out. If <original_task> shows a placeholder for something the agent must \
+determine (a redacted field, a "TBD", a blank), <noisy_task> keeps it as an \
+unresolved placeholder too - never substitute the real value from <truth>, \
+even though you can see it. Determining that value *is* the task.
+
+Style-wise, you MAY: use vaguer, more natural, less structured language \
+(incomplete sentences, hedging, a minor typo); add a little irrelevant \
+scene-setting noise (being busy, a stray aside - actual noise, not signal); \
+reorder points or leave something obvious to be inferred; and drop an \
+abstract format spec when a concrete literal example already covers the \
+same ground under invariant 1. Be aggressive about compression, not just \
+tone - a real person does not spec a format twice, does not narrate their \
+own numbered step list, does not explain how they'll grade the answer. If \
+<noisy_task> still reads like a cleaned-up version of the ticket rather than \
+someone dashing off a request, you haven't compressed enough.
 
 Respond in XML:
 <noisy_task>
