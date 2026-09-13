@@ -1,0 +1,25 @@
+schema_version = "1.1"
+
+[task]
+name = "tmax/data_querying-result-sorting-pagination-and-filtering-06ede4e1"
+description = "As a data engineer building ETL pipelines, I have a task that involves processing a large dataset of user interactions and extracting a specific subset of users based on their weighted degree centrali"
+
+[metadata]
+source = "tmax-data-gen knowledge graph"
+domain = "data_querying"
+skill_type = "result-processing"
+primitive_skill = "result-sorting-pagination-and-filtering"
+persona = "data-engineer-building-etl-pipelines"
+language = "rust"
+generation_model = "openai/meta-llama/Llama-3.3-70B-Instruct"
+
+[agent]
+timeout_sec = 600.0
+
+[verifier]
+timeout_sec = 120.0
+
+[environment]
+cpus = 1
+memory_mb = 2048
+allow_internet = true

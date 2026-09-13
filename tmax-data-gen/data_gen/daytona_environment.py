@@ -24,6 +24,7 @@ from pydantic import BaseModel, ConfigDict
 from minisweagent.exceptions import Submitted
 from minisweagent.utils.serialize import recursive_merge
 
+from data_gen.browser_setup import setup_browser
 from data_gen.env_exec import query_platform_info
 
 logger = logging.getLogger("minisweagent.environment")
@@ -44,6 +45,12 @@ class DaytonaEnvironmentConfig(BaseModel):
     """An already-running Sandbox to reuse instead of creating a new one.
     When given, this environment does not delete it on cleanup - the caller
     that created it owns its lifecycle."""
+    enable_browser: bool = False
+    """Installs Playwright + headless Chromium and starts
+    `data_gen.browser_driver` in the sandbox, so the agent can drive a
+    browser with `curl localhost:8765/{goto,screenshot,click,scroll}` bash
+    commands (see `data_gen.browser_setup`). Ignored when `sandbox` is
+    given - set it up once yourself and reuse that sandbox instead."""
 
 
 class DaytonaEnvironment:
@@ -57,7 +64,19 @@ class DaytonaEnvironment:
             self.sandbox = self._client.create(
                 CreateSandboxFromImageParams(image=self.config.image, env_vars=self.config.env)
             )
+            if self.config.enable_browser:
+                setup_browser(self._raw_exec)
         self._platform_info = query_platform_info(self)
+
+    def _raw_exec(self, command: str) -> None:
+        """Runs a setup command in the sandbox, raising on failure.
+
+        Unlike `execute()`, this is not part of the agent-facing action
+        contract - it's only used at construction time by `setup_browser`.
+        """
+        response = self.sandbox.process.exec(command, cwd="/", timeout=300)
+        if response.exit_code != 0:
+            raise RuntimeError(f"Browser setup command failed ({response.exit_code}): {command}\n{response.result}")
 
     def execute(self, action: dict, cwd: str = "", *, timeout: int | None = None) -> dict[str, Any]:
         """Executes a command in the sandbox and returns the result as a dict."""

@@ -1,0 +1,25 @@
+schema_version = "1.1"
+
+[task]
+name = "tmax/data_querying-graph-traversal-and-shortest-path-computation-e4197265"
+description = "As a researcher organizing datasets, I need to compute the shortest path distance in a graph represented by an edge list. I have a CSV file `/home/user/graph_edges.csv` containing three comma-separate"
+
+[metadata]
+source = "tmax-data-gen knowledge graph"
+domain = "data_querying"
+skill_type = "graph-processing"
+primitive_skill = "graph-traversal-and-shortest-path-computation"
+persona = "researcher-organizing-datasets"
+language = "rust"
+generation_model = "openai/meta-llama/Llama-3.3-70B-Instruct"
+
+[agent]
+timeout_sec = 600.0
+
+[verifier]
+timeout_sec = 120.0
+
+[environment]
+cpus = 1
+memory_mb = 2048
+allow_internet = true

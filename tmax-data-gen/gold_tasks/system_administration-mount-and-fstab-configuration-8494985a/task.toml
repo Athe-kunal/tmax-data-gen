@@ -1,0 +1,25 @@
+schema_version = "1.1"
+
+[task]
+name = "tmax/system_administration-mount-and-fstab-configuration-8494985a"
+description = "As a cloud operations engineer, I need to automate the process of exporting data from a legacy tool and setting up a new mount structure using symbolic links. I have a legacy export tool located at `/"
+
+[metadata]
+source = "tmax-data-gen knowledge graph"
+domain = "system_administration"
+skill_type = "filesystem"
+primitive_skill = "mount-and-fstab-configuration"
+persona = "cloud-operations-engineer-operating-production-infrastructure"
+language = "python"
+generation_model = "openai/meta-llama/Llama-3.3-70B-Instruct"
+
+[agent]
+timeout_sec = 600.0
+
+[verifier]
+timeout_sec = 120.0
+
+[environment]
+cpus = 1
+memory_mb = 2048
+allow_internet = true

@@ -1,0 +1,87 @@
+{
+  "task_name": "security-sensitive-data-redaction-97159fcc",
+  "domain": "security",
+  "skill_type": "data-processing",
+  "primitive_skill": "sensitive-data-redaction",
+  "persona": "security-auditor-checking-permissions",
+  "language": "bash",
+  "generation_model": "openai/meta-llama/Llama-3.3-70B-Instruct",
+  "task_description": "As a security auditor checking permissions, I need to analyze a log file and a data dump to identify potential security vulnerabilities and prepare the data for further analysis. The log file is located at `/home/user/audit.log`, and the data dump is at `/home/user/data_dump.csv`. My goal is to redact sensitive information from the data dump and create a report summarizing my findings.\n\nTo begin, I need to analyze the log file to identify any potential security issues. The log contains information about user access, including IP addresses, timestamps, and actions performed. I need to inspect the log to find any entries that indicate unauthorized access or suspicious activity.\n\nOnce I have analyzed the log, I need to create a redacted version of the data dump at `/home/user/redacted_data.csv`. The original data dump contains columns for `id`, `username`, `email`, `password_hash`, and `access_level`. I must replace all password hashes with `XXXXXX` and all access levels with `REDACTED`, leaving the header and all other data unchanged.\n\nFinally, I need to create a summary report at `/home/user/audit_report.txt` with the following information:\n- The total number of users with admin access\n- The number of users with suspicious activity in the log\n- The number of data rows redacted\n\nThe report must be in the following format:\n```\nAdmin Users: [Insert number of admin users here]\nSuspicious Activity: [Insert number of users with suspicious activity here]\nRedacted Records: [Insert number of data rows redacted, excluding the header]\n```\nI will use standard Linux command-line tools to perform these tasks. My bash environment is set up with the necessary tools, and I can use the bash shell to execute any necessary commands. I will also use `apt` as my package manager and `bash -n` to build my scripts. To verify my results, I can run `bash` to execute any test cases.\n\nPlease help me complete these tasks and create the redacted data file and audit report.",
+  "truth": "The ground-truth data for this task is as follows:\n- The log file `/home/user/audit.log` contains the following entries:\n```\n10.0.0.1 - - [10/Oct/2023:13:55:36 +0000] \"GET /admin HTTP/1.1\" 200\n10.0.0.2 - - [10/Oct/2023:13:56:00 +0000] \"GET /user HTTP/1.1\" 200\n10.0.0.3 - - [10/Oct/2023:13:57:00 +0000] \"GET /admin HTTP/1.1\" 401\n```\n- The data dump `/home/user/data_dump.csv` contains the following data:\n```\nid,username,email,password_hash,access_level\n1,user1,user1@example.com,abc123,admin\n2,user2,user2@example.com,def456,user\n3,user3,user3@example.com,ghi789,admin\n```\n- The expected output for the redacted data file `/home/user/redacted_data.csv` is:\n```\nid,username,email,password_hash,access_level\n1,user1,user1@example.com,XXXXXX,REDACTED\n2,user2,user2@example.com,XXXXXX,REDACTED\n3,user3,user3@example.com,XXXXXX,REDACTED\n```\n- The expected output for the audit report `/home/user/audit_report.txt` is:\n```\nAdmin Users: 2\nSuspicious Activity: 1\nRedacted Records: 3\n```\nThe `apt` package manager is used to install any necessary packages, and the `bash -n` command is used to build the scripts. The `bash` command is used to execute any test cases and verify the results.",
+  "setup_script": "#!/bin/bash\n\n# Create the user's home directory\nmkdir -p /home/user\n\n# Create the log file with the specified entries\ncat > /home/user/audit.log << EOF\n10.0.0.1 - - [10/Oct/2023:13:55:36 +0000] \"GET /admin HTTP/1.1\" 200\n10.0.0.2 - - [10/Oct/2023:13:56:00 +0000] \"GET /user HTTP/1.1\" 200\n10.0.0.3 - - [10/Oct/2023:13:57:00 +0000] \"GET /admin HTTP/1.1\" 401\nEOF\n\n# Create the data dump with the specified data\ncat > /home/user/data_dump.csv << EOF\nid,username,email,password_hash,access_level\n1,user1,user1@example.com,abc123,admin\n2,user2,user2@example.com,def456,user\n3,user3,user3@example.com,ghi789,admin\nEOF\n\n# Change the ownership of the files to the user\nchown -R user:user /home/user\n\n# Set the permissions for the user's home directory\nchmod -R 777 /home/user",
+  "retrieval": {
+    "query": "As an incident responder investigating a recent security breach, I need to analyze the web server access logs and a raw data dump left by the attacker to identify the perpetrator and prepare the exfiltrated data for legal evidence. The access log is located at `/home/user/access.log`, and the data dump is at `/home/user/compromised_db_dump.csv`. My goal is to redact sensitive Personally Identifiable Information (PII) from the data dump and create a forensics report.\n\nTo begin, I need to analyze the access log to identify the IP address and timestamp of the successful SQL injection attack. The log contains both normal traffic and malicious attempts, so I must carefully inspect the entries to find the one with an HTTP status code of `200` and a request URI containing standard SQL injection keywords like `UNION` or `SELECT`.\n\nOnce I have identified the attacker's IP address and the attack timestamp, I need to create a redacted version of the data dump at `/home/user/redacted_evidence.csv`. The original data dump contains columns for `id`, `name`, `email`, `ssn`, and `cc_number`. I must replace all Social Security Numbers (in the format `ddd-dd-dddd`) with `XXX-XX-XXXX` and all Credit Card Numbers (in the format `dddd-dddd-dddd-dddd`) with `XXXX-XXXX-XXXX-XXXX`, leaving the header and all other data unchanged.\n\nFinally, I need to create a summary report at `/home/user/forensics_report.txt` with the attacker's IP address, the attack timestamp, and the total number of data rows redacted (excluding the header). The report must be in the following format:\n\n```\nAttacker IP: [Insert Attacker IP here]\nAttack Timestamp: [Insert Timestamp here, e.g., 10/Oct/2023:13:55:36 +0000]\nRedacted Records: [Insert the total number of data rows redacted, excluding the header]\n```\n\nI will use standard Linux command-line tools to perform these tasks. My Python environment is set up with the necessary packages, and I can use the Python 3 interpreter to execute any necessary scripts. I will also use `pip` as my package manager and `python -m compileall .` to build my code. To verify my results, I can run `python -m pytest` to execute any test cases.\n\nPlease help me complete these tasks and create the redacted evidence file and forensics report.",
+    "matches": [
+      {
+        "node_type": "Primitive",
+        "node_id": "Primitive::security::sensitive-data-redaction",
+        "similarity": 0.4494826572894452,
+        "triplets": [
+          {
+            "subject_type": "SkillType",
+            "subject_label": "Data Processing",
+            "relation": "HAS_PRIMITIVE",
+            "object_type": "Primitive",
+            "object_label": "Sensitive data redaction"
+          }
+        ]
+      },
+      {
+        "node_type": "Primitive",
+        "node_id": "Primitive::security::security-log-parsing-and-correlation",
+        "similarity": 0.4111519073022293,
+        "triplets": [
+          {
+            "subject_type": "SkillType",
+            "subject_label": "Data Processing",
+            "relation": "HAS_PRIMITIVE",
+            "object_type": "Primitive",
+            "object_label": "Security log parsing and correlation"
+          }
+        ]
+      },
+      {
+        "node_type": "Primitive",
+        "node_id": "Primitive::debugging::memory-dump-analysis-and-string-extraction",
+        "similarity": 0.4050650892090112,
+        "triplets": [
+          {
+            "subject_type": "SkillType",
+            "subject_label": "Forensics",
+            "relation": "HAS_PRIMITIVE",
+            "object_type": "Primitive",
+            "object_label": "Memory dump analysis and string extraction"
+          }
+        ]
+      },
+      {
+        "node_type": "Primitive",
+        "node_id": "Primitive::debugging::log-timeline-reconstruction-across-services",
+        "similarity": 0.3895938451758302,
+        "triplets": [
+          {
+            "subject_type": "SkillType",
+            "subject_label": "Forensics",
+            "relation": "HAS_PRIMITIVE",
+            "object_type": "Primitive",
+            "object_label": "Log timeline reconstruction across services"
+          }
+        ]
+      },
+      {
+        "node_type": "Primitive",
+        "node_id": "Primitive::data_processing::data-lineage-tracking",
+        "similarity": 0.37723819028771544,
+        "triplets": [
+          {
+            "subject_type": "SkillType",
+            "subject_label": "Authored extensions",
+            "relation": "HAS_PRIMITIVE",
+            "object_type": "Primitive",
+            "object_label": "Record data lineage across transformations and outputs."
+          }
+        ]
+      }
+    ]
+  }
+}

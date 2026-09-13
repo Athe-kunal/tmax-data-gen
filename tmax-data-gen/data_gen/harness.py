@@ -20,6 +20,7 @@ from minisweagent.environments.local import LocalEnvironment
 from minisweagent.models.litellm_model import LitellmModel
 from minisweagent.models.litellm_textbased_model import LitellmTextbasedModel
 
+from data_gen.browser_setup import DEFAULT_MULTIMODAL_REGEX
 from data_gen.daytona_environment import DaytonaEnvironment
 from data_gen.sandbox_environment import SandboxEnvironment
 from data_gen.weave_logger import weave_op
@@ -119,10 +120,24 @@ def build_agent(
 
     env = _ENVIRONMENTS[environment](**(environment_kwargs or {}))
     model_class, config_path = _MODEL_STYLES[model_style]
+    model_extra_kwargs: dict[str, Any] = {}
+    if (environment_kwargs or {}).get("enable_browser"):
+        # multimodal_regex is a top-level LitellmModel(Textbased)Config field
+        # (not part of model_kwargs, which is forwarded to litellm.completion
+        # calls) - it lets the model see /screenshot's
+        # <MSWEA_MULTIMODAL_CONTENT>-tagged output (see
+        # data_gen.browser_driver) as an actual image content block instead
+        # of raw tagged text.
+        model_extra_kwargs["multimodal_regex"] = DEFAULT_MULTIMODAL_REGEX
     # ignore_errors: litellm has no pricing entry for most self-hosted/custom
     # OpenAI-compatible models (e.g. Weave Inference's), so cost tracking
     # would otherwise raise on every single completion call.
-    model = model_class(model_name=model_name, model_kwargs=model_kwargs or {}, cost_tracking="ignore_errors")
+    model = model_class(
+        model_name=model_name,
+        model_kwargs=model_kwargs or {},
+        cost_tracking="ignore_errors",
+        **model_extra_kwargs,
+    )
     config = load_default_agent_config(config_path) | (agent_config or {})
     return DefaultAgent(model, env, **config)
 

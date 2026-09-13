@@ -1,0 +1,87 @@
+{
+  "task_name": "software_engineering-go-concurrency-patterns-goroutines-channels-00e9e096",
+  "domain": "software_engineering",
+  "skill_type": "multi-language",
+  "primitive_skill": "go-concurrency-patterns-goroutines-channels",
+  "persona": "integration-developer-testing-apis",
+  "language": "python",
+  "generation_model": "openai/meta-llama/Llama-3.3-70B-Instruct",
+  "task_description": "As an integration developer, I am tasked with testing APIs to ensure they meet the required standards. I have a Python project located at `/home/user/project` that contains several APIs. The project uses the `requests` library to make API calls. I want to test the concurrency of these APIs using Go concurrency patterns.\n\nThe project has the following structure:\n```\n/home/user/project\n|-- api\n|   |-- __init__.py\n|   |-- api1.py\n|   |-- api2.py\n|-- requirements.txt\n|-- test_api.py\n```\nThe `api1.py` and `api2.py` files contain functions that make API calls using the `requests` library. The `test_api.py` file contains test cases for these APIs.\n\nI want you to write a Go program at `/home/user/concurrency_test.go` that uses Go concurrency patterns (goroutines and channels) to test the concurrency of the APIs. The program should:\n\n1. Read the `requirements.txt` file and install the required packages using `pip`.\n2. Run the `test_api.py` file using the `python` interpreter.\n3. Use Go concurrency patterns to run the APIs in parallel and measure their response times.\n4. Output the response times to a file named `/home/user/response_times.txt`.\n\nThe `response_times.txt` file should have the following format:\n```\nAPI1,RESPONSE_TIME1\nAPI2,RESPONSE_TIME2\n...\n```\nWhere `API1`, `API2`, etc. are the names of the APIs, and `RESPONSE_TIME1`, `RESPONSE_TIME2`, etc. are their corresponding response times.\n\nTo verify the correctness of the program, I will run a test script that checks the contents of the `response_times.txt` file.\n\nNote: You can use the `os/exec` package to run the `pip` and `python` commands from the Go program.",
+  "truth": "To verify the correctness of the program, the test script will check the contents of the `response_times.txt` file. The file should contain the response times of the APIs in the format specified above.\n\nThe `requirements.txt` file contains the following packages:\n```\nrequests\npytest\n```\nThe `api1.py` file contains the following function:\n```python\nimport requests\n\ndef api1():\n    response = requests.get('https://api.example.com/api1')\n    return response.json()\n```\nThe `api2.py` file contains the following function:\n```python\nimport requests\n\ndef api2():\n    response = requests.get('https://api.example.com/api2')\n    return response.json()\n```\nThe `test_api.py` file contains the following test cases:\n```python\nimport pytest\nfrom api.api1 import api1\nfrom api.api2 import api2\n\ndef test_api1():\n    response = api1()\n    assert response['status'] == 200\n\ndef test_api2():\n    response = api2()\n    assert response['status'] == 200\n```\nThe `response_times.txt` file should contain the response times of the APIs in the format specified above. For example:\n```\nAPI1,0.5\nAPI2,0.7\n```\nThis indicates that the response time of `API1` was 0.5 seconds, and the response time of `API2` was 0.7 seconds.\n\nTo generate the `response_times.txt` file, you can use the following Go program:\n```go\npackage main\n\nimport (\n    \"fmt\"\n    \"io/ioutil\"\n    \"log\"\n    \"os\"\n    \"os/exec\"\n    \"sync\"\n    \"time\"\n)\n\nfunc main() {\n    // Install required packages using pip\n    cmd := exec.Command(\"pip\", \"install\", \"-r\", \"/home/user/project/requirements.txt\")\n    output, err := cmd.CombinedOutput()\n    if err != nil {\n        log.Fatal(err)\n    }\n    fmt.Println(string(output))\n\n    // Run test_api.py using python interpreter\n    cmd = exec.Command(\"python\", \"/home/user/project/test_api.py\")\n    output, err = cmd.CombinedOutput()\n    if err != nil {\n        log.Fatal(err)\n    }\n    fmt.Println(string(output))\n\n    // Use Go concurrency patterns to run APIs in parallel and measure response times\n    var wg sync.WaitGroup\n    responseTimes := make(map[string]float64)\n\n    apis := []string{\"api1\", \"api2\"}\n    for _, api := range apis {\n        wg.Add(1)\n        go func(api string) {\n            defer wg.Done()\n            start := time.Now()\n            // Make API call using requests library\n            cmd := exec.Command(\"python\", \"-c\", \"from api.\"+api+\" import \"+api+\"; \"+api+\"()\")\n            output, err := cmd.CombinedOutput()\n            if err != nil {\n                log.Fatal(err)\n            }\n            elapsed := time.Since(start)\n            responseTimes[api] = elapsed.Seconds()\n        }(api)\n    }\n    wg.Wait()\n\n    // Output response times to response_times.txt file\n    f, err := os.Create(\"/home/user/response_times.txt\")\n    if err != nil {\n        log.Fatal(err)\n    }\n    defer f.Close()\n    for api, responseTime := range responseTimes {\n        fmt.Fprintf(f, \"%s,%f\\n\", api, responseTime)\n    }\n}\n```\nThis program installs the required packages using `pip`, runs the `test_api.py` file using the `python` interpreter, uses Go concurrency patterns to run the APIs in parallel and measure their response times, and outputs the response times to the `response_times.txt` file.",
+  "setup_script": "#!/bin/bash\n\n# Create the project directory\nmkdir -p /home/user/project/api\n\n# Create the __init__.py file\ntouch /home/user/project/api/__init__.py\n\n# Create the api1.py file\necho \"import requests\n\ndef api1():\n    response = requests.get('https://api.example.com/api1')\n    return response.json()\" > /home/user/project/api/api1.py\n\n# Create the api2.py file\necho \"import requests\n\ndef api2():\n    response = requests.get('https://api.example.com/api2')\n    return response.json()\" > /home/user/project/api/api2.py\n\n# Create the requirements.txt file\necho \"requests\npytest\" > /home/user/project/requirements.txt\n\n# Create the test_api.py file\necho \"import pytest\nfrom api.api1 import api1\nfrom api.api2 import api2\n\ndef test_api1():\n    response = api1()\n    assert response['status'] == 200\n\ndef test_api2():\n    response = api2()\n    assert response['status'] == 200\" > /home/user/project/test_api.py\n\n# Create the response_times.txt file (empty for now)\ntouch /home/user/response_times.txt\n\n# Create the concurrency_test.go file\necho \"package main\n\nimport (\n    \\\"fmt\\\"\n    \\\"io/ioutil\\\"\n    \\\"log\\\"\n    \\\"os\\\"\n    \\\"os/exec\\\"\n    \\\"sync\\\"\n    \\\"time\\\"\n)\n\nfunc main() {\n    // Install required packages using pip\n    cmd := exec.Command(\\\"pip\\\", \\\"install\\\", \\\"-r\\\", \\\"/home/user/project/requirements.txt\\\")\n    output, err := cmd.CombinedOutput()\n    if err != nil {\n        log.Fatal(err)\n    }\n    fmt.Println(string(output))\n\n    // Run test_api.py using python interpreter\n    cmd = exec.Command(\\\"python\\\", \\\"/home/user/project/test_api.py\\\")\n    output, err = cmd.CombinedOutput()\n    if err != nil {\n        log.Fatal(err)\n    }\n    fmt.Println(string(output))\n\n    // Use Go concurrency patterns to run APIs in parallel and measure response times\n    var wg sync.WaitGroup\n    responseTimes := make(map[string]float64)\n\n    apis := []string{\\\"api1\\\", \\\"api2\\\"}\n    for _, api := range apis {\n        wg.Add(1)\n        go func(api string) {\n            defer wg.Done()\n            start := time.Now()\n            // Make API call using requests library\n            cmd := exec.Command(\\\"python\\\", \\\"-c\\\", \\\"from api.\\\"+api+\\\" import \\\"+api+\\\"; \\\"+api+\\\"()\\\")\n            output, err := cmd.CombinedOutput()\n            if err != nil {\n                log.Fatal(err)\n            }\n            elapsed := time.Since(start)\n            responseTimes[api] = elapsed.Seconds()\n        }(api)\n    }\n    wg.Wait()\n\n    // Output response times to response_times.txt file\n    f, err := os.Create(\\\"/home/user/response_times.txt\\\")\n    if err != nil {\n        log.Fatal(err)\n    }\n    defer f.Close()\n    for api, responseTime := range responseTimes {\n        fmt.Fprintf(f, \\\"%s,%f\\\\n\\\", api, responseTime)\n    }\n}\" > /home/user/concurrency_test.go\n\n# Install required packages\npip install requests pytest\n\n# Change permissions to allow execution\nchmod -R 777 /home/user",
+  "retrieval": {
+    "query": "I am a web developer building a new conversion-tracking feature for our e-commerce site. I need to parse a high-volume event log to find users who successfully completed a specific \"user journey\" funnel. \n\nWe have a log file located at `/home/user/events.log`. Each line represents an event in the format `USER_ID,EVENT_TYPE` (comma-separated). The events are chronologically ordered.\n\nThe possible event types are `LOGIN`, `VIEW_ITEM`, `ADD_CART`, `CHECKOUT`, and `LOGOUT`.\n\nYou need to write a Go program at `/home/user/journey.go` that implements a state machine to track each user's progress through the conversion funnel. \nThe funnel consists of these exact steps in order:\n1. `LOGIN`\n2. `VIEW_ITEM`\n3. `ADD_CART`\n4. `CHECKOUT`\n\nRules for the state machine:\n- A user starts outside the funnel.\n- `LOGIN` moves the user to step 1.\n- `VIEW_ITEM` moves the user to step 2 ONLY IF they are currently at step 1.\n- `ADD_CART` moves the user to step 3 ONLY IF they are currently at step 2.\n- `CHECKOUT` moves the user to step 4 ONLY IF they are currently at step 3. Once at step 4, the user is considered to have \"completed\" the funnel.\n- `LOGOUT` immediately resets the user's progress back to the start (outside the funnel), regardless of their current step.\n- Any other out-of-sequence events (e.g., a `VIEW_ITEM` while at step 2) are ignored and do not change the state.\n\nYour tasks:\n1. Initialize a Go module named `webfeature` in `/home/user/`.\n2. Write `/home/user/journey.go`. The program must read `/home/user/events.log`. Since the real log will be massive, you must use Go concurrency (e.g., goroutines and channels) to process the users' state machines in parallel. \n3. The program should output a list of the `USER_ID`s that successfully completed the funnel (reached step 4) to a file named `/home/user/completed_users.txt`. The IDs must be written one per line, sorted alphabetically.\n4. Write a benchmark test in `/home/user/journey_test.go` that benchmarks your parsing and state machine logic using Go's `testing` package.\n5. Run the benchmark using `go test -bench .` and redirect the output to `/home/user/bench.txt`.",
+    "matches": [
+      {
+        "node_type": "Primitive",
+        "node_id": "Primitive::software_engineering::go-concurrency-patterns-goroutines-channels",
+        "similarity": 0.45193051205348195,
+        "triplets": [
+          {
+            "subject_type": "SkillType",
+            "subject_label": "Multi-Language",
+            "relation": "HAS_PRIMITIVE",
+            "object_type": "Primitive",
+            "object_label": "Go concurrency patterns (goroutines, channels)"
+          }
+        ]
+      },
+      {
+        "node_type": "Primitive",
+        "node_id": "Primitive::debugging::log-timeline-reconstruction-across-services",
+        "similarity": 0.3968142924693393,
+        "triplets": [
+          {
+            "subject_type": "SkillType",
+            "subject_label": "Forensics",
+            "relation": "HAS_PRIMITIVE",
+            "object_type": "Primitive",
+            "object_label": "Log timeline reconstruction across services"
+          }
+        ]
+      },
+      {
+        "node_type": "Primitive",
+        "node_id": "Primitive::security::security-log-parsing-and-correlation",
+        "similarity": 0.3947463545689969,
+        "triplets": [
+          {
+            "subject_type": "SkillType",
+            "subject_label": "Data Processing",
+            "relation": "HAS_PRIMITIVE",
+            "object_type": "Primitive",
+            "object_label": "Security log parsing and correlation"
+          }
+        ]
+      },
+      {
+        "node_type": "Primitive",
+        "node_id": "Primitive::software_engineering::state-machine-and-parser-construction",
+        "similarity": 0.38238490887935556,
+        "triplets": [
+          {
+            "subject_type": "SkillType",
+            "subject_label": "Algorithmic",
+            "relation": "HAS_PRIMITIVE",
+            "object_type": "Primitive",
+            "object_label": "State machine and parser construction"
+          }
+        ]
+      },
+      {
+        "node_type": "Primitive",
+        "node_id": "Primitive::data_processing::pipeline-logging-and-monitoring",
+        "similarity": 0.38176448705614174,
+        "triplets": [
+          {
+            "subject_type": "SkillType",
+            "subject_label": "Systems",
+            "relation": "HAS_PRIMITIVE",
+            "object_type": "Primitive",
+            "object_label": "Pipeline logging and monitoring"
+          }
+        ]
+      }
+    ]
+  }
+}
